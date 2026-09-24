@@ -145,23 +145,31 @@
     width: min(100%, 500px); aspect-ratio: 1; display: grid; place-items: center;
   }
   .hero-visual > * { grid-area: 1 / 1; }
-  .ring { position: relative; border-radius: 50%; border: 1px solid rgba(139, 92, 246, .22); }
-  .ring.r1 { width: 100%; height: 100%; border-style: dashed; border-color: rgba(139, 92, 246, .18); animation: spin 90s linear infinite; }
-  .ring.r2 { width: 76%; height: 76%; border-color: rgba(139, 92, 246, .28); }
-  .ring.r3 { width: 52%; height: 52%; background: radial-gradient(circle, rgba(139, 92, 246, .10), transparent 70%); border-color: rgba(139, 92, 246, .35); }
-  .ring.r2::before {
-    content: ""; position: absolute; top: 12%; left: 12%; width: 9px; height: 9px; border-radius: 50%;
-    background: var(--violet); box-shadow: 0 0 14px 3px rgba(139, 92, 246, .7);
+  .circuit { width: 100%; height: 100%; overflow: visible; }
+  .cz-pin, .cz-trace { fill: none; stroke: rgba(139, 92, 246, .5); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .cz-pin { stroke: rgba(185, 161, 255, .55); stroke-width: 3; }
+  .cz-pad { fill: none; stroke: rgba(185, 161, 255, .7); stroke-width: 9; stroke-linecap: round; }
+  .cz-flow {
+    fill: none; stroke: #c9b5ff; stroke-width: 2.5; stroke-linecap: round;
+    stroke-dasharray: 10 90; stroke-dashoffset: 100;
+    filter: drop-shadow(0 0 4px rgba(139, 92, 246, .9));
+    animation: flow 3.2s linear infinite;
   }
-  .glow { width: 60%; height: 60%; border-radius: 50%; background: rgba(109, 44, 245, .35); filter: blur(70px); }
+  .cz-flow.f2 { animation-delay: -1.1s; animation-duration: 3.8s; }
+  .cz-flow.f3 { animation-delay: -2.2s; animation-duration: 2.6s; }
+  .cz-chip { fill: rgba(19, 15, 30, .82); stroke: rgba(139, 92, 246, .55); stroke-width: 1.5; }
+  .cz-chip-in { fill: none; stroke: rgba(139, 92, 246, .22); stroke-width: 1; stroke-dasharray: 4 6; }
+  .cz-dot { fill: rgba(185, 161, 255, .6); }
+  @keyframes flow { to { stroke-dashoffset: 0; } }
+  .glow { width: 46%; height: 46%; border-radius: 50%; background: rgba(109, 44, 245, .35); filter: blur(70px); }
   .hero-logo {
-    position: relative; width: 50%; height: auto; margin-top: -8%;
+    position: relative; width: 38%; height: auto; margin-top: -10%;
     filter: drop-shadow(0 12px 40px rgba(109, 44, 245, .45));
     animation: float 6s ease-in-out infinite;
   }
-  .hero-word { align-self: end; margin-bottom: 11%; text-align: center; position: relative; }
-  .hero-word strong { display: block; font-family: var(--brand-font); font-size: clamp(1.1rem, 1.8vw, 1.6rem); letter-spacing: .32em; margin-right: -.32em; }
-  .hero-word span { display: block; font-size: .72rem; font-weight: 600; letter-spacing: .3em; margin-right: -.3em; text-transform: uppercase; color: var(--muted); margin-top: .2rem; }
+  .hero-word { align-self: end; margin-bottom: 29%; text-align: center; position: relative; }
+  .hero-word strong { display: block; font-family: var(--brand-font); font-size: clamp(.95rem, 1.3vw, 1.2rem); letter-spacing: .3em; margin-right: -.3em; }
+  .hero-word span { display: block; font-size: .66rem; font-weight: 600; letter-spacing: .3em; margin-right: -.3em; text-transform: uppercase; color: var(--muted); margin-top: .2rem; }
   @keyframes spin { to { transform: rotate(360deg); } }
   @keyframes float { 50% { transform: translateY(-10px); } }
 
@@ -415,10 +423,32 @@
       </ul>
       </div>
       <div class="hero-visual" aria-hidden="true">
-        <div class="ring r1"></div><div class="ring r2"></div><div class="ring r3"></div>
+        <svg class="circuit" viewBox="0 0 500 500">
+          <defs>
+            <radialGradient id="fade"><stop offset=".5" stop-color="#fff"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+            <mask id="fadeMask"><rect width="500" height="500" fill="url(#fade)"/></mask>
+            <g id="side">
+              <path class="cz-pin" d="M160 120v-14M190 120v-14M220 120v-14M250 120v-14M280 120v-14M310 120v-14M340 120v-14"/>
+              <path class="cz-trace" d="M160 106V82l-38-38H58M190 106V62l-20-20V12M220 106V54M250 106V14M280 106V70l30-30V16M310 106V94l20-20h32M340 106V86l38-38h60"/>
+              <path class="cz-pad" d="M58 44h.01M170 12h.01M220 54h.01M250 14h.01M310 16h.01M362 74h.01M438 48h.01"/>
+              <path class="cz-flow" pathLength="100" d="M160 106V82l-38-38H58"/>
+              <path class="cz-flow f2" pathLength="100" d="M280 106V70l30-30V16"/>
+              <path class="cz-flow f3" pathLength="100" d="M250 106V14"/>
+            </g>
+          </defs>
+          <g mask="url(#fadeMask)">
+            <use href="#side"/>
+            <use href="#side" transform="rotate(90 250 250)"/>
+            <use href="#side" transform="rotate(180 250 250)"/>
+            <use href="#side" transform="rotate(270 250 250)"/>
+          </g>
+          <rect class="cz-chip" x="120" y="120" width="260" height="260" rx="22"/>
+          <rect class="cz-chip-in" x="136" y="136" width="228" height="228" rx="14"/>
+          <circle class="cz-dot" cx="150" cy="150" r="4"/>
+        </svg>
         <div class="glow"></div>
         <svg class="hero-logo" viewBox="0 0 932 594"><use href="#logo"/></svg>
-        <div class="hero-word"><strong>TITANWARE</strong><span>Hardware &amp; PC</span></div>
+        <div class="hero-word"><strong>TITANWARE</strong><span>Componentes para PC</span></div>
       </div>
     </div>
   </section>
