@@ -9,7 +9,7 @@
 <meta property="og:title" content="Titanware · Catálogo de componentes de PC">
 <meta property="og:description" content="Procesadores, placas de video, memorias y más. Consultá stock y precio por WhatsApp.">
 <meta property="og:type" content="website">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='9' fill='%23161320'/%3E%3Cpath d='M4 9h6l5 16 5-12 5 12 5-16h6l-8 24h-6l-2-6-2 6h-6z' fill='%23e9eaf0'/%3E%3Cpath d='M13 5l7 4 7-4' fill='none' stroke='%238b5cf6' stroke-width='3'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='110 170 1032 1032'%3E%3Crect x='110' y='170' width='1032' height='1032' rx='200' fill='%230e0c14'/%3E%3Cpath fill='%236d2cf5' d='M663 470h98l109 215 118-215h89L870 813z'/%3E%3Cpath fill='%23fff' d='M484 470h92l116 215 117-215h88L692 823z'/%3E%3Cpath fill='%23fff' d='M174 342h631l-44 87H453v391l-49 50-49-50V429H221z'/%3E%3Cpath fill='%236d2cf5' d='M771 841l34 34-34 34-34-34z'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -40,7 +40,7 @@
     --body: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
   }
   * { box-sizing: border-box; }
-  html { -webkit-text-size-adjust: 100%; scroll-padding-top: calc(var(--header-h) + 1rem); }
+  html { color-scheme: dark; -webkit-text-size-adjust: 100%; scroll-padding-top: calc(var(--header-h) + 1rem); }
   body {
     margin: 0;
     background: var(--bg);
@@ -68,7 +68,7 @@
   }
   .top .wrap { height: 100%; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
   .brand { display: flex; align-items: center; gap: .6rem; text-decoration: none; color: var(--text); }
-  .brand svg { width: 30px; height: 30px; }
+  .brand .logo { width: 41px; height: 26px; }
   .brand span { font-family: var(--brand-font); font-weight: 700; font-size: 1.15rem; letter-spacing: .1em; }
   .nav { display: flex; align-items: center; gap: 2.25rem; }
   .nav a:not(.btn) { color: var(--text-2); text-decoration: none; font-size: .9rem; font-weight: 500; }
@@ -108,7 +108,7 @@
     mask-image: radial-gradient(ellipse at 70% 0%, #000 0%, transparent 70%);
     -webkit-mask-image: radial-gradient(ellipse at 70% 0%, #000 0%, transparent 70%);
   }
-  .hero .wrap { position: relative; z-index: 1; padding-block: 5rem 4rem; }
+  .hero .wrap { position: relative; z-index: 1; padding-block: 3.5rem 3rem; }
   .eyebrow {
     display: inline-flex; align-items: center; gap: .5rem;
     font-size: .8rem; font-weight: 500; color: var(--text-2);
@@ -139,6 +139,32 @@
   .trust li { display: inline-flex; align-items: center; gap: .5rem; }
   .trust svg { width: 18px; height: 18px; color: var(--violet-soft); }
 
+  .hero-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; gap: 3rem; }
+  .hero-visual {
+    position: relative; justify-self: center;
+    width: min(100%, 500px); aspect-ratio: 1; display: grid; place-items: center;
+  }
+  .hero-visual > * { grid-area: 1 / 1; }
+  .ring { position: relative; border-radius: 50%; border: 1px solid rgba(139, 92, 246, .22); }
+  .ring.r1 { width: 100%; height: 100%; border-style: dashed; border-color: rgba(139, 92, 246, .18); animation: spin 90s linear infinite; }
+  .ring.r2 { width: 76%; height: 76%; border-color: rgba(139, 92, 246, .28); }
+  .ring.r3 { width: 52%; height: 52%; background: radial-gradient(circle, rgba(139, 92, 246, .10), transparent 70%); border-color: rgba(139, 92, 246, .35); }
+  .ring.r2::before {
+    content: ""; position: absolute; top: 12%; left: 12%; width: 9px; height: 9px; border-radius: 50%;
+    background: var(--violet); box-shadow: 0 0 14px 3px rgba(139, 92, 246, .7);
+  }
+  .glow { width: 60%; height: 60%; border-radius: 50%; background: rgba(109, 44, 245, .35); filter: blur(70px); }
+  .hero-logo {
+    position: relative; width: 50%; height: auto; margin-top: -8%;
+    filter: drop-shadow(0 12px 40px rgba(109, 44, 245, .45));
+    animation: float 6s ease-in-out infinite;
+  }
+  .hero-word { align-self: end; margin-bottom: 11%; text-align: center; position: relative; }
+  .hero-word strong { display: block; font-family: var(--brand-font); font-size: clamp(1.1rem, 1.8vw, 1.6rem); letter-spacing: .32em; margin-right: -.32em; }
+  .hero-word span { display: block; font-size: .72rem; font-weight: 600; letter-spacing: .3em; margin-right: -.3em; text-transform: uppercase; color: var(--muted); margin-top: .2rem; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes float { 50% { transform: translateY(-10px); } }
+
   /* Toolbar */
   .toolbar {
     position: sticky; top: var(--header-h); z-index: 10;
@@ -166,6 +192,7 @@
   .cat[aria-pressed="true"] small { color: #5d586e; }
   .filters { display: flex; align-items: center; gap: .5rem; flex: none; }
   .select { position: relative; }
+  .select option { background: var(--surface); color: var(--text); }
   .select select {
     appearance: none; -webkit-appearance: none;
     background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm);
@@ -304,7 +331,7 @@
   /* Footer */
   footer { border-top: 1px solid var(--line); padding: 2rem 0 5.5rem; color: var(--muted); font-size: .85rem; }
   footer .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; }
-  footer .brand svg { width: 24px; height: 24px; }
+  footer .brand .logo { width: 33px; height: 21px; }
   footer .brand span { font-size: .95rem; }
   .foot-links { display: flex; flex-wrap: wrap; gap: 1.25rem; }
   .foot-links a { color: var(--text-2); text-decoration: none; display: inline-flex; align-items: center; gap: .4rem; }
@@ -323,6 +350,10 @@
   @media (max-width: 1500px) {
     .toolbar .wrap { flex-direction: column; align-items: stretch; gap: .7rem; }
     .filters { flex-wrap: wrap; }
+  }
+  @media (max-width: 1000px) {
+    .hero-grid { grid-template-columns: 1fr; }
+    .hero-visual { display: none; }
   }
   @media (max-width: 900px) {
     .nav a:not(.btn) { display: none; }
@@ -351,12 +382,8 @@
 <header class="top">
   <div class="wrap">
     <a class="brand" href="#" aria-label="Titanware, inicio">
-      <!-- Si tenés el logo en imagen, reemplazá este <svg> por: <img src="logo.png" alt="Titanware" height="30"> -->
-      <svg viewBox="0 0 40 40" aria-hidden="true">
-        <defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#9a9eae"/></linearGradient></defs>
-        <path d="M4 9h6l5 16 5-12 5 12 5-16h6l-8 24h-6l-2-6-2 6h-6z" fill="url(#g)"/>
-        <path d="M13 5l7 4 7-4" fill="none" stroke="#8b5cf6" stroke-width="3" stroke-linejoin="miter"/>
-      </svg>
+      <!-- El logo está definido una sola vez como <symbol id="logo"> al final del body -->
+      <svg class="logo" viewBox="0 0 932 594" aria-hidden="true"><use href="#logo"/></svg>
       <span>TITANWARE</span>
     </a>
     <nav class="nav" aria-label="Principal">
@@ -372,7 +399,8 @@
 
 <main>
   <section class="hero">
-    <div class="wrap">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
       <span class="eyebrow"><i></i> Atención por WhatsApp · Envíos a todo el país</span>
       <h1>Componentes de PC <em>seleccionados</em> para tu próximo equipo.</h1>
       <p class="lead">Procesadores, placas de video, memorias y todo lo que necesitás para armar o mejorar tu PC. Elegí el producto y te confirmamos stock y precio al instante.</p>
@@ -385,6 +413,13 @@
         <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 3h15v13H1zM16 8h4l3 3v5h-7"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg> Envíos a todo el país</li>
         <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0 5 5L22 14l-8 8-2.3-2.3a4 4 0 0 0-5-5L2 10l8-8z"/></svg> Armado y servicio técnico</li>
       </ul>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <div class="ring r1"></div><div class="ring r2"></div><div class="ring r3"></div>
+        <div class="glow"></div>
+        <svg class="hero-logo" viewBox="0 0 932 594"><use href="#logo"/></svg>
+        <div class="hero-word"><strong>TITANWARE</strong><span>Hardware &amp; PC</span></div>
+      </div>
     </div>
   </section>
 
@@ -450,7 +485,7 @@
 <footer>
   <div class="wrap">
     <a class="brand" href="#" aria-label="Titanware, volver arriba">
-      <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M4 9h6l5 16 5-12 5 12 5-16h6l-8 24h-6l-2-6-2 6h-6z" fill="url(#g)"/><path d="M13 5l7 4 7-4" fill="none" stroke="#8b5cf6" stroke-width="3"/></svg>
+      <svg class="logo" viewBox="0 0 932 594" aria-hidden="true"><use href="#logo"/></svg>
       <span>TITANWARE</span>
     </a>
     <span>© <span id="year"></span> Titanware Hardware &amp; PC · San Francisco Solano, Buenos Aires</span>
@@ -466,6 +501,7 @@
 </a>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="logo" viewBox="160 330 932 594"><path fill="#6d2cf5" d="M663 470h98l109 215 118-215h89L870 813z"/><path fill="#fff" d="M484 470h92l116 215 117-215h88L692 823z"/><path fill="#fff" d="M174 342h631l-44 87H453v391l-49 50-49-50V429H221z"/><path fill="#6d2cf5" d="M771 841l34 34-34 34-34-34z"/></symbol>
   <symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.4.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3z"/></symbol>
 </svg>
 
