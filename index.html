@@ -257,7 +257,7 @@
   .thumb .t-bg.solo { opacity: 1; }
   .thumb .t-bg.solo svg { width: 34%; transform: none; }
   .t-logo {
-    width: 40%; aspect-ratio: 1; background: var(--text); position: relative;
+    width: 52%; aspect-ratio: 16 / 10; background: var(--text); position: relative;
     -webkit-mask: var(--logo) center / contain no-repeat; mask: var(--logo) center / contain no-repeat;
     transition: background .25s, transform .25s;
   }
@@ -270,7 +270,7 @@
   .card:hover .t-logo { background: var(--violet-soft); transform: scale(1.05); }
   .card:hover .t-word { color: var(--violet-soft); transform: scale(1.05); }
   .card:hover .thumb .t-bg svg { transform: rotate(-8deg) translateY(6%); }
-  .modal .t-logo { width: 44%; }
+  .modal .t-logo { width: 58%; }
   .modal .t-word { font-size: 1.8rem; }
   .modal .thumb .t-bg svg { width: 70%; }
   .card-body { padding: 1rem 1.1rem 1.1rem; display: flex; flex-direction: column; gap: .3rem; flex: 1; }
@@ -567,7 +567,7 @@
 
 // 1) Número de WhatsApp del local: código de país + área + número, sin "+", espacios ni 15.
 //    Ejemplo para un celular de Buenos Aires: 5491123456789
-const WHATSAPP = "5491100000000";
+const WHATSAPP = "5491166811031";
 
 // 2) (Opcional) Link de Google Sheets publicado como CSV.
 //    Si lo dejás vacío, se usa el CATÁLOGO de abajo.
@@ -1094,11 +1094,15 @@ function parseCSV(text) {
 
 const stockLabel = { "disponible": "Disponible", "consultar": "Consultar", "sin stock": "Sin stock" };
 // Logos de marca (img/marcas, de Simple Icons). Las marcas sin logo se muestran con su nombre.
-const LOGOS = { AMD: "amd", Intel: "intel", ASUS: "asus", MSI: "msi", NVIDIA: "nvidia", Corsair: "corsair", Seagate: "seagate", WD: "westerndigital", "Cooler Master": "coolermaster" };
+const LOGOS = { AMD: "amd.svg", Intel: "intel.svg", ASUS: "asus.svg", MSI: "msi.svg", NVIDIA: "nvidia.svg", Corsair: "corsair.svg", Seagate: "seagate.svg",
+  WD: "westerndigital.svg", "Cooler Master": "coolermaster.svg", ADATA: "adata.png", XPG: "xpg.png", Hiksemi: "hiksemi.png", Gigabyte: "gigabyte.png",
+  Thermaltake: "thermaltake.png", Evolabs: "evolabs.png", Kingston: "kingston.png", Aureox: "aureox.png", Sentey: "sentey.png" };
+const logoFor = (p) => (p.marca === "ADATA" && /\bXPG\b/i.test(p.nombre) ? LOGOS.XPG : LOGOS[p.marca]);
 const thumb = (p) => {
   if (p.imagen) return `<img src="${esc(p.imagen)}" alt="${esc(p.nombre)}" loading="lazy">`;
   const bg = `<span class="t-bg">${ICONS[p.categoria] || ICONS.default}</span>`;
-  if (LOGOS[p.marca]) return `${bg}<span class="t-logo" style="--logo:url('img/marcas/${LOGOS[p.marca]}.svg')" role="img" aria-label="${esc(p.marca)}"></span>`;
+  const logo = logoFor(p);
+  if (logo) return `${bg}<span class="t-logo" style="--logo:url('img/marcas/${logo}')" role="img" aria-label="${esc(p.marca)}"></span>`;
   if (p.marca === "Genérico") return bg.replace("t-bg", "t-bg solo");
   return `${bg}<span class="t-word">${esc(p.marca)}</span>`;
 };
