@@ -219,7 +219,16 @@
   }
   .toggle:hover { border-color: var(--line-2); }
   .toggle input { accent-color: var(--violet); width: 15px; height: 15px; margin: 0; }
-  .results-head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; padding-top: 2rem; }
+  .subcats { display: flex; flex-wrap: wrap; gap: .4rem; padding-top: .9rem; }
+  .subcats[hidden] { display: none; }
+  .sub {
+    background: transparent; border: 1px solid var(--line); border-radius: var(--radius-sm); cursor: pointer;
+    padding: .3rem .7rem; font-size: .8rem; font-weight: 500; color: var(--muted);
+  }
+  .sub:hover { color: var(--text); border-color: var(--line-2); }
+  .sub[aria-pressed="true"] { color: var(--violet-soft); border-color: rgba(139, 92, 246, .55); background: var(--violet-tint); }
+  .results-tools { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem 1rem; }
+  .results-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; padding-top: 2rem; }
   .results-head h2 { margin: 0; font-size: 1.15rem; font-weight: 600; letter-spacing: -.01em; }
   .count { color: var(--muted); font-size: .88rem; font-variant-numeric: tabular-nums; }
 
@@ -249,6 +258,28 @@
   }
   .thumb img { width: 100%; height: 100%; object-fit: contain; padding: 1.25rem; }
   .thumb svg { width: 34%; height: auto; color: var(--text-2); transition: color .25s, transform .25s; }
+  .thumb > .t-bg, .thumb > .t-logo, .thumb > .t-word { grid-area: 1 / 1; }
+  .thumb .t-bg { width: 100%; height: 100%; display: grid; place-items: center; opacity: .12; }
+  .thumb .t-bg svg { width: 64%; transform: rotate(-8deg) translateY(6%); }
+  .thumb .t-bg.solo { opacity: 1; }
+  .thumb .t-bg.solo svg { width: 34%; transform: none; }
+  .t-logo {
+    width: 40%; aspect-ratio: 1; background: var(--text); position: relative;
+    -webkit-mask: var(--logo) center / contain no-repeat; mask: var(--logo) center / contain no-repeat;
+    transition: background .25s, transform .25s;
+  }
+  .t-word {
+    position: relative; padding: 0 1rem; text-align: center; color: var(--text);
+    font-family: var(--brand-font); font-weight: 700; text-transform: uppercase;
+    font-size: clamp(1.05rem, 1.5vw, 1.4rem); letter-spacing: .14em; line-height: 1.15;
+    transition: color .25s, transform .25s;
+  }
+  .card:hover .t-logo { background: var(--violet-soft); transform: scale(1.05); }
+  .card:hover .t-word { color: var(--violet-soft); transform: scale(1.05); }
+  .card:hover .thumb .t-bg svg { transform: rotate(-8deg) translateY(6%); }
+  .modal .t-logo { width: 44%; }
+  .modal .t-word { font-size: 1.8rem; }
+  .modal .thumb .t-bg svg { width: 70%; }
   .card-body { padding: 1rem 1.1rem 1.1rem; display: flex; flex-direction: column; gap: .3rem; flex: 1; }
   .meta { display: flex; justify-content: space-between; gap: .5rem; font-size: .72rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
   .card h3 { font-weight: 600; font-size: 1.02rem; line-height: 1.3; letter-spacing: -.01em; margin: 0; }
@@ -355,10 +386,6 @@
   .wa-float:hover { transform: scale(1.06); background: #1a9a4c; }
   .wa-float svg { width: 28px; height: 28px; }
 
-  @media (max-width: 1500px) {
-    .toolbar .wrap { flex-direction: column; align-items: stretch; gap: .7rem; }
-    .filters { flex-wrap: wrap; }
-  }
   @media (max-width: 1000px) {
     .hero-grid { grid-template-columns: 1fr; }
     .hero-visual { display: none; }
@@ -370,6 +397,7 @@
     .hero .wrap { padding-block: 2.75rem 2.25rem; }
     .hero p.lead { font-size: 1rem; }
     .trust { gap: .5rem 1.1rem; font-size: .85rem; }
+    .results-tools, .filters { width: 100%; }
     .filters .select, .filters .toggle { flex: 1 1 auto; }
     .select select { width: 100%; }
     .modal { grid-template-columns: 1fr; }
@@ -456,28 +484,31 @@
   <section class="toolbar" id="catalogo" aria-label="Filtros del catálogo">
     <div class="wrap">
       <div class="cats-scroll"><div class="cats" id="cats" role="group" aria-label="Categorías"></div></div>
-      <div class="filters">
-        <div class="select">
-          <select id="brand" aria-label="Filtrar por marca"><option value="">Todas las marcas</option></select>
-        </div>
-        <div class="select">
-          <select id="sort" aria-label="Ordenar">
-            <option value="destacados">Destacados</option>
-            <option value="az">Nombre (A–Z)</option>
-            <option value="precio-asc">Menor precio</option>
-            <option value="precio-desc">Mayor precio</option>
-          </select>
-        </div>
-        <label class="toggle"><input type="checkbox" id="onlyStock"> Solo con stock</label>
-      </div>
     </div>
   </section>
 
   <section class="wrap">
     <div class="results-head">
       <h2 id="resultsTitle">Todos los productos</h2>
-      <span class="count" id="count" aria-live="polite"></span>
+      <div class="results-tools">
+        <span class="count" id="count" aria-live="polite"></span>
+        <div class="filters">
+          <div class="select">
+            <select id="brand" aria-label="Filtrar por marca"><option value="">Todas las marcas</option></select>
+          </div>
+          <div class="select">
+            <select id="sort" aria-label="Ordenar">
+              <option value="destacados">Destacados</option>
+              <option value="az">Nombre (A–Z)</option>
+              <option value="precio-asc">Menor precio</option>
+              <option value="precio-desc">Mayor precio</option>
+            </select>
+          </div>
+          <label class="toggle"><input type="checkbox" id="onlyStock"> Solo con stock</label>
+        </div>
+      </div>
     </div>
+    <div class="subcats" id="subcats" role="group" aria-label="Subcategorías" hidden></div>
     <div class="grid" id="grid"></div>
   </section>
 
@@ -547,36 +578,298 @@
 const WHATSAPP = "5491100000000";
 
 // 2) (Opcional) Link de Google Sheets publicado como CSV.
-//    Si lo dejás vacío, se usan los productos de la lista de abajo.
-//    Columnas de la planilla: nombre, marca, categoria, specs, precio, stock, imagen, destacado
-//    - specs: separadas con |   (ej: 6 núcleos | 12 hilos | AM5)
+//    Si lo dejás vacío, se usa el CATÁLOGO de abajo.
+//    Columnas de la planilla: nombre, marca, categoria, sub, specs, precio, stock, imagen, destacado
+//    - specs: separadas con |   (ej: 6 núcleos | 12 hilos | AM5). Si la dejás vacía se arman solas.
 //    - precio: solo números (ej: 350000) o vacío para "Consultar precio"
 //    - stock: disponible / consultar / sin stock
 //    - destacado: si / no
 const SHEET_CSV_URL = "";
 
 // 3) Categorías del catálogo, en el orden en que se muestran.
-//    La columna "categoria" de cada producto tiene que coincidir con uno de estos nombres.
-const CATEGORIAS = ["Motherboards", "Procesadores", "Memorias RAM", "Almacenamientos", "Fuentes de poder", "Placas de video", "Gabinetes"];
+const CATEGORIAS = ["Motherboards", "Procesadores", "Coolers", "Memorias RAM", "Almacenamientos", "Fuentes de poder", "Placas de video", "Gabinetes"];
 
-// 4) Productos (se usan si no hay planilla). Precio vacío ("") = "Consultar precio".
-const PRODUCTOS = [
-  { nombre: "Ryzen 5 7600", marca: "AMD", categoria: "Procesadores", specs: ["6 núcleos / 12 hilos", "Hasta 5.1 GHz", "Socket AM5", "Incluye cooler"], precio: "", stock: "disponible", imagen: "", destacado: "si" },
-  { nombre: "Ryzen 7 7800X3D", marca: "AMD", categoria: "Procesadores", specs: ["8 núcleos / 16 hilos", "96 MB de caché 3D V-Cache", "Socket AM5"], precio: "", stock: "consultar", imagen: "", destacado: "si" },
-  { nombre: "Core i5-14400F", marca: "Intel", categoria: "Procesadores", specs: ["10 núcleos / 16 hilos", "Hasta 4.7 GHz", "Socket LGA1700", "Requiere placa de video"], precio: "", stock: "disponible", imagen: "", destacado: "" },
-  { nombre: "GeForce RTX 4060 8GB", marca: "NVIDIA", categoria: "Placas de video", specs: ["8 GB GDDR6", "DLSS 3", "Consumo 115 W"], precio: "", stock: "disponible", imagen: "", destacado: "si" },
-  { nombre: "GeForce RTX 4070 Super 12GB", marca: "NVIDIA", categoria: "Placas de video", specs: ["12 GB GDDR6X", "Ideal para 1440p", "DLSS 3"], precio: "", stock: "consultar", imagen: "", destacado: "" },
-  { nombre: "Radeon RX 7800 XT 16GB", marca: "AMD", categoria: "Placas de video", specs: ["16 GB GDDR6", "Ideal para 1440p", "FSR 3"], precio: "", stock: "sin stock", imagen: "", destacado: "" },
-  { nombre: "Fury Beast 16GB DDR5 5600", marca: "Kingston", categoria: "Memorias RAM", specs: ["1 x 16 GB", "DDR5 5600 MHz", "Perfil XMP / EXPO"], precio: "", stock: "disponible", imagen: "", destacado: "" },
-  { nombre: "Vengeance 32GB (2x16) DDR5 6000", marca: "Corsair", categoria: "Memorias RAM", specs: ["Kit 2 x 16 GB", "DDR5 6000 MHz", "CL36"], precio: "", stock: "disponible", imagen: "", destacado: "" },
-  { nombre: "NV2 1TB NVMe", marca: "Kingston", categoria: "Almacenamientos", specs: ["M.2 2280 PCIe 4.0", "Hasta 3500 MB/s"], precio: "", stock: "disponible", imagen: "", destacado: "" },
-  { nombre: "990 Pro 2TB NVMe", marca: "Samsung", categoria: "Almacenamientos", specs: ["M.2 2280 PCIe 4.0", "Hasta 7450 MB/s"], precio: "", stock: "consultar", imagen: "", destacado: "" },
-  { nombre: "B650M Aorus Elite AX", marca: "Gigabyte", categoria: "Motherboards", specs: ["Socket AM5", "DDR5", "Wi-Fi 6E", "Micro-ATX"], precio: "", stock: "disponible", imagen: "", destacado: "" },
-  { nombre: "Prime B760M-A", marca: "ASUS", categoria: "Motherboards", specs: ["Socket LGA1700", "DDR5", "Micro-ATX"], precio: "", stock: "disponible", imagen: "", destacado: "" },
-  { nombre: "RM750e 750W", marca: "Corsair", categoria: "Fuentes de poder", specs: ["80 Plus Gold", "Full modular", "ATX 3.0"], precio: "", stock: "disponible", imagen: "", destacado: "" },
-  { nombre: "MWE 650 Bronze V2", marca: "Cooler Master", categoria: "Fuentes de poder", specs: ["650 W", "80 Plus Bronze"], precio: "", stock: "disponible", imagen: "", destacado: "" },
-  { nombre: "Lancool 216", marca: "Lian Li", categoria: "Gabinetes", specs: ["Mid tower ATX", "2 fans de 160 mm incluidos", "Frente mesh"], precio: "", stock: "consultar", imagen: "", destacado: "" },
+// 4) Productos destacados: alcanza con una parte del nombre, tal cual está en el catálogo.
+const DESTACADOS = [
+  "RYZEN 5 5600 S/VIDEO",
+  "CORE I5 12400F S/VIDEO C/COOLER BOX",
+  "RYZEN 5 8600G",
+  "RTX 5050 8GB MSI VENTUS",
+  "RX 7600 8GB",
+  "GIGABYTE B550M K",
+  "8GB DDR4 3200 KINGSTON FURY BEAST RGB",
+  "KINGSTON SNVS NV3",
+  "HYPER 212 SPECTRUM",
 ];
+
+// 5) Productos sin stock (misma regla que destacados). Lo que no esté acá figura "Disponible".
+const SIN_STOCK = [];
+
+// 6) Fotos de productos (opcional): parte del nombre → ruta o link de la imagen.
+//    Subí las fotos a una carpeta "img" del repositorio, por ejemplo:
+//    "RYZEN 5 5600 S/VIDEO": "img/ryzen-5-5600.webp",
+const IMAGENES = {
+};
+
+// 7) CATÁLOGO. Pegá los productos tal cual: una línea por producto con "NOMBRE — $precio".
+//    Las líneas que empiezan con # indican "Categoría | Subcategoría" de los productos que siguen.
+//    La marca, el nombre prolijo y las características se sacan solos del nombre.
+const CATALOGO = `
+# Motherboards | AMD AM4
+MOTHER MSI A520M-A PRO DDR4 AM4 — $95.013
+MOTHER ASUS PRIME A520M-K DDR4 AM4 — $100.878
+MOTHER GIGABYTE A520M K V2 DDR4 AM4 +Q A320 — $101.096
+MOTHER ASUS PRIME A520M-K CSM DDR4 AM4 — $116.265
+MOTHER GIGABYTE B550M K DDR4 AM4 — $142.991
+MOTHER MSI PRO B550M-B DDR4 AM4 — $146.326
+MOTHER MSI B550M-A PRO DDR4 AM4 — $152.764
+MOTHER ASUS PRIME B550M-K ARGB DDR4 AM4 — $171.040
+
+# Motherboards | AMD AM5
+MOTHER GIGABYTE A620M H DDR5 AM5 — $141.933
+MOTHER MSI PRO B840M-B DDR5 AM5 — $165.807
+
+# Motherboards | Intel
+MOTHER ASUS PRO H410M-C2/CSM DDR4 S1200 — $105.742
+MOTHER MSI PRO H610M-B DDR5 S1700 — $121.095
+MOTHER MSI PRO H610M-S DDR4 S1700 — $127.742
+MOTHER ASUS PRIME H610M-F D4 R2.0 DDR4 S1700 — $129.823
+MOTHER MSI PRO H610M-G DDR5 S1700 — $134.447
+MOTHER GIGABYTE H610M K DDR4 GEN5 S1700 — $134.619
+MOTHER GIGABYTE H610M K V2 DDR5 S1700 — $135.321
+MOTHER MSI PRO H610M-A DDR4 S1700 — $138.092
+MOTHER ASUS PRIME H610M-K DDR5 S1700 — $139.093
+MOTHER ASUS PRIME H610M-K D4 DDR4 S1700 — $146.779
+MOTHER GIGABYTE H610M K GEN5 DDR5 S1700 — $160.413
+
+# Procesadores | AMD AM4
+MICRO AMD ATHLON 3000G C/VIDEO S/COOLER CPU AM4 — $52.187
+MICRO AMD 3000G ATHLON C/VIDEO C/COOLER CPU AM4 — $62.054
+MICRO AMD ATHLON 3000G VEGA 3 BOX AM4 — $75.486
+MICRO AMD RYZEN 3 3200G C/VIDEO S/COOLER CPU AM4 — $97.187
+MICRO AMD RYZEN 3 3200G C/VIDEO C/COOLER CPU AM4 — $107.053
+MICRO AMD RYZEN 5 3500X S/VIDEO S/COOLER CPU AM4 — $115.402
+MICRO AMD RYZEN 3 3200G C/VIDEO C/COOLER AMD CPU AM4 — $116.507
+MICRO AMD RYZEN 5 3500X S/VIDEO C/COOLER CPU AM4 — $125.269
+MICRO AMD RYZEN 3 3200G C/VIDEO C/COOLER BOX AM4 — $125.339
+MICRO AMD RYZEN 5 3400G C/VIDEO S/COOLER CPU AM4 — $137.425
+MICRO AMD RYZEN 5 3400G C/VIDEO C/COOLER CPU AM4 — $147.292
+MICRO AMD RYZEN 5 5600 S/VIDEO C/COOLER AM4 — $250.574
+MICRO AMD RYZEN 7 5700 S/VIDEO C/COOLER AM4 — $303.105
+MICRO AMD RYZEN 5 5600GT C/VIDEO C/COOLER AM4 SIMIL 5600G — $324.093
+MICRO AMD RYZEN 7 5700G C/VIDEO C/COOLER AM4 MEJOR Q 5600GT — $390.183
+
+# Procesadores | AMD AM5
+MICRO AMD RYZEN 5 8400F S/VIDEO S/COOLER CPU AM5 — $236.923
+MICRO AMD RYZEN 5 8500G C/VIDEO S/COOLER CPU AM5 — $280.128
+MICRO AMD RYZEN 5 8500G C/VIDEO C/COOLER BOX AM5 — $284.050
+MICRO AMD RYZEN 5 8400F S/VIDEO C/COOLER BOX AM5 — $307.420
+MICRO AMD RYZEN 5 8600G C/VIDEO C/COOLER BOX AM5 — $358.800
+MICRO AMD RYZEN 5 7600X C/VIDEO S/COOLER CPU AM5 — $390.379
+
+# Procesadores | Intel LGA 1200
+MICRO INTEL CELERON G5925 S1200 IDEAL PC OFICINA +Q G5905 — $114.183
+MICRO INTEL CORE I3 10105F S/VIDEO C/COOLER BOX S1200 — $152.904
+
+# Procesadores | Intel LGA 1700
+MICRO INTEL CORE I3 13100F S/VIDEO C/COOLER BOX S1700 — $159.793
+MICRO INTEL PENTIUM G7400 S1700 — $209.449
+MICRO INTEL CORE I3 12100F S/VIDEO C/COOLER BOX S1700 — $216.729
+MICRO INTEL CORE I3 14100F S/VIDEO C/COOLER BOX S1700 — $226.332
+MICRO INTEL CORE I3 14100F S/VIDEO C/COOLER S1700 — $226.895
+MICRO INTEL CORE I3 12100 C/VIDEO C/COOLER BOX S1700 — $284.797
+MICRO INTEL CORE I3 14100 C/VIDEO C/COOLER BOX S1700 — $308.568
+MICRO INTEL CORE I5 12400F S/VIDEO C/COOLER BOX S1700 — $309.350
+MICRO INTEL CORE I5 14400F S/VIDEO S/COOLER S1700 — $330.901
+MICRO INTEL CORE I5 12400F S/VIDEO C/COOLER S1700 — $332.132
+MICRO INTEL CORE I5 14400F TRAY S/VIDEO S/COOLER S1700 — $343.505
+MICRO INTEL CORE I5 12400 C/VIDEO C/COOLER BOX S1700 — $389.448
+MICRO INTEL CORE I5 12400 C/VIDEO S/COOLER S1700 — $392.253
+MICRO INTEL CORE I5 14400F S/VIDEO C/COOLER BOX S1700 — $399.591
+
+# Coolers | Coolers CPU
+CPU COOLER INTEL PERFORMANCE S1700 — $15.199
+CPU COOLER KELYX POTENCIA MAXIMA 95W P/AMD/INTEL — $16.548
+CPU COOLER RAPTOR CRYO RGB POTENCIA MAXIMA 95W P/AMD/INTEL — $18.975
+CPU COOLER EVOLABS CRYO 4H ARGB — $33.810
+CPU COOLER COOLERMASTER HYPER 212 SPECTRUM V3 RGB — $36.857
+CPU COOLER EVOLABS CRYO PRO 4H ARGB — $43.355
+CPU COOLER MSI MAG COREFROZR AA13 BLACK AM4 AM5 S1700 S1851 — $47.840
+CPU COOLER THERMALTAKE UX200 SE ARGB WHITE CL-P116-AL12SW-A — $52.900
+CPU COOLER THERMALTAKE UX200 SE ARGB CL-P105-AL12SW-A — $54.127
+CPU COOLER THERMALTAKE UX500 ARGB SYNC — $56.396
+CPU COOLER THERMALTAKE UX500 ARGB SYNC WHITE — $56.396
+CPU COOLER ADATA XPG MAESTRO PLUS 42SA ARGB — $57.776
+CPU COOLER COOLERMASTER HYPER 212 3DHP BLACK — $63.859
+CPU COOLER THERMALTAKE ASTRIA 200 ARGB CL-P119-AL12SW-A — $74.267
+CPU COOLER THERMALTAKE ASTRIA 200 ARGB WHITE CL-P137-AL12SW-A — $75.428
+CPU COOLER ADATA XPG MAESTRO PLUS 62DA ARGB — $100.763
+CPU COOLER THERMALTAKE ASTRIA 400 ARGB CL-P120-CA12SW-A — $104.132
+CPU COOLER THERMALTAKE ASTRIA 400 ARGB WHITE CL-P138-CA12SW-A — $106.639
+CPU COOLER THERMALTAKE ASTRIA 600 ARGB WHITE CL-P139-CA12SW-A — $135.275
+CPU COOLER COOLERMASTER HYPER 212 RGB BLACK EDITION S1700 — $139.030
+CPU COOLER COOLERMASTER HYPER 612 APEX BLACK MAP-T6PN-225PK-R1 — $139.602
+CPU COOLER COOLERMASTER HYPER 212 BLACK EDITION SILENT FAN — $140.075
+CPU COOLER COOLERMASTER MASTERAIR MA620M — $304.498
+
+# Memorias RAM | DDR3
+MEMORIA SODIMM 4GB DDR3 1600 HIKSEMI HIKER — $26.703
+MEMORIA 4GB DDR3 1600 HIKVISION / HIKSEMI — $27.485
+MEMORIA 8GB DDR3 1600 HIKSEMI / HIKVISION — $42.861
+MEMORIA SODIMM 8GB DDR3 1600 HIKSEMI HIKER HSC308S16Z1 — $45.805
+
+# Memorias RAM | DDR4
+MEMORIA 8GB DDR4 3200 PATRIOT SIGNATURE — $78.683
+MEMORIA 8GB DDR4 3200 WICGTYP — $123.625
+MEMORIA SODIMM 8GB DDR4 3200 PATRIOT SIGNATURE — $124.924
+MEMORIA SODIMM 8GB DDR4 3200 ADATA PREMIER — $132.583
+MEMORIA 8GB DDR4 3200 HIKSEMI HIKER — $135.482
+MEMORIA 8GB DDR4 3200 ADATA PREMIER — $136.361
+MEMORIA 8GB DDR4 3200 LEXAR — $136.361
+MEMORIA 8GB DDR4 3200 HIKSEMI ARMOR C/DISIPADOR — $140.622
+MEMORIA 8GB DDR4 3200 ARKHAM BLACK RGB — $140.760
+MEMORIA 8GB DDR4 3200 C/DISIPADOR TERMICO STARMEMORY — $140.760
+MEMORIA 8GB DDR4 3200 HIKSEMI ARMOR WHITE C/DISIPADOR — $158.930
+MEMORIA 8GB DDR4 3200 HIKSEMI FUTURE RGB — $162.265
+MEMORIA 8GB DDR4 3200 ADATA XPG GAMMIX D35 — $163.116
+MEMORIA SODIMM 8GB DDR4 3200 KINGSTON NO-ECC KCP432SS8/8 — $165.514
+MEMORIA 8GB DDR4 3200 ADATA XPG SPECTRIX D35G RGB — $169.982
+MEMORIA 8GB DDR4 3200 CORSAIR VENGEANCE RGB RS — $175.688
+MEMORIA 8GB DDR4 3200 CORSAIR VENGEANCE LPX — $194.753
+MEMORIA 8GB DDR4 3200 KINGSTON FURY BEAST RGB — $195.040
+MEMORIA SODIMM 8GB DDR4 3200 CRUCIAL — $201.250
+MEMORIA 8GB DDR4 3200 KINGSTON FURY BEAST — $210.335
+MEMORIA 8GB DDR4 3600 KINGSTON FURY BEAST RGB — $219.016
+MEMORIA 16GB DDR4 3200 C/DISIPADOR TERMICO STARMEMORY — $224.008
+MEMORIA SODIMM 16GB DDR4 3200 HIKSEMI HIKER — $224.813
+MEMORIA 8GB DDR4 3200 KINGSTON VALUE RAM KVR — $250.505
+MEMORIA 16GB DDR4 3200 LEXAR — $253.529
+MEMORIA 16GB DDR4 3200 KINGSTON VALUE RAM KVR — $255.265
+
+# Memorias RAM | DDR5
+MEMORIA SODIMM DDR5 8GB DDR5 4800 CORSAIR VENGEANCE — $165.485
+MEMORIA 8GB DDR5 5600 PATRIOT SIGNATURE — $246.226
+
+# Almacenamientos | SSD
+HD SSD 120GB MEMOX SATA III 2.5" — $52.647
+HD SSD 120GB HIKSEMI WAVE SATA III 2.5" — $57.569
+HD SSD 128GB HIKSEMI WAVE M.2 NVME GEN3 2280 — $66.769
+HD SSD 240GB RAPTOR LEGACY SATA III 2.5" — $72.103
+HD SSD 256GB LEXAR NQ100 SATA III 2.5" — $80.057
+HD SSD 240GB HIKSEMI WAVE SATA III 2.5" — $81.926
+HD SSD 240GB MSI SPATIUM S270 SATA III 2.5" — $83.501
+HD SSD 256GB ADATA SU650 ULTIMATE SATA III 2.5" — $95.496
+HD SSD 256GB HIKSEMI WAVE M.2 NVME GEN3 2280 — $100.050
+HD SSD 256GB MEMOX M.2 NVME GEN3 — $104.945
+HD SSD 256GB PATRIOT P300 M.2 NVME GEN3 — $117.116
+HD SSD 512GB LEXAR NQ100 SATA III 2.5" — $135.482
+HD SSD 480GB PATRIOT BURST ELITE SATA III 2.5" — $147.096
+HD SSD 480GB MEMOX SATA III 2.5" — $152.053
+HD SSD 480GB MSI SPATIUM S270 SATA III 2.5" — $153.847
+HD SSD 480GB HIKSEMI WAVE SATA III 2.5" — $158.896
+HD SSD 480GB KINGSTON A400 SATA III 2.5" — $171.718
+HD SSD 512GB HIKSEMI WAVE M.2 NVME GEN3 — $188.266
+HD SSD 512GB PATRIOT P300 M.2 NVME GEN3 — $189.807
+HD SSD 500GB WD GREEN SATA III 2.5" — $200.583
+HD SSD 512GB HIKSEMI FUTURE LITE M.2 NVME GEN4 — $203.630
+HD SSD 500GB ADATA LEGEND 860 M.2 NVME GEN4 — $217.476
+HD SSD 500GB KINGSTON SNVS NV3 M.2 NVME GEN4 — $218.420
+HD SSD 512GB PATRIOT P320 M.2 NVME GEN3 — $228.298
+HD SSD 500GB ADATA SPECTRIX S65G RGB M.2 NVME — $237.556
+HD SSD EXTERNO 500GB KINGSTON XS2000 USB 3.2 GEN2X2 — $242.316
+HD SSD 512GB ADATA XPG GAMMIX S70 BLADE M.2 NVME GEN4 — $243.133
+HD SSD 1TB WD GREEN SN350 M.2 NVME GEN3 — $310.086
+HD SSD 1TB WD GREEN SATA III 2.5" — $334.500
+
+# Almacenamientos | HDD
+HD HDD 1TB SEAGATE SKYHAWK SATA III 3.5" — $244.386
+HD HDD EXTERNO 1TB WD ELEMENTS USB 3.0 — $276.057
+HD HDD EXTERNO 2TB SEAGATE PORTABLE USB 3.0 — $289.340
+HD HDD 2TB SEAGATE SKYHAWK SATA III 3.5" — $324.265
+DISCO HDD 1TB SATA3 WD PURPLE — $324.944
+HD HDD 2TB WD PURPLE SATA III 3.5" — $352.981
+HD HDD EXTERNO 2TB WD ELEMENTS USB 3.0 — $384.997
+
+# Placas de video
+PLACA DE VIDEO GEFORCE GT 210 1GB MSI N210-MD1G/D3 LOW PROFILE — $76.371
+PLACA DE VIDEO GEFORCE GT 210 1GB DDR3 VGA HDMI DVI BULK — $90.850
+PLACA DE VIDEO GEFORCE GT 710 2GB MSI LP — $139.702
+PLACA DE VIDEO GEFORCE GT 1030 4GB MSI 4DG4 LOW PROFILE — $247.791
+PLACA DE VIDEO GEFORCE GT 1030 2GB DDR4 GIGABYTE LOW PROFILE — $249.032
+PLACA DE VIDEO GEFORCE RTX 3050 6GB MSI VENTUS 2X OC — $561.924
+PLACA DE VIDEO GEFORCE RTX 3050 6GB MSI LP OC — $566.973
+PLACA DE VIDEO GEFORCE RTX 3050 6GB ZOTAC TWIN EDGE OC — $573.528
+PLACA DE VIDEO GEFORCE RTX 3050 6GB ASUS DUAL OC — $573.643
+PLACA DE VIDEO GEFORCE RTX 5050 8GB GIGABYTE LOW PROFILE OC — $791.775
+PLACA DE VIDEO GEFORCE RTX 5050 8GB GIGABYTE WINDFORCE V2 OC — $804.091
+PLACA DE VIDEO RADEON RX 7600 8GB GIGABYTE GAMING OC — $835.762
+PLACA DE VIDEO GEFORCE RTX 5050 8GB MSI VENTUS 2X OC — $880.900
+PLACA DE VIDEO GEFORCE RTX 5050 8GB ZOTAC TWIN EDGE OC — $886.719
+PLACA DE VIDEO GEFORCE RTX 5050 8GB GIGABYTE GAMING OC 3X — $905.107
+PLACA DE VIDEO GEFORCE RTX 5050 8GB ASUS DUAL OC EDITION — $905.625
+
+# Fuentes de poder
+FUENTE 500W LNZ BX550-SS — $18.844
+FUENTE 500W LNZ XS550-CE — $22.609
+FUENTE 500W SFX ATX 20+4 SATA — $23.036
+FUENTE AUREOX ARXE 500W — $25.346
+FUENTE 550W PERFORMANCE SATA *4 CABLE POWER — $30.126
+FUENTE AUREOX ARXGP 500W — $45.402
+FUENTE 600W AUREOX ARXGP-600W — $49.956
+FUENTE 700W LNZ SX700-TS — $55.516
+FUENTE 500W EVOLABS POWER SERIES — $65.274
+FUENTE 500W RAPTOR VOLT 80 PLUS SILVER — $72.484
+FUENTE 600W EVOLABS POWER SERIES — $73.404
+FUENTE 550W MSI MAG A550BN 80 PLUS BRONZE — $82.581
+FUENTE 500W THERMALTAKE SMART 80 PLUS WHITE — $83.455
+FUENTE 600W THERMALTAKE SMART 80 PLUS WHITE — $85.847
+FUENTE 550W GIGABYTE WHITE GP-P550SS ICE 80 PLUS SILVER — $86.584
+FUENTE 650W EVOLABS SUPREME SERIES 80 PLUS BRONZE — $88.630
+FUENTE 550W GIGABYTE GP-P550SS 80 PLUS SILVER — $88.883
+FUENTE 550W 80 PLUS BRONZE CORSAIR CX550 — $91.046
+FUENTE 600W ADATA XPG PROBE 80 PLUS BRONZE — $93.851
+FUENTE 650W GIGABYTE GP-P650SS ICE 80 PLUS SILVER BLANCA — $101.901
+FUENTE 750W EVOLABS SUPREME SERIES 80 PLUS SILVER — $107.571
+FUENTE 650W ASUS PRIME 650B 80 PLUS BRONZE — $108.086
+FUENTE 650W ARKHAM CORESHIELD BY XPG 80 PLUS GOLD OEM — $108.456
+FUENTE 700W ADATA XPG PROBE 80 PLUS BRONZE — $109.066
+FUENTE 750W SENTEY MBP750-VM ATX 3.1 PCIE 5.1 80 PLUS BRONZE SEMI MODULAR — $109.793
+FUENTE 700W GAMEMAX 80 PLUS BRONZE VP-700-M-RGB — $113.482
+FUENTE 850W SENTEY MBP850-GM ATX 3.1 PCIE 5.1 80 PLUS BRONZE SEMI MODULAR — $114.561
+FUENTE 650W ADATA XPG PYLON 80 PLUS BRONZE — $116.265
+
+# Gabinetes
+GABINETE NOVA CM-04Q1 MICRO ATX P/MOTHER A520M B550M H510M A620M — $25.875
+GABINETE GAMER AUREOX SKOLL ARX 200G — $38.836
+GABINETE SENTEY H30 BLACK VIDRO LATERAL Y FRONTAL — $41.295
+GABINETE SENTEY H30 WHITE VIDRO LATERAL Y FRONTAL — $43.600
+GABINETE KIT C/TECLADO C/MOUSE — $43.988
+GABINETE KIT PERFORMANCE MATE C/FUENTE 500W — $44.369
+GABINETE KIT GAMER C/FUENTE 600W RGB TECLADO MOUSE Y PARLANTES AURUS — $46.897
+GABINETE RAPTOR BLAZE FORCE TG FAN RGB — $47.357
+GABINETE GAMER AUREOX VANTH 205G — $47.886
+GABINETE TEROS TE-1036S MID TOWER C/FUENTE 250W — $50.863
+GABINETE KIT CON TECLADO MOUSE Y PARLANTE — $52.900
+GABINETE EVOLABS STREAK TG 2FAN FRGB — $53.624
+GABINETE SENTEY T5 BLACK TG LATERAL Y FRONTAL 3FAN ARGB — $55.055
+GABINETE RAPTOR THUNDER STRIKE TG 1FAN RGB BLANCO — $55.062
+GABINETE RAPTOR THUNDER STRIKE TG 1FAN RGB NEGRO — $55.062
+GABINETE KIT C/TECLADO C/MOUSE C/AURICULAR GAMER — $55.545
+GABINETE GAMER AUREOX PICTOR ARX 370G 4 COOLERS — $55.959
+GABINETE EVOLABS SOPHYSTIX TG 3FAN FRGB — $58.409
+GABINETE RAPTOR INFINITY MESH TG 4FAN RGB — $61.951
+GABINETE RAPTOR BLAZE FORCE V2 TG 3FAN RGB — $63.146
+GABINETE GAMER RAIDMAX MESHIAN X609M TG — $64.779
+GABINETE EVOLABS ARTIST TG 2FAN ARGB — $65.492
+GABINETE ARKHAM VORUS TG 4FAN ARGB — $66.757
+GABINETE PERFORMANCE SLIM KIT 5836 FUENTE 600W TECLADO+MOUSE — $71.875
+GABINETE EVOLABS DUALITY TG 4FAN ARGB — $75.452
+GABINETE ADATA XPG VALOR AIR BLACK — $80.557
+GABINETE ADATA XPG LANDER 500 TG 4FAN ARGB — $82.006
+GABINETE ADATA XPG VALOR AIR 4FAN WHITE — $82.110
+GABINETE THERMALTAKE S100 TG SNOW WHITE — $86.514
+GABINETE THERMALTAKE VERSA H16 TG 3FAN ARGB SNOW WHITE — $88.780
+`;
 
 /* =========================================================
    A partir de acá no hace falta tocar nada
@@ -589,6 +882,7 @@ const ICONS = {
   "Almacenamientos": '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 24h52v16H6z"/><path d="M12 29h14v6H12zM32 29h8v6h-8zM52 28v8"/></svg>',
   "Motherboards": '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10 8h44v48H10z"/><path d="M18 16h14v14H18zM40 14v22M46 14v22M18 38h28M18 46h20"/></svg>',
   "Fuentes de poder": '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M8 16h48v32H8z"/><circle cx="26" cy="32" r="10"/><path d="M26 22v20M16 32h20M44 24h6M44 30h6M44 40l4-6h-4l4-6"/></svg>',
+  "Coolers": '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10 10h44v44H10z"/><circle cx="32" cy="32" r="4"/><path d="M32 28c-2-8 4-14 10-12-2 6-6 10-10 12zM36 32c8-2 14 4 12 10-6-2-10-6-12-10zM32 36c2 8-4 14-10 12 2-6 6-10 10-12zM28 32c-8 2-14-4-12-10 6 2 10 6 12 10z"/></svg>',
   "Gabinetes": '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6h28v52H18z"/><path d="M24 14h16M24 20h16"/><circle cx="32" cy="38" r="8"/></svg>',
   "default": '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10 14h44v30H10zM24 50h16M32 44v6"/></svg>'
 };
@@ -598,7 +892,7 @@ const CHECK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke
 const STAR = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.9 7.5.7-5.7 5 1.7 7.4L12 18.3 5.5 22l1.7-7.4-5.7-5 7.5-.7z"/></svg>';
 
 const $ = (s) => document.querySelector(s);
-const state = { q: "", cat: "Todos", brand: "", sort: "destacados", onlyStock: false };
+const state = { q: "", cat: "Todos", sub: "", brand: "", sort: "destacados", onlyStock: false };
 let items = [];
 
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -606,20 +900,183 @@ const norm = (s) => String(s ?? "").toLowerCase().normalize("NFD").replace(/[\u0
 const money = new Intl.NumberFormat("es-AR", { style: "currency", currency: "ARS", maximumFractionDigits: 0 });
 const waLink = (text) => `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(text)}`;
 
+/* ---------- Lectura del catálogo en texto ---------- */
+
+function parseCatalogo(text) {
+  const out = []; let categoria = "Otros", sub = "";
+  for (const raw of text.split(/\r?\n/)) {
+    const line = raw.trim();
+    if (!line) continue;
+    if (line.startsWith("#")) {
+      [categoria, sub = ""] = line.slice(1).split("|").map((s) => s.trim());
+      continue;
+    }
+    const m = line.match(/^(.*?)\s*[—–-]\s*\$\s*([\d.,]+)\s*$/);
+    out.push({ nombre: m ? m[1] : line, precio: m ? m[2] : "", categoria, sub, crudo: m ? m[1] : line });
+  }
+  return out;
+}
+
+const matchesAny = (list, name) => list.some((k) => k && norm(name).includes(norm(k)));
+
+// Marcas, en orden de prioridad (el fabricante de la placa antes que el del chip)
+const BRANDS = ["COOLERMASTER", "COOLER MASTER", "THERMALTAKE", "ARKHAM", "ADATA", "XPG", "ASUS", "MSI", "GIGABYTE", "ZOTAC", "KINGSTON", "CORSAIR",
+  "PATRIOT", "LEXAR", "CRUCIAL", "HIKSEMI", "HIKVISION", "MEMOX", "WICGTYP", "STARMEMORY", "SEAGATE", "WD", "RAPTOR", "EVOLABS", "KELYX",
+  "AUREOX", "SENTEY", "GAMEMAX", "RAIDMAX", "TEROS", "NOVA", "LNZ", "PERFORMANCE", "AURUS", "AMD", "INTEL"];
+const BRAND_NAME = { COOLERMASTER: "Cooler Master", "COOLER MASTER": "Cooler Master", STARMEMORY: "StarMemory", GAMEMAX: "GameMax", WICGTYP: "Wicgtyp" };
+const UPPER = new Set(["AMD", "ASUS", "MSI", "ADATA", "XPG", "WD", "LNZ", "RGB", "ARGB", "FRGB", "DDR3", "DDR4", "DDR5", "SSD", "HDD", "SATA", "III", "USB", "ATX", "SFX",
+  "OC", "LP", "TG", "CSM", "VGA", "HDMI", "DVI", "GT", "RTX", "RX", "CPU", "KVR", "ECC", "OEM", "PRO", "MAG", "SE", "V2", "V3", "H", "K", "A", "B", "G", "S", "M", "SN350",
+  "D4", "R2.0", "LPX", "RS", "ARX", "ICE", "BX550-SS", "XS550-CE", "SX700-TS", "CX550", "NQ100", "SU650", "A400", "S270", "P300", "P320", "S65G", "S70", "XS2000", "SNVS", "ARXE", "ARXGP", "RAM", "NO-ECC", "SE"]);
+const SPECIAL = { NVME: "NVMe", PCIE: "PCIe", GEFORCE: "GeForce", I3: "i3", I5: "i5", I7: "i7", SODIMM: "SODIMM", COOLERMASTER: "Cooler Master", STARMEMORY: "StarMemory",
+  GAMEMAX: "GameMax", MASTERAIR: "MasterAir", COREFROZR: "CoreFrozr", HIKER: "Hiker", Y: "y", DE: "de", CON: "con", BY: "by", VIDRO: "Vidrio", TERMICO: "Térmico", BLANCA: "Blanca" };
+
+function niceToken(t) {
+  const up = t.toUpperCase();
+  if (SPECIAL[up]) return SPECIAL[up];
+  if (/^GEN\d/.test(up)) return "Gen" + up.slice(3).toLowerCase();
+  if (/^[CSP]\/./.test(up)) {
+    const r = niceToken(t.slice(2));
+    return up[0].toLowerCase() + "/" + (/^[A-Z][a-z]+$/.test(r) ? r.toLowerCase() : r);
+  }
+  if (up.includes("/")) return up.split("/").map(niceToken).join("/");
+  if (UPPER.has(up) || /\d/.test(up) || up.length <= 2) return up;
+  return up[0] + up.slice(1).toLowerCase();
+}
+
+// Notas de venta dentro del nombre ("+Q A320", "SIMIL 5600G"...) → pasan a características
+function splitNotes(name) {
+  const notes = [];
+  name = name
+    .replace(/\s+IDEAL PC OFICINA/i, () => (notes.push("Ideal para PC de oficina"), ""))
+    .replace(/\s+(?:\+Q|MEJOR Q)\s+(\S+)/gi, (_, m) => (notes.push(`Mejor que ${m}`), ""))
+    .replace(/\s+SIMIL\s+(\S+)/gi, (_, m) => (notes.push(`Similar a ${m}`), ""));
+  return [name, notes];
+}
+
+const PREFIX = /^(MOTHER|MICRO|CPU COOLER|MEMORIA|HD|DISCO|PLACA DE VIDEO|FUENTE|GABINETE)\s+/i;
+const CORES = { "3000G": "2 núcleos / 4 hilos", "3200G": "4 núcleos / 4 hilos", "3400G": "4 núcleos / 8 hilos", "3500X": "6 núcleos / 6 hilos",
+  "5600": "6 núcleos / 12 hilos", "5600GT": "6 núcleos / 12 hilos", "5700": "8 núcleos / 16 hilos", "5700G": "8 núcleos / 16 hilos",
+  "8400F": "6 núcleos / 12 hilos", "8500G": "6 núcleos / 12 hilos", "8600G": "6 núcleos / 12 hilos", "7600X": "6 núcleos / 12 hilos",
+  "G5925": "2 núcleos / 2 hilos", "G7400": "2 núcleos / 4 hilos", "10105F": "4 núcleos / 8 hilos", "12100": "4 núcleos / 8 hilos", "12100F": "4 núcleos / 8 hilos",
+  "13100F": "4 núcleos / 8 hilos", "14100": "4 núcleos / 8 hilos", "14100F": "4 núcleos / 8 hilos", "12400": "6 núcleos / 12 hilos", "12400F": "6 núcleos / 12 hilos",
+  "14400F": "10 núcleos / 16 hilos" };
+const SOCKET = { AM4: "AM4", AM5: "AM5", S1200: "LGA 1200", S1700: "LGA 1700", S1851: "LGA 1851" };
+
+function autoSpecs(N, cat) {
+  const s = [], has = (re) => re.test(N), cap = N.match(/\b(\d+)\s?(GB|TB)\b/);
+  const sockets = [...N.matchAll(/\b(AM4|AM5|S1200|S1700|S1851)\b/g)].map((m) => SOCKET[m[1]]);
+  const light = has(/\bARGB\b/) ? "Iluminación ARGB" : has(/\bF?RGB\b/) ? "Iluminación RGB" : "";
+  const white = has(/\b(WHITE|BLANCO|BLANCA)\b/) ? "Color blanco" : "";
+  if (cat === "Motherboards") {
+    const chip = N.match(/\b([ABHXZ]\d{3})M?\b/);
+    if (sockets[0]) s.push(`Socket ${sockets[0]}`);
+    if (chip) s.push(`Chipset ${chip[1]}`);
+    const ddr = N.match(/\bDDR(\d)\b/); if (ddr) s.push(`Memoria DDR${ddr[1]}`);
+    if (has(/\b[ABH]\d{3}M\b|\b[ABH]\d{3}M-/)) s.push("Formato Micro-ATX");
+    if (has(/\bGEN5\b/)) s.push("Slot PCIe Gen5");
+    if (light) s.push(light);
+  } else if (cat === "Procesadores") {
+    const model = Object.keys(CORES).sort((a, b) => b.length - a.length).find((k) => new RegExp(`\\b${k}\\b`).test(N));
+    if (model) s.push(CORES[model]);
+    if (sockets[0]) s.push(`Socket ${sockets[0]}`);
+    if (has(/C\/VIDEO|VEGA|CELERON|PENTIUM/)) s.push("Gráficos integrados");
+    if (has(/S\/VIDEO/)) s.push("Requiere placa de video");
+    if (has(/C\/COOLER/) || (has(/\bBOX\b/) && !has(/S\/COOLER/))) s.push("Incluye cooler");
+    if (has(/S\/COOLER/)) s.push("No incluye cooler");
+    if (has(/\bBOX\b/)) s.push("Versión Box (en caja)");
+    if (has(/\bTRAY\b/)) s.push("Versión Tray");
+  } else if (cat === "Coolers") {
+    s.push("Refrigeración por aire");
+    const w = N.match(/\b(\d+)W\b/); if (w) s.push(`Soporta hasta ${w[1]} W`);
+    if (sockets.length > 1) s.push(`Compatible ${sockets.join(" / ")}`);
+    else if (sockets[0]) s.push(`Compatible ${sockets[0]}`);
+    else if (has(/AMD\/INTEL/)) s.push("Compatible AMD e Intel");
+    if (light) s.push(light);
+    if (white) s.push(white);
+    if (has(/SILENT/)) s.push("Ventilador silencioso");
+  } else if (cat === "Memorias RAM") {
+    if (cap) s.push(`Capacidad ${cap[1]} ${cap[2]}`);
+    const sp = N.match(/\bDDR(\d)\s+(?:\d+GB\s+DDR\d\s+)?(\d{4})\b/); if (sp) s.push(`DDR${sp[1]} ${sp[2]} MHz`);
+    s.push(has(/SODIMM/) ? "SODIMM (notebook)" : "DIMM (PC de escritorio)");
+    if (has(/DISIPADOR|FURY|VENGEANCE|GAMMIX|SPECTRIX|ARMOR/)) s.push("Con disipador");
+    if (light) s.push(light);
+    if (white) s.push(white);
+  } else if (cat === "Almacenamientos") {
+    if (cap) s.push(`Capacidad ${cap[1]} ${cap[2]}`);
+    const ssd = has(/\bSSD\b/);
+    s.push(ssd ? "Disco sólido (SSD)" : "Disco rígido (HDD)");
+    const gen = N.match(/GEN(\d)\b/);
+    if (has(/EXTERNO/)) s.push(`Externo${has(/USB/) ? " · USB " + (N.match(/USB\s([\d.]+)/) || [, ""])[1] : ""}`.trim());
+    else if (has(/NVME/)) s.push(`M.2 NVMe${gen ? " PCIe Gen" + gen[1] : ""}`);
+    else if (has(/2\.5"/)) s.push('SATA III · 2.5"');
+    else if (has(/3\.5"|SATA3|SATA III/)) s.push('SATA III · 3.5"');
+    if (has(/PURPLE|SKYHAWK/)) s.push("Ideal para videovigilancia");
+    if (light) s.push(light);
+  } else if (cat === "Placas de video") {
+    const chip = N.match(/\b(GT|RTX|RX)\s(\d{3,4})\b/);
+    if (chip) s.push(`${chip[1] === "RX" ? "AMD Radeon" : "NVIDIA GeForce"} ${chip[1]} ${chip[2]}`);
+    if (cap) s.push(`Memoria ${cap[1]} GB`);
+    if (has(/LOW PROFILE|\bLP\b/)) s.push("Perfil bajo (low profile)");
+    if (has(/\b3X\b/)) s.push("Triple ventilador"); else if (has(/\b2X\b|TWIN|DUAL|WINDFORCE/)) s.push("Doble ventilador");
+    if (has(/\bOC\b/)) s.push("Overclock de fábrica");
+    if (has(/VGA HDMI DVI/)) s.push("Salidas VGA / HDMI / DVI");
+  } else if (cat === "Fuentes de poder") {
+    const w = N.match(/\b(\d{3})W\b/) || N.match(/\b(\d{3})W\b|-(\d{3})W/); if (w) s.push(`Potencia ${w[1]} W`);
+    const plus = N.match(/80 PLUS (WHITE|BRONZE|SILVER|GOLD|PLATINUM)/);
+    if (plus) s.push(`Certificación 80 Plus ${niceToken(plus[1])}`);
+    if (has(/SEMI MODULAR/)) s.push("Semi modular");
+    if (has(/ATX 3\.1/)) s.push("ATX 3.1 · PCIe 5.1");
+    if (has(/\bSFX\b/)) s.push("Formato SFX");
+    if (has(/ICE|BLANCA/)) s.push("Color blanco");
+    if (light) s.push(light);
+  } else if (cat === "Gabinetes") {
+    if (has(/\bTG\b|VIDRO/)) s.push("Vidrio templado");
+    const fans = N.match(/\b(\d)\s?(?:FAN|COOLERS)\b/); if (fans) s.push(`${fans[1]} ${fans[1] === "1" ? "ventilador incluido" : "ventiladores incluidos"}`);
+    if (has(/MESH/)) s.push("Frente mesh");
+    const psu = N.match(/FUENTE\s(\d{3})W|C\/FUENTE\s(\d{3})W/); if (psu) s.push(`Incluye fuente de ${psu[1] || psu[2]} W`);
+    const extras = [has(/TECLADO/) && "teclado", has(/MOUSE/) && "mouse", has(/PARLANTE/) && "parlantes", has(/AURICULAR/) && "auriculares"].filter(Boolean);
+    if (extras.length) s.push(`Incluye ${extras.join(", ").replace(/, ([^,]*)$/, " y $1")}`);
+    if (has(/MICRO ATX/)) s.push("Formato Micro-ATX"); else if (has(/MID TOWER/)) s.push("Mid tower");
+    if (light) s.push(light);
+    if (white) s.push(white);
+  }
+  return s;
+}
+
+function enrich(p) {
+  const raw = String(p.crudo || p.nombre || "").trim();
+  let [name, notes] = splitNotes(raw);
+  const N = name.toUpperCase();
+  if (name === name.toUpperCase()) {
+    name = name.replace(PREFIX, "").replace(/\s+CPU(?=\s+(AM4|AM5)\b)/, "").replace(/\s+/g, " ");
+    name = name.split(" ").map(niceToken).join(" ");
+  }
+  let marca = String(p.marca || "").trim();
+  if (!marca) {
+    const b = BRANDS.find((b) => new RegExp(`(^|[\\s/])${b}($|[\\s/])`).test(N));
+    marca = b ? BRAND_NAME[b] || niceToken(b) : /GEFORCE/.test(N) ? "NVIDIA" : /RADEON/.test(N) ? "AMD" : "Genérico";
+  }
+  const given = Array.isArray(p.specs) ? p.specs : String(p.specs || "").split("|");
+  const specs = given.map((s) => s.trim()).filter(Boolean);
+  return { ...p, nombre: name.trim(), marca, specs: (specs.length ? specs : autoSpecs(N, p.categoria)).concat(notes), crudo: raw };
+}
+
 function clean(p, i) {
-  const specs = Array.isArray(p.specs) ? p.specs : String(p.specs || "").split("|");
+  p = enrich(p);
   const precio = Number(String(p.precio ?? "").replace(/[^\d]/g, "")) || null;
   let stock = norm(p.stock).trim();
-  stock = stock.startsWith("sin") ? "sin stock" : stock.startsWith("disp") ? "disponible" : "consultar";
+  stock = matchesAny(SIN_STOCK, p.crudo) || stock.startsWith("sin") ? "sin stock" : stock.startsWith("cons") ? "consultar" : "disponible";
+  const img = Object.keys(IMAGENES).find((k) => matchesAny([k], p.crudo));
   return {
     id: i,
-    nombre: String(p.nombre || "").trim(),
-    marca: String(p.marca || "").trim(),
+    nombre: p.nombre,
+    marca: p.marca,
     categoria: String(p.categoria || "Otros").trim(),
-    specs: specs.map((s) => s.trim()).filter(Boolean),
+    sub: String(p.sub || "").trim(),
+    specs: p.specs,
     precio, stock,
-    imagen: String(p.imagen || "").trim(),
-    destacado: ["si", "sí", "true", "1", "x"].includes(norm(p.destacado).trim()),
+    imagen: String(p.imagen || (img ? IMAGENES[img] : "")).trim(),
+    destacado: ["si", "sí", "true", "1", "x"].includes(norm(p.destacado).trim()) || matchesAny(DESTACADOS, p.crudo),
   };
 }
 
@@ -644,9 +1101,15 @@ function parseCSV(text) {
 }
 
 const stockLabel = { "disponible": "Disponible", "consultar": "A consultar", "sin stock": "Sin stock" };
-const thumb = (p) => p.imagen
-  ? `<img src="${esc(p.imagen)}" alt="${esc(p.nombre)}" loading="lazy">`
-  : (ICONS[p.categoria] || ICONS.default);
+// Logos de marca (img/marcas, de Simple Icons). Las marcas sin logo se muestran con su nombre.
+const LOGOS = { AMD: "amd", Intel: "intel", ASUS: "asus", MSI: "msi", NVIDIA: "nvidia", Corsair: "corsair", Seagate: "seagate", WD: "westerndigital", "Cooler Master": "coolermaster" };
+const thumb = (p) => {
+  if (p.imagen) return `<img src="${esc(p.imagen)}" alt="${esc(p.nombre)}" loading="lazy">`;
+  const bg = `<span class="t-bg">${ICONS[p.categoria] || ICONS.default}</span>`;
+  if (LOGOS[p.marca]) return `${bg}<span class="t-logo" style="--logo:url('img/marcas/${LOGOS[p.marca]}.svg')" role="img" aria-label="${esc(p.marca)}"></span>`;
+  if (p.marca === "Genérico") return bg.replace("t-bg", "t-bg solo");
+  return `${bg}<span class="t-word">${esc(p.marca)}</span>`;
+};
 const priceHtml = (p) => p.precio
   ? `<span class="price">${money.format(p.precio)}</span>`
   : `<span class="price ask">Consultar precio</span>`;
@@ -659,6 +1122,15 @@ function renderCats() {
     `<button class="cat" type="button" data-cat="${esc(c)}" aria-pressed="${c === state.cat}">${esc(c)} <small>${c === "Todos" ? items.length : counts[c] || 0}</small></button>`
   ).join("");
   updateCatsFade();
+  renderSubs();
+}
+
+function renderSubs() {
+  const subs = state.cat === "Todos" ? [] : [...new Set(items.filter((p) => p.categoria === state.cat && p.sub).map((p) => p.sub))];
+  $("#subcats").hidden = subs.length < 2;
+  $("#subcats").innerHTML = ["", ...subs].map((s) =>
+    `<button class="sub" type="button" data-sub="${esc(s)}" aria-pressed="${s === state.sub}">${s ? esc(s) : "Todas"}</button>`
+  ).join("");
 }
 
 // Degradé a la derecha solo cuando las categorías no entran y se pueden deslizar
@@ -678,9 +1150,10 @@ function filtered() {
   const q = norm(state.q).split(/\s+/).filter(Boolean);
   let list = items.filter((p) => {
     if (state.cat !== "Todos" && p.categoria !== state.cat) return false;
+    if (state.sub && p.sub !== state.sub) return false;
     if (state.brand && p.marca !== state.brand) return false;
     if (state.onlyStock && p.stock === "sin stock") return false;
-    const hay = norm([p.nombre, p.marca, p.categoria, ...p.specs].join(" "));
+    const hay = norm([p.nombre, p.marca, p.categoria, p.sub, ...p.specs].join(" "));
     return q.every((w) => hay.includes(w));
   });
   const byPrice = (dir) => (a, b) => (a.precio == null) - (b.precio == null) || dir * ((a.precio || 0) - (b.precio || 0));
@@ -696,7 +1169,7 @@ function filtered() {
 function render() {
   const list = filtered();
   $("#count").textContent = `${list.length} ${list.length === 1 ? "producto" : "productos"}`;
-  $("#resultsTitle").textContent = state.cat === "Todos" ? "Todos los productos" : state.cat;
+  $("#resultsTitle").textContent = state.cat === "Todos" ? "Todos los productos" : state.cat + (state.sub ? ` · ${state.sub}` : "");
   if (!list.length) {
     const ask = waLink(`Hola Titanware! Estoy buscando: ${state.q.trim() || "un producto"}. ¿Lo tienen o lo pueden conseguir?`);
     $("#grid").innerHTML = `<div class="empty"><strong>No encontramos productos con esos filtros</strong>Probá con otra búsqueda o consultanos: capaz lo conseguimos.<div class="actions"><button class="btn ghost" type="button" id="reset">Ver todo el catálogo</button><a class="btn wa" href="${ask}" target="_blank" rel="noopener">${WA_ICON} Consultar por WhatsApp</a></div></div>`;
@@ -707,7 +1180,7 @@ function render() {
       ${p.destacado ? `<span class="badge">${STAR} Destacado</span>` : ""}
       <div class="thumb">${thumb(p)}</div>
       <div class="card-body">
-        <div class="meta"><span>${esc(p.marca)}</span><span>${esc(p.categoria)}</span></div>
+        <div class="meta"><span>${esc(p.marca)}</span><span>${esc(p.sub || p.categoria)}</span></div>
         <h3>${esc(p.nombre)}</h3>
         <p class="specs-short">${esc(p.specs.slice(0, 2).join(", "))}</p>
         <div class="card-foot">${priceHtml(p)}<span class="stock ${p.stock.replace(" ", "-")}">${stockLabel[p.stock]}</span></div>
@@ -719,14 +1192,15 @@ function render() {
 function openProduct(id) {
   const p = items.find((x) => x.id === id);
   if (!p) return;
-  const msg = `Hola Titanware! Quería consultar por: ${p.marca} ${p.nombre}. ¿Tienen stock y qué precio tiene?`;
+  const full = norm(p.nombre).includes(norm(p.marca)) || p.marca === "Genérico" ? p.nombre : `${p.marca} ${p.nombre}`;
+  const msg = `Hola Titanware! Quería consultar por: ${full}${p.precio ? ` (${money.format(p.precio)})` : ""}. ¿Tienen stock?`;
   const m = $("#modal");
   m.innerHTML = `
     <button class="close" type="button" aria-label="Cerrar" data-close><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
     <div class="modal">
       <div class="thumb">${thumb(p)}</div>
       <div class="modal-body">
-        <div class="meta"><span>${esc(p.marca)} · ${esc(p.categoria)}</span></div>
+        <div class="meta"><span>${esc(p.marca)} · ${esc(p.categoria)}${p.sub ? ` · ${esc(p.sub)}` : ""}</span></div>
         <h2 id="mTitle">${esc(p.nombre)}</h2>
         <div class="modal-price">${priceHtml(p)}<span class="stock ${p.stock.replace(" ", "-")}">${stockLabel[p.stock]}</span></div>
         ${p.specs.length ? `<p class="spec-title">Características</p><ul class="spec-list">${p.specs.map((s) => `<li>${CHECK}<span>${esc(s)}</span></li>`).join("")}</ul>` : ""}
@@ -744,11 +1218,15 @@ $("#sort").addEventListener("change", (e) => { state.sort = e.target.value; rend
 $("#onlyStock").addEventListener("change", (e) => { state.onlyStock = e.target.checked; render(); });
 $("#cats").addEventListener("click", (e) => {
   const b = e.target.closest(".cat"); if (!b) return;
-  state.cat = b.dataset.cat; renderCats(); render();
+  state.cat = b.dataset.cat; state.sub = ""; renderCats(); render();
+});
+$("#subcats").addEventListener("click", (e) => {
+  const b = e.target.closest(".sub"); if (!b) return;
+  state.sub = b.dataset.sub; renderSubs(); render();
 });
 $("#grid").addEventListener("click", (e) => {
   if (e.target.closest("#reset")) {
-    Object.assign(state, { q: "", cat: "Todos", brand: "", onlyStock: false });
+    Object.assign(state, { q: "", cat: "Todos", sub: "", brand: "", onlyStock: false });
     $("#q").value = ""; $("#brand").value = ""; $("#onlyStock").checked = false;
     renderCats(); render(); return;
   }
@@ -765,7 +1243,7 @@ $("#bandWa").href = waLink("Hola Titanware! Quería pedir un presupuesto para ar
 $("#year").textContent = new Date().getFullYear();
 
 async function init() {
-  let data = PRODUCTOS;
+  let data = parseCatalogo(CATALOGO);
   if (SHEET_CSV_URL) {
     try {
       const res = await fetch(SHEET_CSV_URL, { cache: "no-store" });
