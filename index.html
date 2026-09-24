@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Titanware · Catálogo de componentes de PC</title>
+<meta name="description" content="Catálogo de componentes de PC de Titanware. Procesadores, placas de video, memorias, almacenamiento y más. San Francisco Solano, envíos a todo el país.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #120e1c;
+    --surface: #1b1628;
+    --surface-2: #231d34;
+    --line: #342c4a;
+    --silver: #c3c7d2;
+    --text: #eef0f5;
+    --muted: #9a96ab;
+    --violet: #8b5cf6;
+    --violet-soft: #b79cff;
+    --ok: #5fd39a;
+    --warn: #e8b85c;
+    --off: #e07a8b;
+    --cut: 18px;
+    --display: "Chakra Petch", "Segoe UI", system-ui, sans-serif;
+    --body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--body);
+    font-size: 16px;
+    line-height: 1.55;
+  }
+  img { max-width: 100%; display: block; }
+  button, input, select { font: inherit; color: inherit; }
+  a { color: var(--violet-soft); }
+  :focus-visible { outline: 2px solid var(--violet-soft); outline-offset: 2px; }
+
+  .wrap { width: min(1200px, 100% - 2.5rem); margin-inline: auto; }
+
+  /* Header */
+  .top {
+    position: sticky; top: 0; z-index: 20;
+    background: rgba(18, 14, 28, .92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  .top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-block: .8rem; }
+  .brand { display: flex; align-items: center; gap: .6rem; text-decoration: none; color: var(--text); }
+  .brand svg { width: 34px; height: 34px; }
+  .brand span { font-family: var(--display); font-weight: 700; font-size: 1.25rem; letter-spacing: .08em; }
+  .top-cta {
+    display: inline-flex; align-items: center; gap: .5rem;
+    padding: .55rem 1rem; text-decoration: none; color: var(--text);
+    border: 1px solid var(--line); font-weight: 500; font-size: .95rem;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
+  }
+  .top-cta:hover { border-color: var(--violet); }
+
+  /* Intro */
+  .intro { padding: 3.5rem 0 2rem; }
+  .intro h1 {
+    font-family: var(--display); font-weight: 700;
+    font-size: clamp(2.3rem, 6vw, 4.4rem); line-height: 1.02;
+    margin: 0 0 1rem; max-width: 14ch;
+    background: linear-gradient(180deg, #ffffff 0%, var(--silver) 55%, #8d90a0 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .intro p { color: var(--muted); max-width: 52ch; margin: 0 0 2rem; font-size: 1.05rem; }
+  .search {
+    display: flex; align-items: center; gap: .7rem;
+    background: var(--surface); border: 1px solid var(--line);
+    padding: .2rem .2rem .2rem 1rem; max-width: 620px;
+    clip-path: polygon(0 0, calc(100% - var(--cut)) 0, 100% var(--cut), 100% 100%, 0 100%);
+  }
+  .search:focus-within { border-color: var(--violet); }
+  .search svg { width: 20px; height: 20px; flex: none; color: var(--muted); }
+  .search input { flex: 1; min-width: 0; border: 0; background: none; padding: .85rem 0; outline: none; font-size: 1.05rem; }
+  .search input::placeholder { color: var(--muted); }
+
+  /* Toolbar */
+  .toolbar { position: sticky; top: 61px; z-index: 10; background: var(--bg); padding: 1rem 0; border-bottom: 1px solid var(--line); }
+  .cats { display: flex; gap: .5rem; overflow-x: auto; padding-bottom: .25rem; scrollbar-width: thin; }
+  .cat {
+    flex: none; display: inline-flex; align-items: center; gap: .45rem;
+    background: var(--surface); border: 1px solid var(--line);
+    padding: .5rem .9rem; cursor: pointer; font-size: .93rem; white-space: nowrap;
+  }
+  .cat small { color: var(--muted); font-size: .8rem; }
+  .cat:hover { border-color: var(--violet); }
+  .cat[aria-pressed="true"] { background: var(--violet); border-color: var(--violet); color: #fff; }
+  .cat[aria-pressed="true"] small { color: #e6dcff; }
+  .filters { display: flex; flex-wrap: wrap; gap: .75rem 1.25rem; align-items: center; margin-top: .85rem; font-size: .93rem; }
+  .filters label { display: inline-flex; align-items: center; gap: .5rem; color: var(--muted); }
+  .filters select {
+    background: var(--surface); border: 1px solid var(--line); padding: .4rem .6rem; color: var(--text);
+  }
+  .filters input[type="checkbox"] { accent-color: var(--violet); width: 1rem; height: 1rem; }
+  .count { margin-left: auto; color: var(--muted); }
+
+  /* Grid */
+  .grid {
+    display: grid; gap: 1.1rem;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    padding: 1.75rem 0 4rem;
+  }
+  .card {
+    position: relative; display: flex; flex-direction: column;
+    background: var(--surface); border: 0; padding: 0; text-align: left; cursor: pointer;
+    clip-path: polygon(0 0, calc(100% - var(--cut)) 0, 100% var(--cut), 100% 100%, 0 100%);
+  }
+  .card::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    border: 1px solid var(--line);
+    clip-path: inherit;
+  }
+  .card:hover { background: var(--surface-2); }
+  .card:hover .thumb svg { color: var(--violet-soft); }
+  .thumb {
+    aspect-ratio: 4 / 3; display: grid; place-items: center;
+    background:
+      radial-gradient(circle at 50% 60%, rgba(139, 92, 246, .16), transparent 65%),
+      #17122299;
+    border-bottom: 1px solid var(--line);
+    overflow: hidden;
+  }
+  .thumb img { width: 100%; height: 100%; object-fit: contain; padding: 1rem; }
+  .thumb svg { width: 38%; height: auto; color: var(--silver); transition: color .2s; }
+  .card-body { padding: 1rem 1.1rem 1.15rem; display: flex; flex-direction: column; gap: .35rem; flex: 1; }
+  .meta { display: flex; justify-content: space-between; gap: .5rem; font-size: .82rem; color: var(--muted); }
+  .card h3 { font-family: var(--display); font-weight: 600; font-size: 1.12rem; line-height: 1.25; margin: 0; }
+  .specs-short { color: var(--muted); font-size: .88rem; margin: 0; }
+  .card-foot { margin-top: auto; padding-top: .7rem; display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: .5rem; }
+  .price { font-family: var(--display); font-weight: 700; font-size: 1.2rem; }
+  .price.ask { font-size: .92rem; white-space: nowrap; color: var(--violet-soft); font-weight: 600; }
+  .stock { font-size: .8rem; white-space: nowrap; display: inline-flex; align-items: center; gap: .35rem; }
+  .stock::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+  .stock.disponible { color: var(--ok); }
+  .stock.consultar { color: var(--warn); }
+  .stock.sin-stock { color: var(--off); }
+  .badge {
+    position: absolute; top: .7rem; left: .7rem; z-index: 1;
+    background: var(--violet); color: #fff; font-size: .75rem; font-weight: 600; padding: .2rem .55rem;
+  }
+
+  .empty { grid-column: 1 / -1; text-align: center; padding: 4rem 1rem; color: var(--muted); }
+  .empty strong { display: block; color: var(--text); font-family: var(--display); font-size: 1.3rem; margin-bottom: .4rem; }
+  .empty button { margin-top: 1rem; }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: .55rem;
+    background: var(--violet); color: #fff; border: 0; cursor: pointer;
+    padding: .85rem 1.3rem; font-weight: 600; text-decoration: none;
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%);
+  }
+  .btn:hover { background: #7c4df0; }
+  .btn svg { width: 20px; height: 20px; }
+  .btn.ghost { background: transparent; border: 1px solid var(--line); color: var(--text); }
+
+  /* Modal */
+  dialog {
+    width: min(760px, 100% - 2rem); max-height: 90vh; padding: 0; border: 1px solid var(--line);
+    background: var(--surface); color: var(--text);
+  }
+  dialog::backdrop { background: rgba(8, 6, 14, .75); }
+  .modal { display: grid; grid-template-columns: 1fr 1.2fr; }
+  .modal .thumb { aspect-ratio: auto; min-height: 100%; border-bottom: 0; border-right: 1px solid var(--line); }
+  .modal-body { padding: 1.6rem; display: flex; flex-direction: column; gap: .8rem; }
+  .modal-body h2 { font-family: var(--display); font-size: 1.6rem; line-height: 1.15; margin: 0; }
+  .spec-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+  .spec-list li { padding: .5rem 0; border-bottom: 1px solid var(--line); font-size: .93rem; }
+  .close {
+    position: absolute; top: .6rem; right: .6rem; z-index: 2;
+    width: 38px; height: 38px; display: grid; place-items: center;
+    background: var(--surface-2); border: 1px solid var(--line); cursor: pointer; font-size: 1.3rem; line-height: 1;
+  }
+  .note { font-size: .82rem; color: var(--muted); margin: 0; }
+
+  /* Info strip + footer */
+  .info { border-top: 1px solid var(--line); padding: 2.5rem 0; }
+  .info .wrap { display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+  .info h4 { font-family: var(--display); font-size: 1.05rem; margin: 0 0 .3rem; }
+  .info p { margin: 0; color: var(--muted); font-size: .93rem; }
+  footer { border-top: 1px solid var(--line); padding: 1.5rem 0 5rem; color: var(--muted); font-size: .85rem; }
+  footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .5rem; }
+
+  .wa-float {
+    position: fixed; right: 1.1rem; bottom: 1.1rem; z-index: 30;
+    width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center;
+    background: #25d366; color: #fff; box-shadow: 0 6px 20px rgba(0, 0, 0, .35);
+  }
+  .wa-float svg { width: 30px; height: 30px; }
+
+  @media (max-width: 640px) {
+    .intro { padding-top: 2.2rem; }
+    .top-cta span { display: none; }
+    .count { margin-left: 0; width: 100%; }
+    .modal { grid-template-columns: 1fr; }
+    .modal .thumb { aspect-ratio: 16 / 10; border-right: 0; border-bottom: 1px solid var(--line); }
+    .grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: .75rem; }
+    .card-body { padding: .8rem; }
+    .card h3 { font-size: 1rem; }
+    .specs-short { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#" aria-label="Titanware, inicio">
+      <!-- Si tenés el logo en imagen, reemplazá este <svg> por: <img src="logo.png" alt="Titanware" height="34"> -->
+      <svg viewBox="0 0 40 40" aria-hidden="true">
+        <defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#9a9eae"/></linearGradient></defs>
+        <path d="M4 9h6l5 16 5-12 5 12 5-16h6l-8 24h-6l-2-6-2 6h-6z" fill="url(#g)"/>
+        <path d="M13 5l7 4 7-4" fill="none" stroke="#8b5cf6" stroke-width="3" stroke-linejoin="miter"/>
+      </svg>
+      <span>TITANWARE</span>
+    </a>
+    <a class="top-cta" id="topWa" href="#" target="_blank" rel="noopener">
+      <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.4.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3z"/></svg>
+      <span>Escribinos</span>
+    </a>
+  </div>
+</header>
+
+<main>
+  <section class="intro wrap">
+    <h1>Tu hardware. Tu rendimiento.</h1>
+    <p>Procesadores, placas de video, memorias y todo lo que necesitás para armar o mejorar tu PC. Elegí lo que te interesa y consultanos por WhatsApp.</p>
+    <label class="search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="Buscá por modelo o marca, ej: RTX 4060" autocomplete="off" aria-label="Buscar productos">
+    </label>
+  </section>
+
+  <section class="toolbar">
+    <div class="wrap">
+      <div class="cats" id="cats" role="group" aria-label="Categorías"></div>
+      <div class="filters">
+        <label>Marca
+          <select id="brand"><option value="">Todas</option></select>
+        </label>
+        <label>Ordenar
+          <select id="sort">
+            <option value="destacados">Destacados</option>
+            <option value="az">Nombre (A–Z)</option>
+            <option value="precio-asc">Menor precio</option>
+            <option value="precio-desc">Mayor precio</option>
+          </select>
+        </label>
+        <label><input type="checkbox" id="onlyStock"> Solo con stock</label>
+        <span class="count" id="count" aria-live="polite"></span>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap">
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <section class="info">
+    <div class="wrap">
+      <div><h4>Envíos a todo el país</h4><p>Despachamos por correo o transporte. Consultanos el costo a tu localidad.</p></div>
+      <div><h4>Servicio técnico</h4><p>Armado, mantenimiento, limpieza y diagnóstico de equipos.</p></div>
+      <div><h4>Retiro en San Francisco Solano</h4><p>Coordiná por WhatsApp y retirá en el local.</p></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© <span id="year"></span> Titanware Hardware &amp; PC · San Francisco Solano, Buenos Aires</span>
+    <a href="https://instagram.com/titanwareok" target="_blank" rel="noopener">@titanwareok</a>
+  </div>
+</footer>
+
+<a class="wa-float" id="floatWa" href="#" target="_blank" rel="noopener" aria-label="Escribinos por WhatsApp">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.4.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3z"/></svg>
+</a>
+
+<dialog id="modal" aria-labelledby="mTitle"></dialog>
+
+<script>
+/* =========================================================
+   CONFIGURACIÓN — lo único que necesitás tocar
+   ========================================================= */
+
+// 1) Número de WhatsApp del local: código de país + área + número, sin "+", espacios ni 15.
+//    Ejemplo para un celular de Buenos Aires: 5491123456789
+const WHATSAPP = "5491100000000";
+
+// 2) (Opcional) Link de Google Sheets publicado como CSV.
+//    Si lo dejás vacío, se usan los productos de la lista de abajo.
+//    Columnas de la planilla: nombre, marca, categoria, specs, precio, stock, imagen, destacado
+//    - specs: separadas con |   (ej: 6 núcleos | 12 hilos | AM5)
+//    - precio: solo números (ej: 350000) o vacío para "Consultar precio"
+//    - stock: disponible / consultar / sin stock
+//    - destacado: si / no
+const SHEET_CSV_URL = "";
+
+// 3) Productos (se usan si no hay planilla). Precio vacío ("") = "Consultar precio".
+const PRODUCTOS = [
+  { nombre: "Ryzen 5 7600", marca: "AMD", categoria: "Procesadores", specs: ["6 núcleos / 12 hilos", "Hasta 5.1 GHz", "Socket AM5", "Incluye cooler"], precio: "", stock: "disponible", imagen: "", destacado: "si" },
+  { nombre: "Ryzen 7 7800X3D", marca: "AMD", categoria: "Procesadores", specs: ["8 núcleos / 16 hilos", "96 MB de caché 3D V-Cache", "Socket AM5"], precio: "", stock: "consultar", imagen: "", destacado: "si" },
+  { nombre: "Core i5-14400F", marca: "Intel", categoria: "Procesadores", specs: ["10 núcleos / 16 hilos", "Hasta 4.7 GHz", "Socket LGA1700", "Requiere placa de video"], precio: "", stock: "disponible", imagen: "", destacado: "" },
+  { nombre: "GeForce RTX 4060 8GB", marca: "NVIDIA", categoria: "Placas de video", specs: ["8 GB GDDR6", "DLSS 3", "Consumo 115 W"], precio: "", stock: "disponible", imagen: "", destacado: "si" },
+  { nombre: "GeForce RTX 4070 Super 12GB", marca: "NVIDIA", categoria: "Placas de video", specs: ["12 GB GDDR6X", "Ideal para 1440p", "DLSS 3"], precio: "", stock: "consultar", imagen: "", destacado: "" },
+  { nombre: "Radeon RX 7800 XT 16GB", marca: "AMD", categoria: "Placas de video", specs: ["16 GB GDDR6", "Ideal para 1440p", "FSR 3"], precio: "", stock: "sin stock", imagen: "", destacado: "" },
+  { nombre: "Fury Beast 16GB DDR5 5600", marca: "Kingston", categoria: "Memorias RAM", specs: ["1 x 16 GB", "DDR5 5600 MHz", "Perfil XMP / EXPO"], precio: "", stock: "disponible", imagen: "", destacado: "" },
+  { nombre: "Vengeance 32GB (2x16) DDR5 6000", marca: "Corsair", categoria: "Memorias RAM", specs: ["Kit 2 x 16 GB", "DDR5 6000 MHz", "CL36"], precio: "", stock: "disponible", imagen: "", destacado: "" },
+  { nombre: "NV2 1TB NVMe", marca: "Kingston", categoria: "Almacenamiento", specs: ["M.2 2280 PCIe 4.0", "Hasta 3500 MB/s"], precio: "", stock: "disponible", imagen: "", destacado: "" },
+  { nombre: "990 Pro 2TB NVMe", marca: "Samsung", categoria: "Almacenamiento", specs: ["M.2 2280 PCIe 4.0", "Hasta 7450 MB/s"], precio: "", stock: "consultar", imagen: "", destacado: "" },
+  { nombre: "B650M Aorus Elite AX", marca: "Gigabyte", categoria: "Motherboards", specs: ["Socket AM5", "DDR5", "Wi-Fi 6E", "Micro-ATX"], precio: "", stock: "disponible", imagen: "", destacado: "" },
+  { nombre: "Prime B760M-A", marca: "ASUS", categoria: "Motherboards", specs: ["Socket LGA1700", "DDR5", "Micro-ATX"], precio: "", stock: "disponible", imagen: "", destacado: "" },
+  { nombre: "RM750e 750W", marca: "Corsair", categoria: "Fuentes", specs: ["80 Plus Gold", "Full modular", "ATX 3.0"], precio: "", stock: "disponible", imagen: "", destacado: "" },
+  { nombre: "MWE 650 Bronze V2", marca: "Cooler Master", categoria: "Fuentes", specs: ["650 W", "80 Plus Bronze"], precio: "", stock: "disponible", imagen: "", destacado: "" },
+  { nombre: "Lancool 216", marca: "Lian Li", categoria: "Gabinetes", specs: ["Mid tower ATX", "2 fans de 160 mm incluidos", "Frente mesh"], precio: "", stock: "consultar", imagen: "", destacado: "" },
+  { nombre: "AK400", marca: "DeepCool", categoria: "Refrigeración", specs: ["Cooler de aire", "4 heatpipes", "Compatible AM5 / LGA1700"], precio: "", stock: "disponible", imagen: "", destacado: "" },
+];
+
+/* =========================================================
+   A partir de acá no hace falta tocar nada
+   ========================================================= */
+
+const ICONS = {
+  "Procesadores": '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="16" y="16" width="32" height="32"/><rect x="24" y="24" width="16" height="16"/><path d="M22 8v8M32 8v8M42 8v8M22 48v8M32 48v8M42 48v8M8 22h8M8 32h8M8 42h8M48 22h8M48 32h8M48 42h8"/></svg>',
+  "Placas de video": '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 18h52v26H6zM12 44v6h20v-6"/><circle cx="22" cy="31" r="8"/><circle cx="42" cy="31" r="8"/></svg>',
+  "Memorias RAM": '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 20h52v20H6z"/><path d="M13 26h6v8h-6zM23 26h6v8h-6zM35 26h6v8h-6zM45 26h6v8h-6zM10 40v6M16 40v6M22 40v6M28 40v6M36 40v6M42 40v6M48 40v6M54 40v6"/></svg>',
+  "Almacenamiento": '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 24h52v16H6z"/><path d="M12 29h14v6H12zM32 29h8v6h-8zM52 28v8"/></svg>',
+  "Motherboards": '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10 8h44v48H10z"/><path d="M18 16h14v14H18zM40 14v22M46 14v22M18 38h28M18 46h20"/></svg>',
+  "Fuentes": '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M8 16h48v32H8z"/><circle cx="26" cy="32" r="10"/><path d="M26 22v20M16 32h20M44 24h6M44 30h6M44 40l4-6h-4l4-6"/></svg>',
+  "Gabinetes": '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6h28v52H18z"/><path d="M24 14h16M24 20h16"/><circle cx="32" cy="38" r="8"/></svg>',
+  "Refrigeración": '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10 10h44v44H10z"/><circle cx="32" cy="32" r="4"/><path d="M32 28c-2-8 4-14 10-12-2 6-6 10-10 12zM36 32c8-2 14 4 12 10-6-2-10-6-12-10zM32 36c2 8-4 14-10 12 2-6 6-10 10-12zM28 32c-8 2-14-4-12-10 6 2 10 6 12 10z"/></svg>',
+  "default": '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10 14h44v30H10zM24 50h16M32 44v6"/></svg>'
+};
+const WA_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.4.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3z"/></svg>';
+
+const $ = (s) => document.querySelector(s);
+const state = { q: "", cat: "Todos", brand: "", sort: "destacados", onlyStock: false };
+let items = [];
+
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const norm = (s) => String(s ?? "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+const money = new Intl.NumberFormat("es-AR", { style: "currency", currency: "ARS", maximumFractionDigits: 0 });
+const waLink = (text) => `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(text)}`;
+
+function clean(p, i) {
+  const specs = Array.isArray(p.specs) ? p.specs : String(p.specs || "").split("|");
+  const precio = Number(String(p.precio ?? "").replace(/[^\d]/g, "")) || null;
+  let stock = norm(p.stock).trim();
+  stock = stock.startsWith("sin") ? "sin stock" : stock.startsWith("disp") ? "disponible" : "consultar";
+  return {
+    id: i,
+    nombre: String(p.nombre || "").trim(),
+    marca: String(p.marca || "").trim(),
+    categoria: String(p.categoria || "Otros").trim(),
+    specs: specs.map((s) => s.trim()).filter(Boolean),
+    precio, stock,
+    imagen: String(p.imagen || "").trim(),
+    destacado: ["si", "sí", "true", "1", "x"].includes(norm(p.destacado).trim()),
+  };
+}
+
+function parseCSV(text) {
+  const rows = []; let row = [], cell = "", q = false;
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (q) {
+      if (c === '"' && text[i + 1] === '"') { cell += '"'; i++; }
+      else if (c === '"') q = false;
+      else cell += c;
+    } else if (c === '"') q = true;
+    else if (c === ",") { row.push(cell); cell = ""; }
+    else if (c === "\n" || c === "\r") {
+      if (c === "\r" && text[i + 1] === "\n") i++;
+      row.push(cell); rows.push(row); row = []; cell = "";
+    } else cell += c;
+  }
+  if (cell || row.length) { row.push(cell); rows.push(row); }
+  const head = rows.shift().map((h) => norm(h).trim());
+  return rows.filter((r) => r.some((c) => c.trim())).map((r) => Object.fromEntries(head.map((h, i) => [h, r[i] ?? ""])));
+}
+
+const stockLabel = { "disponible": "Disponible", "consultar": "A consultar", "sin stock": "Sin stock" };
+const thumb = (p) => p.imagen
+  ? `<img src="${esc(p.imagen)}" alt="${esc(p.nombre)}" loading="lazy">`
+  : (ICONS[p.categoria] || ICONS.default);
+const priceHtml = (p) => p.precio
+  ? `<span class="price">${money.format(p.precio)}</span>`
+  : `<span class="price ask">Consultar precio</span>`;
+
+function renderCats() {
+  const counts = items.reduce((a, p) => (a[p.categoria] = (a[p.categoria] || 0) + 1, a), {});
+  const cats = ["Todos", ...Object.keys(counts)];
+  $("#cats").innerHTML = cats.map((c) =>
+    `<button class="cat" type="button" data-cat="${esc(c)}" aria-pressed="${c === state.cat}">${esc(c)} <small>${c === "Todos" ? items.length : counts[c]}</small></button>`
+  ).join("");
+}
+
+function renderBrands() {
+  const brands = [...new Set(items.map((p) => p.marca).filter(Boolean))].sort((a, b) => a.localeCompare(b));
+  $("#brand").innerHTML = `<option value="">Todas</option>` + brands.map((b) => `<option>${esc(b)}</option>`).join("");
+}
+
+function filtered() {
+  const q = norm(state.q).split(/\s+/).filter(Boolean);
+  let list = items.filter((p) => {
+    if (state.cat !== "Todos" && p.categoria !== state.cat) return false;
+    if (state.brand && p.marca !== state.brand) return false;
+    if (state.onlyStock && p.stock === "sin stock") return false;
+    const hay = norm([p.nombre, p.marca, p.categoria, ...p.specs].join(" "));
+    return q.every((w) => hay.includes(w));
+  });
+  const byPrice = (dir) => (a, b) => (a.precio == null) - (b.precio == null) || dir * ((a.precio || 0) - (b.precio || 0));
+  const sorters = {
+    destacados: (a, b) => b.destacado - a.destacado || (a.stock === "sin stock") - (b.stock === "sin stock") || a.id - b.id,
+    az: (a, b) => a.nombre.localeCompare(b.nombre),
+    "precio-asc": byPrice(1),
+    "precio-desc": byPrice(-1),
+  };
+  return list.sort(sorters[state.sort]);
+}
+
+function render() {
+  const list = filtered();
+  $("#count").textContent = `${list.length} ${list.length === 1 ? "producto" : "productos"}`;
+  if (!list.length) {
+    $("#grid").innerHTML = `<div class="empty"><strong>No encontramos productos con esos filtros</strong>Probá con otra búsqueda o consultanos: capaz lo conseguimos.<br><button class="btn ghost" type="button" id="reset">Ver todo el catálogo</button></div>`;
+    return;
+  }
+  $("#grid").innerHTML = list.map((p) => `
+    <button class="card" type="button" data-id="${p.id}" aria-label="${esc(p.marca + " " + p.nombre)}, ver detalle">
+      ${p.destacado ? '<span class="badge">Destacado</span>' : ""}
+      <div class="thumb">${thumb(p)}</div>
+      <div class="card-body">
+        <div class="meta"><span>${esc(p.marca)}</span><span>${esc(p.categoria)}</span></div>
+        <h3>${esc(p.nombre)}</h3>
+        <p class="specs-short">${esc(p.specs.slice(0, 2).join(", "))}</p>
+        <div class="card-foot">${priceHtml(p)}<span class="stock ${p.stock.replace(" ", "-")}">${stockLabel[p.stock]}</span></div>
+      </div>
+    </button>`).join("");
+}
+
+function openProduct(id) {
+  const p = items.find((x) => x.id === id);
+  if (!p) return;
+  const msg = `Hola Titanware! Quería consultar por: ${p.marca} ${p.nombre}. ¿Tienen stock y qué precio tiene?`;
+  const m = $("#modal");
+  m.innerHTML = `
+    <button class="close" type="button" aria-label="Cerrar" data-close>×</button>
+    <div class="modal">
+      <div class="thumb">${thumb(p)}</div>
+      <div class="modal-body">
+        <div class="meta"><span>${esc(p.marca)} · ${esc(p.categoria)}</span></div>
+        <h2 id="mTitle">${esc(p.nombre)}</h2>
+        <div class="card-foot" style="margin:0;padding:0">${priceHtml(p)}<span class="stock ${p.stock.replace(" ", "-")}">${stockLabel[p.stock]}</span></div>
+        ${p.specs.length ? `<ul class="spec-list">${p.specs.map((s) => `<li>${esc(s)}</li>`).join("")}</ul>` : ""}
+        <a class="btn" href="${waLink(msg)}" target="_blank" rel="noopener">${WA_ICON} Consultar por WhatsApp</a>
+        <p class="note">Precios y stock sujetos a cambios. Confirmalos por WhatsApp antes de tu compra.</p>
+      </div>
+    </div>`;
+  m.showModal();
+}
+
+// Eventos
+$("#q").addEventListener("input", (e) => { state.q = e.target.value; render(); });
+$("#brand").addEventListener("change", (e) => { state.brand = e.target.value; render(); });
+$("#sort").addEventListener("change", (e) => { state.sort = e.target.value; render(); });
+$("#onlyStock").addEventListener("change", (e) => { state.onlyStock = e.target.checked; render(); });
+$("#cats").addEventListener("click", (e) => {
+  const b = e.target.closest(".cat"); if (!b) return;
+  state.cat = b.dataset.cat; renderCats(); render();
+});
+$("#grid").addEventListener("click", (e) => {
+  if (e.target.closest("#reset")) {
+    Object.assign(state, { q: "", cat: "Todos", brand: "", onlyStock: false });
+    $("#q").value = ""; $("#brand").value = ""; $("#onlyStock").checked = false;
+    renderCats(); render(); return;
+  }
+  const c = e.target.closest(".card"); if (c) openProduct(Number(c.dataset.id));
+});
+$("#modal").addEventListener("click", (e) => {
+  if (e.target.closest("[data-close]") || e.target === e.currentTarget) e.currentTarget.close();
+});
+
+// Inicio
+const general = waLink("Hola Titanware! Quería hacer una consulta.");
+$("#topWa").href = general; $("#floatWa").href = general;
+$("#year").textContent = new Date().getFullYear();
+
+async function init() {
+  let data = PRODUCTOS;
+  if (SHEET_CSV_URL) {
+    try {
+      const res = await fetch(SHEET_CSV_URL, { cache: "no-store" });
+      if (!res.ok) throw new Error(res.status);
+      data = parseCSV(await res.text());
+    } catch (err) {
+      console.warn("No se pudo leer la planilla, se usan los productos de ejemplo.", err);
+    }
+  }
+  items = data.map(clean).filter((p) => p.nombre);
+  renderCats(); renderBrands(); render();
+}
+init();
+</script>
+</body>
+</html>
