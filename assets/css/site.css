@@ -58,8 +58,10 @@ svg { flex: none; }
 .top { height: 64px; border-bottom: 1px solid var(--line); }
 .top .wrap { height: 100%; display: flex; align-items: center; gap: 1.5rem; }
 .brand { display: flex; align-items: center; gap: .6rem; text-decoration: none; color: var(--text); flex: none; }
-.brand .logo { width: 41px; height: 26px; }
-.brand span { font-family: var(--brand-font); font-weight: 700; font-size: 1.15rem; letter-spacing: .1em; }
+.brand-emblem { height: 38px; width: auto; }
+.brand-word { height: 17px; width: auto; }
+.brand { gap: .55rem; }
+
 .hsearch {
   flex: 1; max-width: 640px; margin-inline: auto; display: flex; align-items: center; gap: .6rem;
   background: var(--surface); border: 1px solid var(--line-2); border-radius: 999px; padding: 0 .4rem 0 1rem;
@@ -184,10 +186,10 @@ svg { flex: none; }
 .cz-chip-in { fill: none; stroke: rgba(138, 0, 255, .22); stroke-width: 1; stroke-dasharray: 4 6; }
 .cz-dot { fill: rgba(176, 38, 255, .6); }
 @keyframes flow { to { stroke-dashoffset: 0; } }
-.glow { width: 46%; height: 46%; border-radius: 50%; background: rgba(91, 0, 214, .35); filter: blur(70px); }
+.glow { width: 70%; height: 55%; border-radius: 50%; background: rgba(91, 0, 214, .35); filter: blur(70px); }
 .hero-logo {
-  position: relative; width: 38%; height: auto; margin-top: -10%;
-  filter: drop-shadow(0 12px 40px rgba(91, 0, 214, .45));
+  position: relative; width: 84%; height: auto;
+  filter: drop-shadow(0 16px 50px rgba(91, 0, 214, .5));
   animation: float 6s ease-in-out infinite;
 }
 .hero-word { align-self: end; margin-bottom: 29%; text-align: center; position: relative; }
@@ -386,8 +388,9 @@ dialog::backdrop { background: rgba(5, 5, 9, .75); backdrop-filter: blur(4px); -
 /* Footer */
 footer { border-top: 1px solid var(--line); padding: 2rem 0 5.5rem; color: var(--muted); font-size: .85rem; }
 footer .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; }
-footer .brand .logo { width: 33px; height: 21px; }
-footer .brand span { font-size: .95rem; }
+footer .brand-emblem { height: 30px; }
+footer .brand-word { height: 13px; }
+
 .foot-links { display: flex; flex-wrap: wrap; gap: 1.25rem; }
 .foot-links a { color: var(--text-2); text-decoration: none; display: inline-flex; align-items: center; gap: .4rem; }
 .foot-links a:hover { color: var(--text); }
@@ -690,3 +693,4 @@ dialog.drawer[open] { display: flex; animation: slide .25s ease-out; }
 a.cat { text-decoration: none; }
 .opt .badge svg { width: 12px; height: 12px; }
 .sum-row .icon-btn { margin-top: -.15rem; }
+@media (max-width: 640px) { .brand-emblem { height: 32px; } .brand-word { height: 14px; } }
