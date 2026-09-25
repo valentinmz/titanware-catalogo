@@ -188,14 +188,22 @@
   /* =========================================================
      PCs ARMADAS
      ========================================================= */
+  // Imagen de una PC armada: su foto propia, o la del gabinete con el logo del procesador, o un ícono
+  function pcArt(pc, s) {
+    const cpuLogo = s.cpuMarca ? TW.logoHtml(s.cpuMarca, TW.LOGOS[s.cpuMarca]) : "";
+    if (pc.imagen) return { html: `<img src="${esc(pc.imagen)}" alt="${esc(pc.nombre)}" loading="lazy">`, photo: true };
+    const gab = TW.pcLines(pc, data.byId).find((l) => l.p.categoria === "Gabinetes" && l.p.imagen);
+    if (gab) return { html: `<img src="${esc(gab.p.imagen)}" alt="${esc(pc.nombre)}" loading="lazy">${cpuLogo ? `<span class="cpu-badge">${cpuLogo}</span>` : ""}`, photo: true };
+    return { html: `<span class="case">${TW.ICONS.Gabinetes}</span>${cpuLogo}`, photo: false };
+  }
+
   function pcCard(pc) {
     const s = TW.pcSummary(pc, data.byId), price = TW.pcPrice(pc, data.byId);
-    const art = pc.imagen ? `<img src="${esc(pc.imagen)}" alt="${esc(pc.nombre)}" loading="lazy">`
-      : `<span class="case">${TW.ICONS.Gabinetes}</span>${s.cpuMarca ? TW.logoHtml(s.cpuMarca, TW.LOGOS[s.cpuMarca]) : ""}`;
+    const { html: art, photo } = pcArt(pc, s);
     const li = (ico, t) => (t ? `<li>${ico}<span>${esc(t)}</span></li>` : "");
     return `
     <article class="pc-card">
-      <button class="pc-thumb" type="button" data-pc="${esc(pc.id)}" aria-label="Ver ${esc(pc.nombre)}">${pc.destacado ? `<span class="badge">${U.star} Destacada</span>` : ""}${art}</button>
+      <button class="pc-thumb${photo ? " photo" : ""}" type="button" data-pc="${esc(pc.id)}" aria-label="Ver ${esc(pc.nombre)}">${pc.destacado ? `<span class="badge">${U.star} Destacada</span>` : ""}${art}</button>
       <div class="pc-body">
         <div class="meta"><span>${esc(pc.categoria)}</span></div>
         <h3>${esc(pc.nombre)}</h3>
@@ -228,7 +236,7 @@
     m.innerHTML = `
       <button class="close" type="button" aria-label="Cerrar" data-close>${U.close}</button>
       <div class="modal">
-        <div class="thumb">${pc.imagen ? `<img src="${esc(pc.imagen)}" alt="${esc(pc.nombre)}">` : `<span class="t-bg">${TW.ICONS.Gabinetes}</span>${s.cpuMarca ? TW.logoHtml(s.cpuMarca, TW.LOGOS[s.cpuMarca]) : ""}`}</div>
+        <div class="thumb">${(() => { const a = pcArt(pc, s); return a.photo ? a.html.replace(/<span class="cpu-badge">[\s\S]*<\/span>$/, "") : `<span class="t-bg">${TW.ICONS.Gabinetes}</span>${s.cpuMarca ? TW.logoHtml(s.cpuMarca, TW.LOGOS[s.cpuMarca]) : ""}`; })()}</div>
         <div class="modal-body">
           <div class="meta"><span>PC Armada · ${esc(pc.categoria)}</span></div>
           <h2 id="mTitle">${esc(pc.nombre)}</h2>

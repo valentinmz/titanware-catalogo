@@ -274,7 +274,11 @@ svg { flex: none; }
   border-bottom: 1px solid var(--line);
   overflow: hidden;
 }
-.thumb img { width: 100%; height: 100%; object-fit: contain; padding: 1.25rem; }
+.thumb { position: relative; }
+.thumb img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; padding: 1.5rem; transition: transform .35s; }
+.thumb:has(> img) { background: #fff; }
+.card:hover .thumb img, .opt:hover .thumb img { transform: scale(1.04); }
+.modal .thumb:has(> img) img { padding: 2.5rem; }
 .thumb svg { width: 34%; height: auto; color: var(--text-2); transition: color .25s, transform .25s; }
 .thumb > .t-bg, .thumb > .t-logo, .thumb > .t-word { grid-area: 1 / 1; }
 .thumb .t-bg { width: 100%; height: 100%; display: grid; place-items: center; opacity: .07; }
@@ -480,7 +484,13 @@ main { min-height: 60vh; }
   position: relative; aspect-ratio: 16 / 10; display: grid; place-items: center; overflow: hidden; cursor: pointer; border: 0; padding: 0; width: 100%;
   background: radial-gradient(circle at 50% 60%, rgba(138, 0, 255, .22), transparent 65%), var(--bg-2); border-bottom: 1px solid var(--line);
 }
-.pc-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.pc-thumb img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; padding: 1.25rem; }
+.pc-thumb.photo { background: #fff; }
+.pc-thumb .cpu-badge { position: relative; z-index: 1; }
+.pc-thumb .badge { z-index: 2; }
+.pc-thumb.photo .cpu-badge { align-self: end; justify-self: end; margin: 0 .9rem .9rem 0; background: rgba(5, 5, 9, .85); border-radius: 8px; padding: .4rem .6rem; display: grid; place-items: center; width: 84px; height: 42px; }
+.pc-thumb.photo .cpu-badge .t-logo { width: 100%; margin: 0; }
+.pc-thumb.photo .cpu-badge .t-word { margin: 0; font-size: .7rem; }
 .pc-thumb > * { grid-area: 1 / 1; }
 .pc-thumb .case { width: 30%; color: var(--text-2); opacity: .9; }
 .pc-thumb .case svg { width: 100%; height: auto; }
@@ -505,7 +515,8 @@ main { min-height: 60vh; }
 .mini .t-bg { opacity: .25; display: grid; place-items: center; width: 100%; height: 100%; }
 .mini .t-logo { width: 78%; }
 .mini .t-word { font-size: .5rem; padding: 0 .15rem; letter-spacing: .04em; }
-.mini img { width: 100%; height: 100%; object-fit: contain; }
+.mini img { width: 100%; height: 100%; object-fit: contain; padding: 2px; }
+.mini:has(> img) { background: #fff; }
 .comp-list small { display: block; color: var(--muted); font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; font-weight: 600; }
 .comp-list .p { font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .modal-actions { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; }
