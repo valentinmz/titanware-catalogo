@@ -1,0 +1,733 @@
+/* =========================================================
+   Titanware · panel de administración
+   Edita data/catalogo.json y data/pcs.json y los publica en el
+   repositorio de GitHub con un token del dueño (queda solo en su navegador).
+   ========================================================= */
+(function () {
+  const CFG = window.TW_CONFIG, U = TW.UI, esc = TW.esc, norm = TW.norm;
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const FILES = { catalogo: "data/catalogo.json", pcs: "data/pcs.json" };
+  const AUTH_KEY = "tw_admin_github";
+
+  const S = {
+    cat: [], pcs: [],
+    sha: { catalogo: null, pcs: null },
+    dirty: { catalogo: false, pcs: false },
+    changedIds: new Set(),
+    conn: { owner: CFG.github.owner, repo: CFG.github.repo, branch: CFG.github.branch || "main", token: "" },
+    online: false, loaded: false,
+    tab: "productos",
+    f: { q: "", cat: "" },
+    imp: null,
+  };
+  try { Object.assign(S.conn, JSON.parse(localStorage.getItem(AUTH_KEY)) || {}); } catch {}
+
+  /* ---------- Utilidades ---------- */
+  let toastTimer;
+  function toast(msg, ok = true) {
+    const t = $("#toast");
+    t.innerHTML = `${ok ? U.check : U.warn}<span>${esc(msg)}</span>`;
+    t.querySelector("svg").style.color = ok ? "var(--ok)" : "var(--warn)";
+    t.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.remove("show"), 4200);
+  }
+  const toB64 = (str) => {
+    const bytes = new TextEncoder().encode(str); let bin = "";
+    for (let i = 0; i < bytes.length; i += 0x8000) bin += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000));
+    return btoa(bin);
+  };
+  const fromB64 = (b64) => new TextDecoder().decode(Uint8Array.from(atob(b64.replace(/\s/g, "")), (c) => c.charCodeAt(0)));
+  const built = () => TW.indexData(S.cat, S.pcs);
+  const markDirty = (file) => { S.dirty[file] = true; updatePublish(); };
+  const uniqueId = (base, taken) => { let id = base || "item", n = 2; while (taken.has(id)) id = `${base}-${n++}`; return id; };
+  const cleanName = (s) => norm(s).replace(/\s+/g, " ").trim();
+
+  /* ---------- GitHub ---------- */
+  async function gh(path, opts = {}) {
+    const { owner, repo, token } = S.conn;
+    const res = await fetch(`https://api.github.com/repos/${owner}/${repo}${path}`, {
+      ...opts,
+      headers: { Authorization: `Bearer ${token}`, Accept: "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28", ...(opts.headers || {}) },
+    });
+    const body = await res.json().catch(() => ({}));
+    if (!res.ok) { const e = new Error(body.message || res.statusText); e.status = res.status; throw e; }
+    return body;
+  }
+  const getFile = async (path) => {
+    const f = await gh(`/contents/${path}?ref=${encodeURIComponent(S.conn.branch)}&t=${Date.now()}`);
+    return { text: fromB64(f.content), sha: f.sha };
+  };
+  const putFile = (path, b64, sha, message) =>
+    gh(`/contents/${path}`, { method: "PUT", body: JSON.stringify({ message, content: b64, branch: S.conn.branch, ...(sha ? { sha } : {}) }) });
+
+  async function connect(conn) {
+    S.conn = { ...S.conn, ...conn };
+    const repo = await gh("");
+    if (!repo.permissions || !repo.permissions.push) throw new Error("El token no tiene permiso para escribir en el repositorio.");
+    localStorage.setItem(AUTH_KEY, JSON.stringify(S.conn));
+    S.online = true;
+    await loadData();
+  }
+  function disconnect() {
+    localStorage.removeItem(AUTH_KEY);
+    S.conn.token = ""; S.online = false;
+    render();
+  }
+
+  async function loadData() {
+    if (S.online) {
+      const [c, p] = await Promise.all([getFile(FILES.catalogo), getFile(FILES.pcs).catch(() => ({ text: "[]", sha: null }))]);
+      S.cat = JSON.parse(c.text); S.pcs = JSON.parse(p.text);
+      S.sha = { catalogo: c.sha, pcs: p.sha };
+    } else {
+      const v = Date.now();
+      S.cat = await fetch(`${FILES.catalogo}?v=${v}`).then((r) => r.json());
+      S.pcs = await fetch(`${FILES.pcs}?v=${v}`).then((r) => r.json()).catch(() => []);
+    }
+    S.dirty = { catalogo: false, pcs: false }; S.changedIds.clear();
+    S.loaded = true;
+    render(); updatePublish();
+  }
+
+  async function publish() {
+    if (!S.online) { toast("Conectá el panel a GitHub para publicar (pestaña Ajustes).", false); return; }
+    const btn = $("#publishBtn"); btn.disabled = true; btn.textContent = "Publicando…";
+    const stamp = new Date().toLocaleString("es-AR");
+    try {
+      for (const key of ["catalogo", "pcs"]) {
+        if (!S.dirty[key]) continue;
+        const json = JSON.stringify(key === "catalogo" ? S.cat : S.pcs, null, 2) + "\n";
+        const r = await putFile(FILES[key], toB64(json), S.sha[key], `Panel: actualización de ${key === "catalogo" ? "productos" : "PCs armadas"} (${stamp})`);
+        S.sha[key] = r.content.sha; S.dirty[key] = false;
+      }
+      S.changedIds.clear();
+      toast("¡Publicado! La tienda se actualiza en 1 o 2 minutos.");
+      render();
+    } catch (e) {
+      if (e.status === 409 || e.status === 422) toast("Los datos cambiaron en GitHub desde que abriste el panel. Descargá tus cambios (Ajustes) y recargá.", false);
+      else toast(`No se pudo publicar: ${e.message}`, false);
+    }
+    updatePublish();
+  }
+
+  // Sube una foto (achicada a 900 px) a img/productos y devuelve la ruta
+  async function uploadImage(file, baseName) {
+    if (!S.online) throw new Error("Conectá el panel a GitHub para subir fotos, o pegá el link de una imagen.");
+    const img = await new Promise((ok, bad) => { const i = new Image(); i.onload = () => ok(i); i.onerror = bad; i.src = URL.createObjectURL(file); });
+    const scale = Math.min(1, 900 / Math.max(img.width, img.height));
+    const c = document.createElement("canvas"); c.width = Math.round(img.width * scale); c.height = Math.round(img.height * scale);
+    c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+    const blob = await new Promise((ok) => c.toBlob(ok, "image/webp", 0.86));
+    const b64 = await new Promise((ok) => { const fr = new FileReader(); fr.onload = () => ok(String(fr.result).split(",")[1]); fr.readAsDataURL(blob); });
+    const path = `img/productos/${TW.slug(baseName).slice(0, 50)}-${Date.now().toString(36)}.webp`;
+    await putFile(path, b64, null, `Panel: foto ${baseName}`);
+    return path;
+  }
+
+  function updatePublish() {
+    const n = (S.dirty.catalogo ? 1 : 0) + (S.dirty.pcs ? 1 : 0);
+    const btn = $("#publishBtn");
+    btn.disabled = !n || !S.online;
+    btn.textContent = n ? "Publicar cambios" : "Sin cambios";
+    $("#publishBar").hidden = !n;
+    $("#publishMsg").textContent = S.online ? "Tenés cambios sin publicar" : "Tenés cambios sin publicar. Conectá GitHub o descargá los archivos.";
+    $("#publishBar [data-publish]").textContent = S.online ? "Publicar ahora" : "Descargar archivos";
+    const pill = $("#connPill");
+    pill.className = "pill " + (S.online ? "on" : "off");
+    pill.querySelector("span").textContent = S.online ? `Conectado · ${S.conn.owner}/${S.conn.repo}` : "Sin conexión a GitHub";
+  }
+  addEventListener("beforeunload", (e) => { if (S.dirty.catalogo || S.dirty.pcs) { e.preventDefault(); e.returnValue = ""; } });
+
+  function download(key) {
+    const json = JSON.stringify(key === "catalogo" ? S.cat : S.pcs, null, 2) + "\n";
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([json], { type: "application/json" }));
+    a.download = FILES[key].split("/").pop();
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+  }
+
+  /* =========================================================
+     RENDER
+     ========================================================= */
+  function render() {
+    const app = $("#app");
+    if (!S.loaded) { app.innerHTML = connectView(); return; }
+    const tabs = [["productos", "Productos", S.cat.length], ["pcs", "PCs armadas", S.pcs.length], ["importar", "Actualizar precios", ""], ["ajustes", "Ajustes", ""]];
+    app.innerHTML = `
+      <div class="adm-tabs" role="tablist">${tabs.map(([k, l, n]) => `<button type="button" role="tab" data-tab="${k}" aria-selected="${S.tab === k}">${l}${n !== "" ? `<b>${n}</b>` : ""}</button>`).join("")}</div>
+      <div id="tabBody"></div>`;
+    renderTab();
+  }
+  function renderTab() {
+    const body = $("#tabBody");
+    if (!body) return;
+    if (S.tab === "productos") body.innerHTML = productsView();
+    if (S.tab === "pcs") body.innerHTML = pcsView();
+    if (S.tab === "importar") body.innerHTML = importView();
+    if (S.tab === "ajustes") body.innerHTML = settingsView();
+    if (S.tab === "productos") renderProductRows();
+  }
+
+  /* ---------- Conexión ---------- */
+  function connectView() {
+    return `
+      <div class="panel-card connect">
+        <h2>Conectá el panel con GitHub</h2>
+        <p>La tienda guarda sus productos en el repositorio de GitHub. Para que este panel pueda publicar cambios, necesita un <strong>token</strong>: una llave que se crea una sola vez y queda guardada solo en este navegador.</p>
+        <details>
+          <summary style="cursor:pointer;color:var(--violet-soft);font-weight:600;font-size:.9rem;margin-bottom:.5rem">Cómo crear el token (2 minutos)</summary>
+          <ol>
+            <li>Entrá a <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">github.com/settings/personal-access-tokens/new</a> con la cuenta dueña del repositorio.</li>
+            <li>Nombre: <code>Panel Titanware</code>. Vencimiento: el que prefieras (por ejemplo 1 año).</li>
+            <li>En <strong>Repository access</strong> elegí <em>Only select repositories</em> y marcá <code>${esc(S.conn.repo)}</code>.</li>
+            <li>En <strong>Permissions → Repository permissions</strong>, poné <strong>Contents</strong> en <em>Read and write</em>.</li>
+            <li>Tocá <strong>Generate token</strong>, copialo y pegalo acá abajo.</li>
+          </ol>
+        </details>
+        <form id="connForm" class="form-grid">
+          <label class="fld">Usuario u organización<input name="owner" value="${esc(S.conn.owner)}" required></label>
+          <label class="fld">Repositorio<input name="repo" value="${esc(S.conn.repo)}" required></label>
+          <label class="fld">Rama<input name="branch" value="${esc(S.conn.branch)}" required></label>
+          <label class="fld">Token<input name="token" type="password" value="${esc(S.conn.token)}" placeholder="github_pat_…" autocomplete="off" required></label>
+          <div class="full row-actions" style="margin:0">
+            <button class="btn" type="submit">Conectar y cargar productos</button>
+            <button class="btn ghost" type="button" data-offline>Entrar sin conexión</button>
+            <span class="hint">Sin conexión podés editar todo y descargar los archivos para subirlos a mano.</span>
+          </div>
+        </form>
+      </div>`;
+  }
+
+  function settingsView() {
+    return `
+      <div class="panel-card" style="max-width:820px">
+        <h2>Conexión</h2>
+        ${S.online ? `<p>Conectado a <strong>${esc(S.conn.owner)}/${esc(S.conn.repo)}</strong> (rama ${esc(S.conn.branch)}). Los cambios se publican directo en la tienda.</p>
+          <div class="row-actions"><button class="btn ghost" type="button" data-reload>Recargar desde GitHub</button><button class="btn ghost" type="button" data-disconnect>Desconectar este navegador</button></div>`
+        : `<p>Estás trabajando sin conexión: podés editar y descargar los archivos, pero no publicar.</p><div class="row-actions"><button class="btn" type="button" data-goconnect>Conectar con GitHub</button></div>`}
+      </div>
+      <div class="panel-card" style="max-width:820px;margin-top:1rem">
+        <h2>Copia de los datos</h2>
+        <p>Descargá los archivos de la tienda. Sirven como respaldo o para subirlos a mano a otro hosting (van en la carpeta <code>data/</code>).</p>
+        <div class="row-actions"><button class="btn ghost" type="button" data-dl="catalogo">Descargar catalogo.json</button><button class="btn ghost" type="button" data-dl="pcs">Descargar pcs.json</button></div>
+      </div>
+      <div class="panel-card" style="max-width:820px;margin-top:1rem">
+        <h2>Datos de la tienda</h2>
+        <p>El WhatsApp, Instagram, la ubicación y las categorías se configuran en el archivo <code>assets/js/config.js</code>.</p>
+        <p class="hint" style="margin:0">WhatsApp actual: ${esc(CFG.negocio.whatsappVisible)} · Instagram: @${esc(CFG.negocio.instagram)}</p>
+      </div>`;
+  }
+
+  /* =========================================================
+     PRODUCTOS
+     ========================================================= */
+  function productsView() {
+    const cats = [...new Set([...CFG.categorias, ...S.cat.map((p) => p.categoria)])];
+    return `
+      <div class="bar">
+        <label class="hsearch">${U.search}<input id="fq" type="search" placeholder="Buscar producto…" value="${esc(S.f.q)}" autocomplete="off"></label>
+        <div class="select"><select id="fcat"><option value="">Todas las categorías</option>${cats.map((c) => `<option${c === S.f.cat ? " selected" : ""}>${esc(c)}</option>`).join("")}</select></div>
+        <span class="count" id="fcount"></span>
+        <span class="grow"></span>
+        <button class="btn" type="button" data-newprod>${U.plus} Agregar producto</button>
+      </div>
+      <div class="tbl-wrap"><table class="tbl">
+        <thead><tr><th></th><th>Producto</th><th>Categoría</th><th>Precio</th><th>Destacado</th><th>Stock</th><th></th></tr></thead>
+        <tbody id="prodRows"></tbody>
+      </table></div>
+      <p class="hint" style="margin-top:.75rem">Los cambios de precio, destacado y stock se guardan al instante en el panel. Acordate de tocar <strong>Publicar cambios</strong> para que se vean en la tienda.</p>`;
+  }
+
+  function renderProductRows() {
+    const rows = $("#prodRows"); if (!rows) return;
+    const words = norm(S.f.q).split(/\s+/).filter(Boolean);
+    const list = S.cat.filter((d) => (!S.f.cat || d.categoria === S.f.cat) && words.every((w) => norm(`${d.nombre} ${d.sub}`).includes(w)));
+    $("#fcount").textContent = `${list.length} de ${S.cat.length}`;
+    rows.innerHTML = list.map((d) => {
+      const p = TW.buildProduct(d);
+      return `<tr data-id="${esc(d.id)}"${S.changedIds.has(d.id) ? ' class="changed"' : ""}>
+        <td><span class="mini">${TW.thumb(p)}</span></td>
+        <td class="name"><strong>${esc(p.titulo)}</strong><small>${esc(d.nombre)}</small></td>
+        <td><span style="white-space:nowrap">${esc(d.categoria)}</span><br><small style="color:var(--muted)">${esc(d.sub || "")}</small></td>
+        <td><input class="inp price-in" type="number" min="0" step="1" value="${d.precio ?? ""}" data-f="precio" placeholder="Consultar" aria-label="Precio"></td>
+        <td style="text-align:center"><input type="checkbox" data-f="destacado"${d.destacado ? " checked" : ""} aria-label="Destacado" style="accent-color:var(--violet);width:17px;height:17px"></td>
+        <td><select class="inp stock-in" data-f="stock" aria-label="Stock">
+          ${["consultar", "disponible", "sin stock"].map((s) => `<option value="${s}"${(d.stock || "consultar") === s ? " selected" : ""}>${TW.STOCK[s]}</option>`).join("")}
+        </select></td>
+        <td><div class="acts"><button class="ibtn" type="button" data-editprod="${esc(d.id)}" aria-label="Editar">${U.edit}</button><button class="ibtn danger" type="button" data-delprod="${esc(d.id)}" aria-label="Eliminar">${U.trash}</button></div></td>
+      </tr>`;
+    }).join("") || `<tr><td colspan="7"><div class="empty-mini">No hay productos con ese filtro.</div></td></tr>`;
+  }
+
+  // Formulario de producto (nuevo o edición)
+  const ATTR_FIELDS = {
+    "Procesadores": [["socket", "Socket", "sel", TW.SOCKETS], ["plataforma", "Marca", "sel", ["AMD", "Intel"]], ["video", "Tiene video integrado", "bool"], ["cooler", "Trae cooler", "bool"], ["tdp", "Consumo (W)", "num"]],
+    "Motherboards": [["socket", "Socket", "sel", TW.SOCKETS], ["ddr", "Memoria", "sel", ["DDR4", "DDR5", "DDR3"]], ["formato", "Formato", "sel", ["Micro-ATX", "ATX"]]],
+    "Memorias RAM": [["ddr", "Tipo", "sel", ["DDR4", "DDR5", "DDR3"]], ["sodimm", "Es de notebook (SODIMM)", "bool"], ["gb", "Capacidad (GB)", "num"]],
+    "Almacenamientos": [["tipo", "Tipo", "sel", ["SSD", "HDD"]], ["interfaz", "Conexión", "sel", ["M.2 NVMe", "SATA", "Externo"]], ["gb", "Capacidad (GB)", "num"]],
+    "Placas de video": [["tdp", "Consumo (W)", "num"], ["gb", "Memoria (GB)", "num"]],
+    "Fuentes de poder": [["watts", "Potencia (W)", "num"]],
+    "Gabinetes": [["fuente", "Fuente incluida (W, 0 = no trae)", "num"], ["formato", "Formato máximo de mother", "sel", ["ATX", "Micro-ATX"]]],
+    "Coolers": [["maxTdp", "Soporta hasta (W, 0 = sin límite)", "num"]],
+  };
+
+  function productForm(d) {
+    const isNew = !d;
+    d = d || { nombre: "", categoria: "", sub: "", precio: "", destacado: false, stock: "consultar", imagen: "" };
+    const cats = [...new Set([...CFG.categorias, ...S.cat.map((p) => p.categoria)])];
+    const subs = [...new Set(S.cat.filter((p) => p.categoria === d.categoria && p.sub).map((p) => p.sub))];
+    const dlg = $("#dlg");
+    dlg.innerHTML = `
+      <form id="prodForm">
+        <div class="dlg-head"><h2>${isNew ? "Agregar producto" : "Editar producto"}</h2><button class="close" type="button" data-close aria-label="Cerrar">${U.close}</button></div>
+        <div class="dlg-body">
+          <div class="form-grid">
+            <label class="fld full">Nombre (como viene del mayorista)
+              <input name="nombre" value="${esc(d.nombre)}" required placeholder="MICRO AMD RYZEN 5 5600 S/VIDEO C/COOLER AM4">
+              <span class="hint">Podés pegar la línea completa “NOMBRE — $precio” y se separa sola. El nombre prolijo, la marca y las características se arman a partir de acá.</span>
+            </label>
+            <label class="fld">Categoría
+              <select name="categoria" required><option value="">Elegí…</option>${cats.map((c) => `<option${c === d.categoria ? " selected" : ""}>${esc(c)}</option>`).join("")}</select>
+            </label>
+            <label class="fld">Subcategoría <span class="hint" style="display:inline">(opcional)</span>
+              <input name="sub" value="${esc(d.sub || "")}" list="subList" placeholder="Ej: AMD AM4, DDR4, SSD">
+              <datalist id="subList">${subs.map((s) => `<option value="${esc(s)}">`).join("")}</datalist>
+            </label>
+            <label class="fld">Precio (vacío = “Consultar precio”)<input name="precio" type="number" min="0" step="1" value="${d.precio ?? ""}"></label>
+            <label class="fld">Stock<select name="stock">${["consultar", "disponible", "sin stock"].map((s) => `<option value="${s}"${(d.stock || "consultar") === s ? " selected" : ""}>${TW.STOCK[s]}</option>`).join("")}</select></label>
+            <label class="check full"><input type="checkbox" name="destacado"${d.destacado ? " checked" : ""}> Mostrar como destacado (aparece primero y en el inicio)</label>
+            <div class="fld full">Foto (opcional: si no hay, se muestra el logo de la marca)
+              <div class="img-box"><span class="mini" id="imgPrev"></span>
+                <div style="flex:1;display:grid;gap:.4rem">
+                  <input class="inp" name="imagen" value="${esc(d.imagen || "")}" placeholder="Link de la imagen o subí una foto">
+                  <div class="row-actions" style="margin:0"><label class="btn sm ghost" style="cursor:pointer">Subir foto<input type="file" accept="image/*" id="imgFile" hidden></label><span class="hint" id="imgStatus">${S.online ? "Se achica y se sube sola al repositorio." : "Para subir fotos, conectá GitHub."}</span></div>
+                </div>
+              </div>
+            </div>
+            <label class="fld">Marca <span class="hint" style="display:inline">(vacío = automática)</span><input name="marca" value="${esc(d.marca || "")}" placeholder="Automática"></label>
+            <label class="fld">Características <span class="hint" style="display:inline">(una por línea · vacío = automáticas)</span><textarea name="specs" placeholder="Automáticas">${esc((d.specs || []).join("\n"))}</textarea></label>
+          </div>
+          <div class="detect" id="detect"></div>
+        </div>
+        <div class="dlg-foot"><button class="btn ghost" type="button" data-close>Cancelar</button><button class="btn" type="submit">${isNew ? "Agregar" : "Guardar"}</button></div>
+      </form>`;
+    dlg.dataset.editing = isNew ? "" : d.id;
+    dlg.showModal();
+    refreshDetect();
+  }
+
+  // Vista previa de cómo se lee el producto + corrección de datos de compatibilidad
+  function formData() {
+    const f = $("#prodForm"), fd = new FormData(f);
+    const d = {
+      nombre: String(fd.get("nombre") || "").trim(), categoria: fd.get("categoria"), sub: String(fd.get("sub") || "").trim(),
+      precio: fd.get("precio") === "" ? null : Number(fd.get("precio")), stock: fd.get("stock"), destacado: !!fd.get("destacado"),
+      imagen: String(fd.get("imagen") || "").trim(),
+    };
+    const marca = String(fd.get("marca") || "").trim(); if (marca) d.marca = marca;
+    const specs = String(fd.get("specs") || "").split("\n").map((s) => s.trim()).filter(Boolean); if (specs.length) d.specs = specs;
+    const attrs = {};
+    $$("[data-attr]", f).forEach((el) => {
+      if (!el.dataset.touched) return;
+      const k = el.dataset.attr;
+      attrs[k] = el.type === "checkbox" ? el.checked : el.type === "number" ? Number(el.value) || 0 : el.value;
+    });
+    if (Object.keys(attrs).length) d.attrs = attrs;
+    return d;
+  }
+  function refreshDetect() {
+    const box = $("#detect"); if (!box) return;
+    const editing = $("#dlg").dataset.editing;
+    const prev = editing ? S.cat.find((x) => x.id === editing) : null;
+    const d = formData();
+    if (prev && prev.attrs && !d.attrs) d.attrs = prev.attrs;
+    const auto = TW.buildProduct({ ...d, attrs: undefined });
+    const p = TW.buildProduct(d);
+    $("#imgPrev").innerHTML = TW.thumb(p);
+    const fields = ATTR_FIELDS[d.categoria] || [];
+    box.innerHTML = `
+      <div><strong style="color:var(--text)">Así se ve en la tienda:</strong> ${esc(p.titulo || "—")} · <span class="tag">${esc(p.marca)}</span></div>
+      <div class="chips">${p.specs.map((s) => `<span class="tag">${esc(s)}</span>`).join("") || '<span class="hint">Sin características</span>'}</div>
+      ${fields.length ? `<div><strong style="color:var(--text)">Compatibilidad para el armador</strong> <span class="hint">(se detecta del nombre; corregilo si hace falta)</span></div>
+      <div class="form-grid">${fields.map(([k, label, type, opts]) => {
+        const v = p.attrs[k], overridden = d.attrs && k in d.attrs;
+        const mark = overridden && auto.attrs[k] !== v ? ' <span class="tag warn">corregido</span>' : "";
+        if (type === "bool") return `<label class="check"><input type="checkbox" data-attr="${k}"${overridden ? ' data-touched="1"' : ""}${v ? " checked" : ""}> ${label}${mark}</label>`;
+        if (type === "sel") return `<label class="fld">${label}${mark}<select data-attr="${k}"${overridden ? ' data-touched="1"' : ""}><option value="">—</option>${opts.map((o) => `<option${o === v ? " selected" : ""}>${o}</option>`).join("")}</select></label>`;
+        return `<label class="fld">${label}${mark}<input type="number" min="0" data-attr="${k}"${overridden ? ' data-touched="1"' : ""} value="${v ?? ""}"></label>`;
+      }).join("")}</div>` : ""}`;
+  }
+
+  function saveProduct() {
+    const d = formData();
+    if (!d.nombre || !d.categoria) { toast("Completá el nombre y la categoría.", false); return; }
+    const editing = $("#dlg").dataset.editing;
+    if (editing) {
+      const i = S.cat.findIndex((x) => x.id === editing);
+      const prev = S.cat[i];
+      if (prev.attrs && !d.attrs) d.attrs = prev.attrs;
+      S.cat[i] = { id: prev.id, ...d };
+      S.changedIds.add(prev.id);
+    } else {
+      const id = uniqueId(TW.slug(d.nombre), new Set(S.cat.map((x) => x.id)));
+      S.cat.push({ id, ...d });
+      S.changedIds.add(id);
+    }
+    markDirty("catalogo");
+    $("#dlg").close();
+    renderTab();
+    toast(editing ? "Producto guardado" : "Producto agregado");
+  }
+
+  function deleteProduct(id) {
+    const d = S.cat.find((x) => x.id === id); if (!d) return;
+    const inPcs = S.pcs.filter((pc) => (pc.componentes || []).some((c) => c.id === id));
+    const warn = inPcs.length ? `\n\nEstá en ${inPcs.length} PC(s) armada(s): ${inPcs.map((p) => p.nombre).join(", ")}. Se va a quitar de ellas.` : "";
+    if (!confirm(`¿Eliminar "${TW.buildProduct(d).titulo}"?${warn}`)) return;
+    S.cat = S.cat.filter((x) => x.id !== id);
+    if (inPcs.length) { inPcs.forEach((pc) => (pc.componentes = pc.componentes.filter((c) => c.id !== id))); markDirty("pcs"); }
+    markDirty("catalogo");
+    render();
+    toast("Producto eliminado");
+  }
+
+  /* =========================================================
+     PCs ARMADAS
+     ========================================================= */
+  function pcsView() {
+    const data = built();
+    return `
+      <div class="bar"><p class="hint" style="margin:0">Estas PCs aparecen en la sección “PC Armadas” y las destacadas también en el inicio. El precio es la suma de los componentes, salvo que pongas un precio final.</p><span class="grow"></span><button class="btn" type="button" data-newpc>${U.plus} Nueva PC</button></div>
+      <div class="pc-rows">${S.pcs.map((pc, i) => {
+        const issues = TW.checkBuild(TW.buildFromComponents(pc.componentes, data.byId), data.byId).filter((x) => x.level !== "falta" || !["gpu", "cooler", "psu"].includes(x.key));
+        const errs = issues.filter((x) => x.level === "error").length, falta = issues.filter((x) => x.level === "falta").length, avisos = issues.filter((x) => x.level === "aviso").length;
+        return `<div class="pc-row">
+          <div><h3>${esc(pc.nombre)} ${pc.destacado ? '<span class="tag">Destacada</span>' : ""}</h3>
+            <div class="sub"><span>${esc(pc.categoria)}</span>·<span>${(pc.componentes || []).length} componentes</span>
+              ${errs ? `<span class="tag err">${errs} incompatible(s)</span>` : ""}${falta ? `<span class="tag warn">Incompleta</span>` : ""}${avisos ? `<span class="tag warn">${avisos} aviso(s)</span>` : ""}${!errs && !falta && !avisos ? '<span class="tag ok">Compatible</span>' : ""}</div></div>
+          <div class="price">${TW.money(TW.pcPrice(pc, data.byId))}${pc.precio ? ' <span class="tag">precio fijo</span>' : ""}</div>
+          <div class="acts" style="display:flex;gap:.3rem">
+            <button class="ibtn" type="button" data-mvpc="${i}|-1" aria-label="Subir"${i === 0 ? " disabled" : ""}>▲</button>
+            <button class="ibtn" type="button" data-mvpc="${i}|1" aria-label="Bajar"${i === S.pcs.length - 1 ? " disabled" : ""}>▼</button>
+            <button class="ibtn" type="button" data-editpc="${esc(pc.id)}" aria-label="Editar">${U.edit}</button>
+            <button class="ibtn" type="button" data-duppc="${esc(pc.id)}" aria-label="Duplicar">${U.plus}</button>
+            <button class="ibtn danger" type="button" data-delpc="${esc(pc.id)}" aria-label="Eliminar">${U.trash}</button>
+          </div>
+        </div>`;
+      }).join("") || '<div class="empty-mini">Todavía no hay PCs armadas. Creá la primera con “Nueva PC”.</div>'}</div>`;
+  }
+
+  let pcSel = null; // configuración que se está editando
+  function pcForm(pc) {
+    const isNew = !pc;
+    pc = pc || { nombre: "", categoria: CFG.categoriasPC[0], descripcion: "", destacado: false, precio: null, imagen: "", componentes: [] };
+    const data = built();
+    pcSel = TW.buildFromComponents(pc.componentes, data.byId);
+    const dlg = $("#dlg");
+    dlg.innerHTML = `
+      <form id="pcForm">
+        <div class="dlg-head"><h2>${isNew ? "Nueva PC armada" : "Editar PC armada"}</h2><button class="close" type="button" data-close aria-label="Cerrar">${U.close}</button></div>
+        <div class="dlg-body">
+          <div class="form-grid">
+            <label class="fld full">Nombre<input name="nombre" value="${esc(pc.nombre)}" required placeholder="PC Gamer Ryzen 5 5600 + RTX 3050"></label>
+            <label class="fld">Categoría<select name="categoria">${CFG.categoriasPC.map((c) => `<option${c === pc.categoria ? " selected" : ""}>${esc(c)}</option>`).join("")}</select></label>
+            <label class="fld">Precio final <span class="hint" style="display:inline">(vacío = suma de componentes)</span><input name="precio" type="number" min="0" step="1" value="${pc.precio ?? ""}" id="pcPrecio"></label>
+            <label class="fld full">Descripción corta<textarea name="descripcion" style="min-height:60px" placeholder="Para qué sirve esta PC">${esc(pc.descripcion || "")}</textarea></label>
+            <label class="fld full">Foto (opcional)<div class="row-actions" style="margin:0"><input class="inp" name="imagen" value="${esc(pc.imagen || "")}" placeholder="Link de la imagen" style="flex:1"><label class="btn sm ghost" style="cursor:pointer">Subir foto<input type="file" accept="image/*" id="pcImgFile" hidden></label></div></label>
+            <label class="check full"><input type="checkbox" name="destacado"${pc.destacado ? " checked" : ""}> Destacada (aparece en el inicio)</label>
+          </div>
+          <div><strong>Componentes</strong> <span class="hint">En cada lista aparecen primero los compatibles con lo ya elegido.</span></div>
+          <div class="slots" id="slots"></div>
+          <div class="detect"><div class="issues" id="pcIssues"></div><div id="pcSum" style="font-weight:600"></div></div>
+        </div>
+        <div class="dlg-foot"><button class="btn ghost" type="button" data-close>Cancelar</button><button class="btn" type="submit">${isNew ? "Crear PC" : "Guardar"}</button></div>
+      </form>`;
+    dlg.dataset.editing = isNew ? "" : pc.id;
+    dlg.showModal();
+    renderSlots();
+  }
+
+  function renderSlots() {
+    const data = built(), box = $("#slots"); if (!box) return;
+    const slotHtml = (step, idx) => {
+      const cur = (pcSel[step.key] || [])[idx];
+      const all = data.products.filter((p) => p.categoria === step.cat);
+      const ok = all.filter((p) => !TW.incompatibility(step.key, p, pcSel, data.byId));
+      const bad = all.filter((p) => TW.incompatibility(step.key, p, pcSel, data.byId));
+      const opt = (p, warn) => `<option value="${esc(p.id)}"${cur && cur.id === p.id ? " selected" : ""}>${warn ? "⚠ " : ""}${esc(p.titulo)}${p.precio ? " — " + TW.money(p.precio) : ""}</option>`;
+      const label = step.multi ? `${step.label} ${idx + 1}` : step.label;
+      return `<div class="slot"><label for="slot-${step.key}-${idx}">${esc(label)}</label>
+        <select class="inp" id="slot-${step.key}-${idx}" data-slot="${step.key}|${idx}">
+          <option value="">— Sin ${esc(step.label.toLowerCase())} —</option>
+          <optgroup label="Compatibles">${ok.map((p) => opt(p, false)).join("")}</optgroup>
+          ${bad.length ? `<optgroup label="No compatibles con lo elegido">${bad.map((p) => opt(p, true)).join("")}</optgroup>` : ""}
+        </select>
+        ${step.maxQty ? `<input class="inp" type="number" min="1" max="${step.maxQty}" value="${cur ? cur.qty : 1}" data-slotqty="${step.key}|${idx}" aria-label="Cantidad" title="Cantidad">` : "<span></span>"}
+      </div>`;
+    };
+    box.innerHTML = TW.STEPS.map((s) => (s.multi ? Array.from({ length: s.multi }, (_, i) => slotHtml(s, i)).join("") : slotHtml(s, 0))).join("");
+    const issues = TW.checkBuild(pcSel, data.byId);
+    $("#pcIssues").innerHTML = issues.map((x) => `<div class="${x.level}">${x.level === "falta" ? "○" : "⚠"} ${esc(x.msg)}</div>`).join("") || `<div class="ok">✓ Todos los componentes son compatibles</div>`;
+    const sum = TW.linesTotal(TW.buildLines(pcSel, data.byId));
+    const fixed = Number($("#pcPrecio")?.value) || 0;
+    $("#pcSum").innerHTML = `Suma de componentes: ${TW.money(sum)}${fixed ? ` · Precio final: ${TW.money(fixed)} <span class="tag ${fixed < sum ? "warn" : "ok"}">${fixed < sum ? "menor" : "+" + Math.round(((fixed - sum) / (sum || 1)) * 100) + "%"}</span>` : ""}`;
+  }
+
+  function savePc() {
+    const f = $("#pcForm"), fd = new FormData(f);
+    const nombre = String(fd.get("nombre") || "").trim();
+    if (!nombre) { toast("Poné un nombre a la PC.", false); return; }
+    const componentes = TW.STEPS.flatMap((s) => (pcSel[s.key] || []).filter((c) => c && c.id).map((c) => ({ id: c.id, qty: c.qty || 1 })));
+    if (!componentes.length) { toast("Elegí al menos un componente.", false); return; }
+    const pc = {
+      nombre, categoria: fd.get("categoria"), descripcion: String(fd.get("descripcion") || "").trim(),
+      destacado: !!fd.get("destacado"), precio: fd.get("precio") === "" ? null : Number(fd.get("precio")),
+      imagen: String(fd.get("imagen") || "").trim(), componentes,
+    };
+    const editing = $("#dlg").dataset.editing;
+    if (editing) { const i = S.pcs.findIndex((x) => x.id === editing); S.pcs[i] = { id: editing, ...pc }; }
+    else S.pcs.push({ id: uniqueId("pc-" + TW.slug(nombre), new Set(S.pcs.map((x) => x.id))), ...pc });
+    markDirty("pcs");
+    $("#dlg").close();
+    render();
+    toast(editing ? "PC guardada" : "PC creada");
+  }
+
+  /* =========================================================
+     ACTUALIZAR PRECIOS (pegar la lista del mayorista)
+     ========================================================= */
+  function importView() {
+    const r = S.imp;
+    const cats = [...new Set([...CFG.categorias, ...S.cat.map((p) => p.categoria)])];
+    return `
+      <div class="panel-card">
+        <h2>Actualizar precios pegando la lista</h2>
+        <p>Pegá la lista del mayorista (una línea por producto: <code>NOMBRE — $precio</code>). Podés agregar líneas <code># Categoría | Subcategoría</code> para indicar dónde van los productos nuevos. Antes de aplicar te mostramos qué cambia.</p>
+        <textarea class="inp" id="impText" style="min-height:180px;font-family:ui-monospace,Consolas,monospace;font-size:.82rem" placeholder="MICRO AMD RYZEN 5 5600 S/VIDEO C/COOLER AM4 — $250.574&#10;MOTHER GIGABYTE B550M K DDR4 AM4 — $142.991">${esc(r ? r.text : "")}</textarea>
+        <div class="row-actions"><button class="btn" type="button" data-analyze>Analizar lista</button>${r ? '<button class="btn ghost" type="button" data-impclear>Limpiar</button>' : ""}</div>
+      </div>
+      ${r ? `
+      <div class="imp-sec"><h3>Cambios de precio <span class="tag">${r.changes.length}</span></h3>
+        ${r.changes.length ? `<div class="tbl-wrap"><table class="tbl"><thead><tr><th><input type="checkbox" data-allchk="chg" checked></th><th>Producto</th><th>Antes</th><th>Ahora</th><th>Dif.</th></tr></thead><tbody>
+          ${r.changes.map((c, i) => { const pct = c.old ? Math.round(((c.precio - c.old) / c.old) * 100) : 0; return `<tr><td><input type="checkbox" data-chg="${i}"${c.on ? " checked" : ""}></td><td class="name"><strong>${esc(TW.buildProduct(c.d).titulo)}</strong></td><td class="num">${c.old ? TW.money(c.old) : "—"}</td><td class="num">${TW.money(c.precio)}</td><td class="num ${pct > 0 ? "up" : "down"}">${pct > 0 ? "+" : ""}${pct}%</td></tr>`; }).join("")}
+        </tbody></table></div>` : '<div class="empty-mini">Ningún precio cambió.</div>'}
+      </div>
+      <div class="imp-sec"><h3>Productos nuevos <span class="tag">${r.nuevos.length}</span></h3>
+        ${r.nuevos.length ? `<div class="tbl-wrap"><table class="tbl"><thead><tr><th><input type="checkbox" data-allchk="new" checked></th><th>Producto</th><th>Precio</th><th>Categoría</th><th>Subcategoría</th></tr></thead><tbody>
+          ${r.nuevos.map((n, i) => `<tr><td><input type="checkbox" data-new="${i}"${n.on ? " checked" : ""}></td><td class="name"><strong>${esc(TW.buildProduct(n).titulo)}</strong><small>${esc(n.nombre)}</small></td><td class="num">${TW.money(n.precio)}</td>
+            <td><select class="inp" data-newcat="${i}" style="min-width:160px"><option value="">Elegí…</option>${cats.map((c) => `<option${c === n.categoria ? " selected" : ""}>${esc(c)}</option>`).join("")}</select></td>
+            <td><input class="inp" data-newsub="${i}" value="${esc(n.sub)}" style="min-width:130px"></td></tr>`).join("")}
+        </tbody></table></div>` : '<div class="empty-mini">No hay productos nuevos.</div>'}
+      </div>
+      <div class="imp-sec"><h3>En la tienda pero no en la lista <span class="tag">${r.faltan.length}</span></h3>
+        ${r.faltan.length ? `<p class="hint" style="margin:0 0 .5rem">Si pegaste la lista completa, estos productos ya no los tiene el mayorista. Elegí qué hacer con cada uno.
+          <button class="linkish" type="button" data-allmiss="keep">Dejar todos</button> · <button class="linkish" type="button" data-allmiss="nostock">Todos sin stock</button> · <button class="linkish" type="button" data-allmiss="delete">Eliminar todos</button></p>
+        <div class="tbl-wrap"><table class="tbl"><thead><tr><th>Producto</th><th>Precio actual</th><th>Qué hacer</th></tr></thead><tbody>
+          ${r.faltan.map((m, i) => `<tr><td class="name"><strong>${esc(TW.buildProduct(m.d).titulo)}</strong><small>${esc(m.d.categoria)}</small></td><td class="num">${m.d.precio ? TW.money(m.d.precio) : "—"}</td>
+            <td><select class="inp" data-miss="${i}" style="min-width:170px"><option value="keep"${m.act === "keep" ? " selected" : ""}>Dejar igual</option><option value="nostock"${m.act === "nostock" ? " selected" : ""}>Marcar sin stock</option><option value="delete"${m.act === "delete" ? " selected" : ""}>Eliminar</option></select></td></tr>`).join("")}
+        </tbody></table></div>` : '<div class="empty-mini">Todos los productos de la tienda están en la lista.</div>'}
+      </div>
+      <div class="row-actions" style="margin-top:1.5rem"><button class="btn" type="button" data-apply>Aplicar cambios</button><span class="hint">Después revisá y tocá “Publicar cambios”.</span></div>` : ""}`;
+  }
+
+  function analyze(text) {
+    const lines = TW.parseList(text);
+    if (!lines.length) { toast("No encontramos líneas con el formato “NOMBRE — $precio”.", false); return; }
+    const byName = new Map(S.cat.map((d) => [cleanName(d.nombre), d]));
+    const seen = new Set(), changes = [], nuevos = [];
+    for (const l of lines) {
+      const key = cleanName(l.nombre);
+      const d = byName.get(key);
+      if (d) {
+        seen.add(d.id);
+        if (Number(d.precio) !== l.precio) changes.push({ d, old: Number(d.precio) || 0, precio: l.precio, on: true });
+      } else if (!nuevos.some((n) => cleanName(n.nombre) === key)) {
+        const g = TW.guessCategory(l.nombre);
+        nuevos.push({ nombre: l.nombre, precio: l.precio, categoria: l.categoria || g.categoria, sub: l.sub || g.sub, on: !!(l.categoria || g.categoria) });
+      }
+    }
+    const faltan = S.cat.filter((d) => !seen.has(d.id)).map((d) => ({ d, act: "keep" }));
+    S.imp = { text, changes, nuevos, faltan };
+    renderTab();
+  }
+
+  function applyImport() {
+    const r = S.imp; if (!r) return;
+    let nC = 0, nN = 0, nS = 0, nD = 0;
+    for (const c of r.changes) if (c.on) { c.d.precio = c.precio; S.changedIds.add(c.d.id); nC++; }
+    const taken = new Set(S.cat.map((x) => x.id));
+    for (const n of r.nuevos) {
+      if (!n.on) continue;
+      if (!n.categoria) { toast(`Elegí la categoría de “${n.nombre}” o destildalo.`, false); return; }
+      const id = uniqueId(TW.slug(n.nombre), taken); taken.add(id);
+      S.cat.push({ id, nombre: n.nombre, categoria: n.categoria, sub: n.sub, precio: n.precio, destacado: false, stock: "consultar", imagen: "" });
+      S.changedIds.add(id); nN++;
+    }
+    const del = new Set();
+    for (const m of r.faltan) {
+      if (m.act === "nostock") { m.d.stock = "sin stock"; S.changedIds.add(m.d.id); nS++; }
+      if (m.act === "delete") { del.add(m.d.id); nD++; }
+    }
+    if (del.size) {
+      S.cat = S.cat.filter((d) => !del.has(d.id));
+      let touched = false;
+      for (const pc of S.pcs) { const before = pc.componentes.length; pc.componentes = pc.componentes.filter((c) => !del.has(c.id)); if (pc.componentes.length !== before) touched = true; }
+      if (touched) markDirty("pcs");
+    }
+    if (nC || nN || nS || nD) markDirty("catalogo");
+    S.imp = null; S.tab = "productos";
+    render();
+    toast(`Listo: ${nC} precios actualizados, ${nN} productos nuevos, ${nS} sin stock, ${nD} eliminados.`);
+  }
+
+  /* =========================================================
+     EVENTOS
+     ========================================================= */
+  document.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (e.target.id === "connForm") {
+      const fd = new FormData(e.target);
+      const btn = e.target.querySelector("[type=submit]"); btn.disabled = true; btn.textContent = "Conectando…";
+      try { await connect(Object.fromEntries(fd)); toast("Conectado. Ya podés editar y publicar."); }
+      catch (err) { toast(err.status === 401 ? "El token no es válido o venció." : err.status === 404 ? "No encontramos el repositorio (revisá usuario, nombre y que el token tenga acceso)." : err.message, false); btn.disabled = false; btn.textContent = "Conectar y cargar productos"; }
+    }
+    if (e.target.id === "prodForm") saveProduct();
+    if (e.target.id === "pcForm") savePc();
+  });
+
+  document.addEventListener("click", async (e) => {
+    const el = (s) => e.target.closest(s);
+    let x;
+    if ((x = el("[data-close]"))) { x.closest("dialog").close(); return; }
+    if (e.target.tagName === "DIALOG") { e.target.close(); return; }
+    if ((x = el("[data-offline]"))) { S.online = false; try { await loadData(); } catch { toast("No se pudieron leer los archivos de datos.", false); } return; }
+    if ((x = el("[data-tab]"))) { S.tab = x.dataset.tab; render(); return; }
+    if ((x = el("#publishBtn")) || (x = el("[data-publish]"))) {
+      if (S.online) publish(); else { if (S.dirty.catalogo) download("catalogo"); if (S.dirty.pcs) download("pcs"); }
+      return;
+    }
+    if ((x = el("[data-newprod]"))) { productForm(null); return; }
+    if ((x = el("[data-editprod]"))) { productForm(S.cat.find((d) => d.id === x.dataset.editprod)); return; }
+    if ((x = el("[data-delprod]"))) { deleteProduct(x.dataset.delprod); return; }
+    if ((x = el("[data-newpc]"))) { pcForm(null); return; }
+    if ((x = el("[data-editpc]"))) { pcForm(S.pcs.find((p) => p.id === x.dataset.editpc)); return; }
+    if ((x = el("[data-duppc]"))) {
+      const src = S.pcs.find((p) => p.id === x.dataset.duppc);
+      const copy = JSON.parse(JSON.stringify(src)); copy.nombre += " (copia)";
+      copy.id = uniqueId(src.id + "-copia", new Set(S.pcs.map((p) => p.id)));
+      S.pcs.splice(S.pcs.indexOf(src) + 1, 0, copy); markDirty("pcs"); render(); return;
+    }
+    if ((x = el("[data-delpc]"))) {
+      const pc = S.pcs.find((p) => p.id === x.dataset.delpc);
+      if (confirm(`¿Eliminar la PC "${pc.nombre}"?`)) { S.pcs = S.pcs.filter((p) => p !== pc); markDirty("pcs"); render(); }
+      return;
+    }
+    if ((x = el("[data-mvpc]"))) {
+      const [i, d] = x.dataset.mvpc.split("|").map(Number), j = i + d;
+      if (j < 0 || j >= S.pcs.length) return;
+      [S.pcs[i], S.pcs[j]] = [S.pcs[j], S.pcs[i]]; markDirty("pcs"); render(); return;
+    }
+    if ((x = el("[data-analyze]"))) { analyze($("#impText").value); return; }
+    if ((x = el("[data-impclear]"))) { S.imp = null; renderTab(); return; }
+    if ((x = el("[data-apply]"))) { applyImport(); return; }
+    if ((x = el("[data-allmiss]"))) { S.imp.faltan.forEach((m) => (m.act = x.dataset.allmiss)); renderTab(); return; }
+    if ((x = el("[data-dl]"))) { download(x.dataset.dl); return; }
+    if ((x = el("[data-reload]"))) {
+      if ((S.dirty.catalogo || S.dirty.pcs) && !confirm("Tenés cambios sin publicar. Si recargás se pierden. ¿Seguir?")) return;
+      try { await loadData(); toast("Datos recargados desde GitHub"); } catch (err) { toast(err.message, false); }
+      return;
+    }
+    if ((x = el("[data-disconnect]"))) { if (confirm("¿Desconectar? Se borra el token de este navegador.")) { disconnect(); S.loaded = false; render(); } return; }
+    if ((x = el("[data-goconnect]"))) { S.loaded = false; render(); return; }
+  });
+
+  document.addEventListener("input", (e) => {
+    const t = e.target;
+    if (t.id === "fq") { S.f.q = t.value; renderProductRows(); return; }
+    if (t.closest("#prodForm")) {
+      if (t.name === "nombre") {
+        const p = TW.parseLine(t.value);
+        if (p) { t.value = p.nombre; $("#prodForm [name=precio]").value = p.precio; }
+        const f = $("#prodForm [name=categoria]");
+        if (!f.value) { const g = TW.guessCategory(t.value); if (g.categoria) { f.value = g.categoria; $("#prodForm [name=sub]").value = g.sub; } }
+      }
+      if (t.dataset.attr) { t.dataset.touched = "1"; return; } // se refresca al salir del campo
+      refreshDetect();
+      return;
+    }
+    if (t.id === "pcPrecio") { renderSlots(); return; }
+    if (t.dataset.slotqty) {
+      const [key, idx] = t.dataset.slotqty.split("|"); const c = pcSel[key][Number(idx)];
+      if (c) c.qty = Math.max(1, Math.min(TW.stepOf(key).maxQty || 1, Number(t.value) || 1));
+      return;
+    }
+  });
+
+  document.addEventListener("change", async (e) => {
+    const t = e.target;
+    if (t.id === "fcat") { S.f.cat = t.value; renderProductRows(); return; }
+    // Edición rápida en la tabla de productos
+    const row = t.closest("#prodRows tr[data-id]");
+    if (row && t.dataset.f) {
+      const d = S.cat.find((x) => x.id === row.dataset.id);
+      if (t.dataset.f === "precio") d.precio = t.value === "" ? null : Number(t.value);
+      if (t.dataset.f === "destacado") d.destacado = t.checked;
+      if (t.dataset.f === "stock") d.stock = t.value;
+      S.changedIds.add(d.id); row.classList.add("changed");
+      markDirty("catalogo");
+      return;
+    }
+    if (t.closest("#prodForm") && (t.dataset.attr || t.tagName === "SELECT" || t.type === "checkbox")) {
+      if (t.dataset.attr) t.dataset.touched = "1";
+      refreshDetect(); return;
+    }
+    if (t.dataset.slotqty) { renderSlots(); return; }
+    if (t.dataset.slot) {
+      const [key, idx] = t.dataset.slot.split("|");
+      const arr = pcSel[key] || (pcSel[key] = []);
+      const prevQty = arr[Number(idx)] ? arr[Number(idx)].qty : 1;
+      if (t.value) arr[Number(idx)] = { id: t.value, qty: prevQty };
+      else arr.splice(Number(idx), 1);
+      pcSel[key] = arr.filter(Boolean);
+      if (key === "cpu") { const p = built().byId[t.value]; pcSel.plataforma = p ? p.attrs.plataforma : ""; }
+      renderSlots(); return;
+    }
+    if (t.id === "imgFile" || t.id === "pcImgFile") {
+      const file = t.files[0]; if (!file) return;
+      const form = t.closest("form");
+      const status = $("#imgStatus");
+      try {
+        if (status) status.textContent = "Subiendo…";
+        const path = await uploadImage(file, form.querySelector("[name=nombre]").value || "foto");
+        form.querySelector("[name=imagen]").value = path;
+        if (status) status.textContent = "Foto subida ✓";
+        if (t.id === "imgFile") refreshDetect();
+        toast("Foto subida");
+      } catch (err) { if (status) status.textContent = err.message; toast(err.message, false); }
+      return;
+    }
+    // Importación
+    if (t.dataset.chg) { S.imp.changes[Number(t.dataset.chg)].on = t.checked; return; }
+    if (t.dataset.new) { S.imp.nuevos[Number(t.dataset.new)].on = t.checked; return; }
+    if (t.dataset.newcat) { S.imp.nuevos[Number(t.dataset.newcat)].categoria = t.value; return; }
+    if (t.dataset.newsub) { S.imp.nuevos[Number(t.dataset.newsub)].sub = t.value; return; }
+    if (t.dataset.miss) { S.imp.faltan[Number(t.dataset.miss)].act = t.value; return; }
+    if (t.dataset.allchk) {
+      const list = t.dataset.allchk === "chg" ? S.imp.changes : S.imp.nuevos;
+      list.forEach((x) => (x.on = t.checked)); renderTab(); return;
+    }
+  });
+
+  /* ---------- Inicio ---------- */
+  (async function init() {
+    updatePublish();
+    if (S.conn.token) {
+      try { await connect({}); return; }
+      catch (err) { toast(`No se pudo conectar: ${err.message}`, false); }
+    }
+    render();
+  })();
+})();

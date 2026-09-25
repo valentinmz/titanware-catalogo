@@ -1,0 +1,2232 @@
+[
+    {
+        "id":  "mother-msi-a520m-a-pro-ddr4-am4",
+        "nombre":  "MOTHER MSI A520M-A PRO DDR4 AM4",
+        "categoria":  "Motherboards",
+        "sub":  "AMD AM4",
+        "precio":  95013,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "mother-asus-prime-a520m-k-ddr4-am4",
+        "nombre":  "MOTHER ASUS PRIME A520M-K DDR4 AM4",
+        "categoria":  "Motherboards",
+        "sub":  "AMD AM4",
+        "precio":  100878,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "mother-gigabyte-a520m-k-v2-ddr4-am4-q-a320",
+        "nombre":  "MOTHER GIGABYTE A520M K V2 DDR4 AM4 +Q A320",
+        "categoria":  "Motherboards",
+        "sub":  "AMD AM4",
+        "precio":  101096,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "mother-asus-prime-a520m-k-csm-ddr4-am4",
+        "nombre":  "MOTHER ASUS PRIME A520M-K CSM DDR4 AM4",
+        "categoria":  "Motherboards",
+        "sub":  "AMD AM4",
+        "precio":  116265,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "mother-gigabyte-b550m-k-ddr4-am4",
+        "nombre":  "MOTHER GIGABYTE B550M K DDR4 AM4",
+        "categoria":  "Motherboards",
+        "sub":  "AMD AM4",
+        "precio":  142991,
+        "destacado":  true,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "mother-msi-pro-b550m-b-ddr4-am4",
+        "nombre":  "MOTHER MSI PRO B550M-B DDR4 AM4",
+        "categoria":  "Motherboards",
+        "sub":  "AMD AM4",
+        "precio":  146326,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "mother-msi-b550m-a-pro-ddr4-am4",
+        "nombre":  "MOTHER MSI B550M-A PRO DDR4 AM4",
+        "categoria":  "Motherboards",
+        "sub":  "AMD AM4",
+        "precio":  152764,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "mother-asus-prime-b550m-k-argb-ddr4-am4",
+        "nombre":  "MOTHER ASUS PRIME B550M-K ARGB DDR4 AM4",
+        "categoria":  "Motherboards",
+        "sub":  "AMD AM4",
+        "precio":  171040,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "mother-gigabyte-a620m-h-ddr5-am5",
+        "nombre":  "MOTHER GIGABYTE A620M H DDR5 AM5",
+        "categoria":  "Motherboards",
+        "sub":  "AMD AM5",
+        "precio":  141933,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "mother-msi-pro-b840m-b-ddr5-am5",
+        "nombre":  "MOTHER MSI PRO B840M-B DDR5 AM5",
+        "categoria":  "Motherboards",
+        "sub":  "AMD AM5",
+        "precio":  165807,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "mother-asus-pro-h410m-c2-csm-ddr4-s1200",
+        "nombre":  "MOTHER ASUS PRO H410M-C2/CSM DDR4 S1200",
+        "categoria":  "Motherboards",
+        "sub":  "Intel",
+        "precio":  105742,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "mother-msi-pro-h610m-b-ddr5-s1700",
+        "nombre":  "MOTHER MSI PRO H610M-B DDR5 S1700",
+        "categoria":  "Motherboards",
+        "sub":  "Intel",
+        "precio":  121095,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "mother-msi-pro-h610m-s-ddr4-s1700",
+        "nombre":  "MOTHER MSI PRO H610M-S DDR4 S1700",
+        "categoria":  "Motherboards",
+        "sub":  "Intel",
+        "precio":  127742,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "mother-asus-prime-h610m-f-d4-r2-0-ddr4-s1700",
+        "nombre":  "MOTHER ASUS PRIME H610M-F D4 R2.0 DDR4 S1700",
+        "categoria":  "Motherboards",
+        "sub":  "Intel",
+        "precio":  129823,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "mother-msi-pro-h610m-g-ddr5-s1700",
+        "nombre":  "MOTHER MSI PRO H610M-G DDR5 S1700",
+        "categoria":  "Motherboards",
+        "sub":  "Intel",
+        "precio":  134447,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "mother-gigabyte-h610m-k-ddr4-gen5-s1700",
+        "nombre":  "MOTHER GIGABYTE H610M K DDR4 GEN5 S1700",
+        "categoria":  "Motherboards",
+        "sub":  "Intel",
+        "precio":  134619,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "mother-gigabyte-h610m-k-v2-ddr5-s1700",
+        "nombre":  "MOTHER GIGABYTE H610M K V2 DDR5 S1700",
+        "categoria":  "Motherboards",
+        "sub":  "Intel",
+        "precio":  135321,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "mother-msi-pro-h610m-a-ddr4-s1700",
+        "nombre":  "MOTHER MSI PRO H610M-A DDR4 S1700",
+        "categoria":  "Motherboards",
+        "sub":  "Intel",
+        "precio":  138092,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "mother-asus-prime-h610m-k-ddr5-s1700",
+        "nombre":  "MOTHER ASUS PRIME H610M-K DDR5 S1700",
+        "categoria":  "Motherboards",
+        "sub":  "Intel",
+        "precio":  139093,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "mother-asus-prime-h610m-k-d4-ddr4-s1700",
+        "nombre":  "MOTHER ASUS PRIME H610M-K D4 DDR4 S1700",
+        "categoria":  "Motherboards",
+        "sub":  "Intel",
+        "precio":  146779,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "mother-gigabyte-h610m-k-gen5-ddr5-s1700",
+        "nombre":  "MOTHER GIGABYTE H610M K GEN5 DDR5 S1700",
+        "categoria":  "Motherboards",
+        "sub":  "Intel",
+        "precio":  160413,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "micro-amd-athlon-3000g-c-video-s-cooler-cpu-am4",
+        "nombre":  "MICRO AMD ATHLON 3000G C/VIDEO S/COOLER CPU AM4",
+        "categoria":  "Procesadores",
+        "sub":  "AMD AM4",
+        "precio":  52187,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "micro-amd-3000g-athlon-c-video-c-cooler-cpu-am4",
+        "nombre":  "MICRO AMD 3000G ATHLON C/VIDEO C/COOLER CPU AM4",
+        "categoria":  "Procesadores",
+        "sub":  "AMD AM4",
+        "precio":  62054,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "micro-amd-athlon-3000g-vega-3-box-am4",
+        "nombre":  "MICRO AMD ATHLON 3000G VEGA 3 BOX AM4",
+        "categoria":  "Procesadores",
+        "sub":  "AMD AM4",
+        "precio":  75486,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "micro-amd-ryzen-3-3200g-c-video-s-cooler-cpu-am4",
+        "nombre":  "MICRO AMD RYZEN 3 3200G C/VIDEO S/COOLER CPU AM4",
+        "categoria":  "Procesadores",
+        "sub":  "AMD AM4",
+        "precio":  97187,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "micro-amd-ryzen-3-3200g-c-video-c-cooler-cpu-am4",
+        "nombre":  "MICRO AMD RYZEN 3 3200G C/VIDEO C/COOLER CPU AM4",
+        "categoria":  "Procesadores",
+        "sub":  "AMD AM4",
+        "precio":  107053,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "micro-amd-ryzen-5-3500x-s-video-s-cooler-cpu-am4",
+        "nombre":  "MICRO AMD RYZEN 5 3500X S/VIDEO S/COOLER CPU AM4",
+        "categoria":  "Procesadores",
+        "sub":  "AMD AM4",
+        "precio":  115402,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "micro-amd-ryzen-3-3200g-c-video-c-cooler-amd-cpu-am4",
+        "nombre":  "MICRO AMD RYZEN 3 3200G C/VIDEO C/COOLER AMD CPU AM4",
+        "categoria":  "Procesadores",
+        "sub":  "AMD AM4",
+        "precio":  116507,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "micro-amd-ryzen-5-3500x-s-video-c-cooler-cpu-am4",
+        "nombre":  "MICRO AMD RYZEN 5 3500X S/VIDEO C/COOLER CPU AM4",
+        "categoria":  "Procesadores",
+        "sub":  "AMD AM4",
+        "precio":  125269,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "micro-amd-ryzen-3-3200g-c-video-c-cooler-box-am4",
+        "nombre":  "MICRO AMD RYZEN 3 3200G C/VIDEO C/COOLER BOX AM4",
+        "categoria":  "Procesadores",
+        "sub":  "AMD AM4",
+        "precio":  125339,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "micro-amd-ryzen-5-3400g-c-video-s-cooler-cpu-am4",
+        "nombre":  "MICRO AMD RYZEN 5 3400G C/VIDEO S/COOLER CPU AM4",
+        "categoria":  "Procesadores",
+        "sub":  "AMD AM4",
+        "precio":  137425,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "micro-amd-ryzen-5-3400g-c-video-c-cooler-cpu-am4",
+        "nombre":  "MICRO AMD RYZEN 5 3400G C/VIDEO C/COOLER CPU AM4",
+        "categoria":  "Procesadores",
+        "sub":  "AMD AM4",
+        "precio":  147292,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "micro-amd-ryzen-5-5600-s-video-c-cooler-am4",
+        "nombre":  "MICRO AMD RYZEN 5 5600 S/VIDEO C/COOLER AM4",
+        "categoria":  "Procesadores",
+        "sub":  "AMD AM4",
+        "precio":  250574,
+        "destacado":  true,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "micro-amd-ryzen-7-5700-s-video-c-cooler-am4",
+        "nombre":  "MICRO AMD RYZEN 7 5700 S/VIDEO C/COOLER AM4",
+        "categoria":  "Procesadores",
+        "sub":  "AMD AM4",
+        "precio":  303105,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "micro-amd-ryzen-5-5600gt-c-video-c-cooler-am4-simil-5600g",
+        "nombre":  "MICRO AMD RYZEN 5 5600GT C/VIDEO C/COOLER AM4 SIMIL 5600G",
+        "categoria":  "Procesadores",
+        "sub":  "AMD AM4",
+        "precio":  324093,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "micro-amd-ryzen-7-5700g-c-video-c-cooler-am4-mejor-q-5600gt",
+        "nombre":  "MICRO AMD RYZEN 7 5700G C/VIDEO C/COOLER AM4 MEJOR Q 5600GT",
+        "categoria":  "Procesadores",
+        "sub":  "AMD AM4",
+        "precio":  390183,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "micro-amd-ryzen-5-8400f-s-video-s-cooler-cpu-am5",
+        "nombre":  "MICRO AMD RYZEN 5 8400F S/VIDEO S/COOLER CPU AM5",
+        "categoria":  "Procesadores",
+        "sub":  "AMD AM5",
+        "precio":  236923,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "micro-amd-ryzen-5-8500g-c-video-s-cooler-cpu-am5",
+        "nombre":  "MICRO AMD RYZEN 5 8500G C/VIDEO S/COOLER CPU AM5",
+        "categoria":  "Procesadores",
+        "sub":  "AMD AM5",
+        "precio":  280128,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "micro-amd-ryzen-5-8500g-c-video-c-cooler-box-am5",
+        "nombre":  "MICRO AMD RYZEN 5 8500G C/VIDEO C/COOLER BOX AM5",
+        "categoria":  "Procesadores",
+        "sub":  "AMD AM5",
+        "precio":  284050,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "micro-amd-ryzen-5-8400f-s-video-c-cooler-box-am5",
+        "nombre":  "MICRO AMD RYZEN 5 8400F S/VIDEO C/COOLER BOX AM5",
+        "categoria":  "Procesadores",
+        "sub":  "AMD AM5",
+        "precio":  307420,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "micro-amd-ryzen-5-8600g-c-video-c-cooler-box-am5",
+        "nombre":  "MICRO AMD RYZEN 5 8600G C/VIDEO C/COOLER BOX AM5",
+        "categoria":  "Procesadores",
+        "sub":  "AMD AM5",
+        "precio":  358800,
+        "destacado":  true,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "micro-amd-ryzen-5-7600x-c-video-s-cooler-cpu-am5",
+        "nombre":  "MICRO AMD RYZEN 5 7600X C/VIDEO S/COOLER CPU AM5",
+        "categoria":  "Procesadores",
+        "sub":  "AMD AM5",
+        "precio":  390379,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "micro-intel-celeron-g5925-s1200-ideal-pc-oficina-q-g5905",
+        "nombre":  "MICRO INTEL CELERON G5925 S1200 IDEAL PC OFICINA +Q G5905",
+        "categoria":  "Procesadores",
+        "sub":  "Intel LGA 1200",
+        "precio":  114183,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "micro-intel-core-i3-10105f-s-video-c-cooler-box-s1200",
+        "nombre":  "MICRO INTEL CORE I3 10105F S/VIDEO C/COOLER BOX S1200",
+        "categoria":  "Procesadores",
+        "sub":  "Intel LGA 1200",
+        "precio":  152904,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "micro-intel-core-i3-13100f-s-video-c-cooler-box-s1700",
+        "nombre":  "MICRO INTEL CORE I3 13100F S/VIDEO C/COOLER BOX S1700",
+        "categoria":  "Procesadores",
+        "sub":  "Intel LGA 1700",
+        "precio":  159793,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "micro-intel-pentium-g7400-s1700",
+        "nombre":  "MICRO INTEL PENTIUM G7400 S1700",
+        "categoria":  "Procesadores",
+        "sub":  "Intel LGA 1700",
+        "precio":  209449,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "micro-intel-core-i3-12100f-s-video-c-cooler-box-s1700",
+        "nombre":  "MICRO INTEL CORE I3 12100F S/VIDEO C/COOLER BOX S1700",
+        "categoria":  "Procesadores",
+        "sub":  "Intel LGA 1700",
+        "precio":  216729,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "micro-intel-core-i3-14100f-s-video-c-cooler-box-s1700",
+        "nombre":  "MICRO INTEL CORE I3 14100F S/VIDEO C/COOLER BOX S1700",
+        "categoria":  "Procesadores",
+        "sub":  "Intel LGA 1700",
+        "precio":  226332,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "micro-intel-core-i3-14100f-s-video-c-cooler-s1700",
+        "nombre":  "MICRO INTEL CORE I3 14100F S/VIDEO C/COOLER S1700",
+        "categoria":  "Procesadores",
+        "sub":  "Intel LGA 1700",
+        "precio":  226895,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "micro-intel-core-i3-12100-c-video-c-cooler-box-s1700",
+        "nombre":  "MICRO INTEL CORE I3 12100 C/VIDEO C/COOLER BOX S1700",
+        "categoria":  "Procesadores",
+        "sub":  "Intel LGA 1700",
+        "precio":  284797,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "micro-intel-core-i3-14100-c-video-c-cooler-box-s1700",
+        "nombre":  "MICRO INTEL CORE I3 14100 C/VIDEO C/COOLER BOX S1700",
+        "categoria":  "Procesadores",
+        "sub":  "Intel LGA 1700",
+        "precio":  308568,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "micro-intel-core-i5-12400f-s-video-c-cooler-box-s1700",
+        "nombre":  "MICRO INTEL CORE I5 12400F S/VIDEO C/COOLER BOX S1700",
+        "categoria":  "Procesadores",
+        "sub":  "Intel LGA 1700",
+        "precio":  309350,
+        "destacado":  true,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "micro-intel-core-i5-14400f-s-video-s-cooler-s1700",
+        "nombre":  "MICRO INTEL CORE I5 14400F S/VIDEO S/COOLER S1700",
+        "categoria":  "Procesadores",
+        "sub":  "Intel LGA 1700",
+        "precio":  330901,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "micro-intel-core-i5-12400f-s-video-c-cooler-s1700",
+        "nombre":  "MICRO INTEL CORE I5 12400F S/VIDEO C/COOLER S1700",
+        "categoria":  "Procesadores",
+        "sub":  "Intel LGA 1700",
+        "precio":  332132,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "micro-intel-core-i5-14400f-tray-s-video-s-cooler-s1700",
+        "nombre":  "MICRO INTEL CORE I5 14400F TRAY S/VIDEO S/COOLER S1700",
+        "categoria":  "Procesadores",
+        "sub":  "Intel LGA 1700",
+        "precio":  343505,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "micro-intel-core-i5-12400-c-video-c-cooler-box-s1700",
+        "nombre":  "MICRO INTEL CORE I5 12400 C/VIDEO C/COOLER BOX S1700",
+        "categoria":  "Procesadores",
+        "sub":  "Intel LGA 1700",
+        "precio":  389448,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "micro-intel-core-i5-12400-c-video-s-cooler-s1700",
+        "nombre":  "MICRO INTEL CORE I5 12400 C/VIDEO S/COOLER S1700",
+        "categoria":  "Procesadores",
+        "sub":  "Intel LGA 1700",
+        "precio":  392253,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "micro-intel-core-i5-14400f-s-video-c-cooler-box-s1700",
+        "nombre":  "MICRO INTEL CORE I5 14400F S/VIDEO C/COOLER BOX S1700",
+        "categoria":  "Procesadores",
+        "sub":  "Intel LGA 1700",
+        "precio":  399591,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "cpu-cooler-intel-performance-s1700",
+        "nombre":  "CPU COOLER INTEL PERFORMANCE S1700",
+        "categoria":  "Coolers",
+        "sub":  "Coolers CPU",
+        "precio":  15199,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "cpu-cooler-kelyx-potencia-maxima-95w-p-amd-intel",
+        "nombre":  "CPU COOLER KELYX POTENCIA MAXIMA 95W P/AMD/INTEL",
+        "categoria":  "Coolers",
+        "sub":  "Coolers CPU",
+        "precio":  16548,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "cpu-cooler-raptor-cryo-rgb-potencia-maxima-95w-p-amd-intel",
+        "nombre":  "CPU COOLER RAPTOR CRYO RGB POTENCIA MAXIMA 95W P/AMD/INTEL",
+        "categoria":  "Coolers",
+        "sub":  "Coolers CPU",
+        "precio":  18975,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "cpu-cooler-evolabs-cryo-4h-argb",
+        "nombre":  "CPU COOLER EVOLABS CRYO 4H ARGB",
+        "categoria":  "Coolers",
+        "sub":  "Coolers CPU",
+        "precio":  33810,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "cpu-cooler-coolermaster-hyper-212-spectrum-v3-rgb",
+        "nombre":  "CPU COOLER COOLERMASTER HYPER 212 SPECTRUM V3 RGB",
+        "categoria":  "Coolers",
+        "sub":  "Coolers CPU",
+        "precio":  36857,
+        "destacado":  true,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "cpu-cooler-evolabs-cryo-pro-4h-argb",
+        "nombre":  "CPU COOLER EVOLABS CRYO PRO 4H ARGB",
+        "categoria":  "Coolers",
+        "sub":  "Coolers CPU",
+        "precio":  43355,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "cpu-cooler-msi-mag-corefrozr-aa13-black-am4-am5-s1700-s1851",
+        "nombre":  "CPU COOLER MSI MAG COREFROZR AA13 BLACK AM4 AM5 S1700 S1851",
+        "categoria":  "Coolers",
+        "sub":  "Coolers CPU",
+        "precio":  47840,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "cpu-cooler-thermaltake-ux200-se-argb-white-cl-p116-al12sw-a",
+        "nombre":  "CPU COOLER THERMALTAKE UX200 SE ARGB WHITE CL-P116-AL12SW-A",
+        "categoria":  "Coolers",
+        "sub":  "Coolers CPU",
+        "precio":  52900,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "cpu-cooler-thermaltake-ux200-se-argb-cl-p105-al12sw-a",
+        "nombre":  "CPU COOLER THERMALTAKE UX200 SE ARGB CL-P105-AL12SW-A",
+        "categoria":  "Coolers",
+        "sub":  "Coolers CPU",
+        "precio":  54127,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "cpu-cooler-thermaltake-ux500-argb-sync",
+        "nombre":  "CPU COOLER THERMALTAKE UX500 ARGB SYNC",
+        "categoria":  "Coolers",
+        "sub":  "Coolers CPU",
+        "precio":  56396,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "cpu-cooler-thermaltake-ux500-argb-sync-white",
+        "nombre":  "CPU COOLER THERMALTAKE UX500 ARGB SYNC WHITE",
+        "categoria":  "Coolers",
+        "sub":  "Coolers CPU",
+        "precio":  56396,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "cpu-cooler-adata-xpg-maestro-plus-42sa-argb",
+        "nombre":  "CPU COOLER ADATA XPG MAESTRO PLUS 42SA ARGB",
+        "categoria":  "Coolers",
+        "sub":  "Coolers CPU",
+        "precio":  57776,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "cpu-cooler-coolermaster-hyper-212-3dhp-black",
+        "nombre":  "CPU COOLER COOLERMASTER HYPER 212 3DHP BLACK",
+        "categoria":  "Coolers",
+        "sub":  "Coolers CPU",
+        "precio":  63859,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "cpu-cooler-thermaltake-astria-200-argb-cl-p119-al12sw-a",
+        "nombre":  "CPU COOLER THERMALTAKE ASTRIA 200 ARGB CL-P119-AL12SW-A",
+        "categoria":  "Coolers",
+        "sub":  "Coolers CPU",
+        "precio":  74267,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "cpu-cooler-thermaltake-astria-200-argb-white-cl-p137-al12sw-a",
+        "nombre":  "CPU COOLER THERMALTAKE ASTRIA 200 ARGB WHITE CL-P137-AL12SW-A",
+        "categoria":  "Coolers",
+        "sub":  "Coolers CPU",
+        "precio":  75428,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "cpu-cooler-adata-xpg-maestro-plus-62da-argb",
+        "nombre":  "CPU COOLER ADATA XPG MAESTRO PLUS 62DA ARGB",
+        "categoria":  "Coolers",
+        "sub":  "Coolers CPU",
+        "precio":  100763,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "cpu-cooler-thermaltake-astria-400-argb-cl-p120-ca12sw-a",
+        "nombre":  "CPU COOLER THERMALTAKE ASTRIA 400 ARGB CL-P120-CA12SW-A",
+        "categoria":  "Coolers",
+        "sub":  "Coolers CPU",
+        "precio":  104132,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "cpu-cooler-thermaltake-astria-400-argb-white-cl-p138-ca12sw-a",
+        "nombre":  "CPU COOLER THERMALTAKE ASTRIA 400 ARGB WHITE CL-P138-CA12SW-A",
+        "categoria":  "Coolers",
+        "sub":  "Coolers CPU",
+        "precio":  106639,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "cpu-cooler-thermaltake-astria-600-argb-white-cl-p139-ca12sw-a",
+        "nombre":  "CPU COOLER THERMALTAKE ASTRIA 600 ARGB WHITE CL-P139-CA12SW-A",
+        "categoria":  "Coolers",
+        "sub":  "Coolers CPU",
+        "precio":  135275,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "cpu-cooler-coolermaster-hyper-212-rgb-black-edition-s1700",
+        "nombre":  "CPU COOLER COOLERMASTER HYPER 212 RGB BLACK EDITION S1700",
+        "categoria":  "Coolers",
+        "sub":  "Coolers CPU",
+        "precio":  139030,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "cpu-cooler-coolermaster-hyper-612-apex-black-map-t6pn-225pk-r1",
+        "nombre":  "CPU COOLER COOLERMASTER HYPER 612 APEX BLACK MAP-T6PN-225PK-R1",
+        "categoria":  "Coolers",
+        "sub":  "Coolers CPU",
+        "precio":  139602,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "cpu-cooler-coolermaster-hyper-212-black-edition-silent-fan",
+        "nombre":  "CPU COOLER COOLERMASTER HYPER 212 BLACK EDITION SILENT FAN",
+        "categoria":  "Coolers",
+        "sub":  "Coolers CPU",
+        "precio":  140075,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "cpu-cooler-coolermaster-masterair-ma620m",
+        "nombre":  "CPU COOLER COOLERMASTER MASTERAIR MA620M",
+        "categoria":  "Coolers",
+        "sub":  "Coolers CPU",
+        "precio":  304498,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "memoria-sodimm-4gb-ddr3-1600-hiksemi-hiker",
+        "nombre":  "MEMORIA SODIMM 4GB DDR3 1600 HIKSEMI HIKER",
+        "categoria":  "Memorias RAM",
+        "sub":  "DDR3",
+        "precio":  26703,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "memoria-4gb-ddr3-1600-hikvision-hiksemi",
+        "nombre":  "MEMORIA 4GB DDR3 1600 HIKVISION / HIKSEMI",
+        "categoria":  "Memorias RAM",
+        "sub":  "DDR3",
+        "precio":  27485,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "memoria-8gb-ddr3-1600-hiksemi-hikvision",
+        "nombre":  "MEMORIA 8GB DDR3 1600 HIKSEMI / HIKVISION",
+        "categoria":  "Memorias RAM",
+        "sub":  "DDR3",
+        "precio":  42861,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "memoria-sodimm-8gb-ddr3-1600-hiksemi-hiker-hsc308s16z1",
+        "nombre":  "MEMORIA SODIMM 8GB DDR3 1600 HIKSEMI HIKER HSC308S16Z1",
+        "categoria":  "Memorias RAM",
+        "sub":  "DDR3",
+        "precio":  45805,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "memoria-8gb-ddr4-3200-patriot-signature",
+        "nombre":  "MEMORIA 8GB DDR4 3200 PATRIOT SIGNATURE",
+        "categoria":  "Memorias RAM",
+        "sub":  "DDR4",
+        "precio":  78683,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "memoria-8gb-ddr4-3200-wicgtyp",
+        "nombre":  "MEMORIA 8GB DDR4 3200 WICGTYP",
+        "categoria":  "Memorias RAM",
+        "sub":  "DDR4",
+        "precio":  123625,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "memoria-sodimm-8gb-ddr4-3200-patriot-signature",
+        "nombre":  "MEMORIA SODIMM 8GB DDR4 3200 PATRIOT SIGNATURE",
+        "categoria":  "Memorias RAM",
+        "sub":  "DDR4",
+        "precio":  124924,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "memoria-sodimm-8gb-ddr4-3200-adata-premier",
+        "nombre":  "MEMORIA SODIMM 8GB DDR4 3200 ADATA PREMIER",
+        "categoria":  "Memorias RAM",
+        "sub":  "DDR4",
+        "precio":  132583,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "memoria-8gb-ddr4-3200-hiksemi-hiker",
+        "nombre":  "MEMORIA 8GB DDR4 3200 HIKSEMI HIKER",
+        "categoria":  "Memorias RAM",
+        "sub":  "DDR4",
+        "precio":  135482,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "memoria-8gb-ddr4-3200-adata-premier",
+        "nombre":  "MEMORIA 8GB DDR4 3200 ADATA PREMIER",
+        "categoria":  "Memorias RAM",
+        "sub":  "DDR4",
+        "precio":  136361,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "memoria-8gb-ddr4-3200-lexar",
+        "nombre":  "MEMORIA 8GB DDR4 3200 LEXAR",
+        "categoria":  "Memorias RAM",
+        "sub":  "DDR4",
+        "precio":  136361,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "memoria-8gb-ddr4-3200-hiksemi-armor-c-disipador",
+        "nombre":  "MEMORIA 8GB DDR4 3200 HIKSEMI ARMOR C/DISIPADOR",
+        "categoria":  "Memorias RAM",
+        "sub":  "DDR4",
+        "precio":  140622,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "memoria-8gb-ddr4-3200-arkham-black-rgb",
+        "nombre":  "MEMORIA 8GB DDR4 3200 ARKHAM BLACK RGB",
+        "categoria":  "Memorias RAM",
+        "sub":  "DDR4",
+        "precio":  140760,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "memoria-8gb-ddr4-3200-c-disipador-termico-starmemory",
+        "nombre":  "MEMORIA 8GB DDR4 3200 C/DISIPADOR TERMICO STARMEMORY",
+        "categoria":  "Memorias RAM",
+        "sub":  "DDR4",
+        "precio":  140760,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "memoria-8gb-ddr4-3200-hiksemi-armor-white-c-disipador",
+        "nombre":  "MEMORIA 8GB DDR4 3200 HIKSEMI ARMOR WHITE C/DISIPADOR",
+        "categoria":  "Memorias RAM",
+        "sub":  "DDR4",
+        "precio":  158930,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "memoria-8gb-ddr4-3200-hiksemi-future-rgb",
+        "nombre":  "MEMORIA 8GB DDR4 3200 HIKSEMI FUTURE RGB",
+        "categoria":  "Memorias RAM",
+        "sub":  "DDR4",
+        "precio":  162265,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "memoria-8gb-ddr4-3200-adata-xpg-gammix-d35",
+        "nombre":  "MEMORIA 8GB DDR4 3200 ADATA XPG GAMMIX D35",
+        "categoria":  "Memorias RAM",
+        "sub":  "DDR4",
+        "precio":  163116,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "memoria-sodimm-8gb-ddr4-3200-kingston-no-ecc-kcp432ss8-8",
+        "nombre":  "MEMORIA SODIMM 8GB DDR4 3200 KINGSTON NO-ECC KCP432SS8/8",
+        "categoria":  "Memorias RAM",
+        "sub":  "DDR4",
+        "precio":  165514,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "memoria-8gb-ddr4-3200-adata-xpg-spectrix-d35g-rgb",
+        "nombre":  "MEMORIA 8GB DDR4 3200 ADATA XPG SPECTRIX D35G RGB",
+        "categoria":  "Memorias RAM",
+        "sub":  "DDR4",
+        "precio":  169982,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "memoria-8gb-ddr4-3200-corsair-vengeance-rgb-rs",
+        "nombre":  "MEMORIA 8GB DDR4 3200 CORSAIR VENGEANCE RGB RS",
+        "categoria":  "Memorias RAM",
+        "sub":  "DDR4",
+        "precio":  175688,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "memoria-8gb-ddr4-3200-corsair-vengeance-lpx",
+        "nombre":  "MEMORIA 8GB DDR4 3200 CORSAIR VENGEANCE LPX",
+        "categoria":  "Memorias RAM",
+        "sub":  "DDR4",
+        "precio":  194753,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "memoria-8gb-ddr4-3200-kingston-fury-beast-rgb",
+        "nombre":  "MEMORIA 8GB DDR4 3200 KINGSTON FURY BEAST RGB",
+        "categoria":  "Memorias RAM",
+        "sub":  "DDR4",
+        "precio":  195040,
+        "destacado":  true,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "memoria-sodimm-8gb-ddr4-3200-crucial",
+        "nombre":  "MEMORIA SODIMM 8GB DDR4 3200 CRUCIAL",
+        "categoria":  "Memorias RAM",
+        "sub":  "DDR4",
+        "precio":  201250,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "memoria-8gb-ddr4-3200-kingston-fury-beast",
+        "nombre":  "MEMORIA 8GB DDR4 3200 KINGSTON FURY BEAST",
+        "categoria":  "Memorias RAM",
+        "sub":  "DDR4",
+        "precio":  210335,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "memoria-8gb-ddr4-3600-kingston-fury-beast-rgb",
+        "nombre":  "MEMORIA 8GB DDR4 3600 KINGSTON FURY BEAST RGB",
+        "categoria":  "Memorias RAM",
+        "sub":  "DDR4",
+        "precio":  219016,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "memoria-16gb-ddr4-3200-c-disipador-termico-starmemory",
+        "nombre":  "MEMORIA 16GB DDR4 3200 C/DISIPADOR TERMICO STARMEMORY",
+        "categoria":  "Memorias RAM",
+        "sub":  "DDR4",
+        "precio":  224008,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "memoria-sodimm-16gb-ddr4-3200-hiksemi-hiker",
+        "nombre":  "MEMORIA SODIMM 16GB DDR4 3200 HIKSEMI HIKER",
+        "categoria":  "Memorias RAM",
+        "sub":  "DDR4",
+        "precio":  224813,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "memoria-8gb-ddr4-3200-kingston-value-ram-kvr",
+        "nombre":  "MEMORIA 8GB DDR4 3200 KINGSTON VALUE RAM KVR",
+        "categoria":  "Memorias RAM",
+        "sub":  "DDR4",
+        "precio":  250505,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "memoria-16gb-ddr4-3200-lexar",
+        "nombre":  "MEMORIA 16GB DDR4 3200 LEXAR",
+        "categoria":  "Memorias RAM",
+        "sub":  "DDR4",
+        "precio":  253529,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "memoria-16gb-ddr4-3200-kingston-value-ram-kvr",
+        "nombre":  "MEMORIA 16GB DDR4 3200 KINGSTON VALUE RAM KVR",
+        "categoria":  "Memorias RAM",
+        "sub":  "DDR4",
+        "precio":  255265,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "memoria-sodimm-ddr5-8gb-ddr5-4800-corsair-vengeance",
+        "nombre":  "MEMORIA SODIMM DDR5 8GB DDR5 4800 CORSAIR VENGEANCE",
+        "categoria":  "Memorias RAM",
+        "sub":  "DDR5",
+        "precio":  165485,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "memoria-8gb-ddr5-5600-patriot-signature",
+        "nombre":  "MEMORIA 8GB DDR5 5600 PATRIOT SIGNATURE",
+        "categoria":  "Memorias RAM",
+        "sub":  "DDR5",
+        "precio":  246226,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "hd-ssd-120gb-memox-sata-iii-2-5",
+        "nombre":  "HD SSD 120GB MEMOX SATA III 2.5\"",
+        "categoria":  "Almacenamientos",
+        "sub":  "SSD",
+        "precio":  52647,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "hd-ssd-120gb-hiksemi-wave-sata-iii-2-5",
+        "nombre":  "HD SSD 120GB HIKSEMI WAVE SATA III 2.5\"",
+        "categoria":  "Almacenamientos",
+        "sub":  "SSD",
+        "precio":  57569,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "hd-ssd-128gb-hiksemi-wave-m-2-nvme-gen3-2280",
+        "nombre":  "HD SSD 128GB HIKSEMI WAVE M.2 NVME GEN3 2280",
+        "categoria":  "Almacenamientos",
+        "sub":  "SSD",
+        "precio":  66769,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "hd-ssd-240gb-raptor-legacy-sata-iii-2-5",
+        "nombre":  "HD SSD 240GB RAPTOR LEGACY SATA III 2.5\"",
+        "categoria":  "Almacenamientos",
+        "sub":  "SSD",
+        "precio":  72103,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "hd-ssd-256gb-lexar-nq100-sata-iii-2-5",
+        "nombre":  "HD SSD 256GB LEXAR NQ100 SATA III 2.5\"",
+        "categoria":  "Almacenamientos",
+        "sub":  "SSD",
+        "precio":  80057,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "hd-ssd-240gb-hiksemi-wave-sata-iii-2-5",
+        "nombre":  "HD SSD 240GB HIKSEMI WAVE SATA III 2.5\"",
+        "categoria":  "Almacenamientos",
+        "sub":  "SSD",
+        "precio":  81926,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "hd-ssd-240gb-msi-spatium-s270-sata-iii-2-5",
+        "nombre":  "HD SSD 240GB MSI SPATIUM S270 SATA III 2.5\"",
+        "categoria":  "Almacenamientos",
+        "sub":  "SSD",
+        "precio":  83501,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "hd-ssd-256gb-adata-su650-ultimate-sata-iii-2-5",
+        "nombre":  "HD SSD 256GB ADATA SU650 ULTIMATE SATA III 2.5\"",
+        "categoria":  "Almacenamientos",
+        "sub":  "SSD",
+        "precio":  95496,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "hd-ssd-256gb-hiksemi-wave-m-2-nvme-gen3-2280",
+        "nombre":  "HD SSD 256GB HIKSEMI WAVE M.2 NVME GEN3 2280",
+        "categoria":  "Almacenamientos",
+        "sub":  "SSD",
+        "precio":  100050,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "hd-ssd-256gb-memox-m-2-nvme-gen3",
+        "nombre":  "HD SSD 256GB MEMOX M.2 NVME GEN3",
+        "categoria":  "Almacenamientos",
+        "sub":  "SSD",
+        "precio":  104945,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "hd-ssd-256gb-patriot-p300-m-2-nvme-gen3",
+        "nombre":  "HD SSD 256GB PATRIOT P300 M.2 NVME GEN3",
+        "categoria":  "Almacenamientos",
+        "sub":  "SSD",
+        "precio":  117116,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "hd-ssd-512gb-lexar-nq100-sata-iii-2-5",
+        "nombre":  "HD SSD 512GB LEXAR NQ100 SATA III 2.5\"",
+        "categoria":  "Almacenamientos",
+        "sub":  "SSD",
+        "precio":  135482,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "hd-ssd-480gb-patriot-burst-elite-sata-iii-2-5",
+        "nombre":  "HD SSD 480GB PATRIOT BURST ELITE SATA III 2.5\"",
+        "categoria":  "Almacenamientos",
+        "sub":  "SSD",
+        "precio":  147096,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "hd-ssd-480gb-memox-sata-iii-2-5",
+        "nombre":  "HD SSD 480GB MEMOX SATA III 2.5\"",
+        "categoria":  "Almacenamientos",
+        "sub":  "SSD",
+        "precio":  152053,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "hd-ssd-480gb-msi-spatium-s270-sata-iii-2-5",
+        "nombre":  "HD SSD 480GB MSI SPATIUM S270 SATA III 2.5\"",
+        "categoria":  "Almacenamientos",
+        "sub":  "SSD",
+        "precio":  153847,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "hd-ssd-480gb-hiksemi-wave-sata-iii-2-5",
+        "nombre":  "HD SSD 480GB HIKSEMI WAVE SATA III 2.5\"",
+        "categoria":  "Almacenamientos",
+        "sub":  "SSD",
+        "precio":  158896,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "hd-ssd-480gb-kingston-a400-sata-iii-2-5",
+        "nombre":  "HD SSD 480GB KINGSTON A400 SATA III 2.5\"",
+        "categoria":  "Almacenamientos",
+        "sub":  "SSD",
+        "precio":  171718,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "hd-ssd-512gb-hiksemi-wave-m-2-nvme-gen3",
+        "nombre":  "HD SSD 512GB HIKSEMI WAVE M.2 NVME GEN3",
+        "categoria":  "Almacenamientos",
+        "sub":  "SSD",
+        "precio":  188266,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "hd-ssd-512gb-patriot-p300-m-2-nvme-gen3",
+        "nombre":  "HD SSD 512GB PATRIOT P300 M.2 NVME GEN3",
+        "categoria":  "Almacenamientos",
+        "sub":  "SSD",
+        "precio":  189807,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "hd-ssd-500gb-wd-green-sata-iii-2-5",
+        "nombre":  "HD SSD 500GB WD GREEN SATA III 2.5\"",
+        "categoria":  "Almacenamientos",
+        "sub":  "SSD",
+        "precio":  200583,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "hd-ssd-512gb-hiksemi-future-lite-m-2-nvme-gen4",
+        "nombre":  "HD SSD 512GB HIKSEMI FUTURE LITE M.2 NVME GEN4",
+        "categoria":  "Almacenamientos",
+        "sub":  "SSD",
+        "precio":  203630,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "hd-ssd-500gb-adata-legend-860-m-2-nvme-gen4",
+        "nombre":  "HD SSD 500GB ADATA LEGEND 860 M.2 NVME GEN4",
+        "categoria":  "Almacenamientos",
+        "sub":  "SSD",
+        "precio":  217476,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "hd-ssd-500gb-kingston-snvs-nv3-m-2-nvme-gen4",
+        "nombre":  "HD SSD 500GB KINGSTON SNVS NV3 M.2 NVME GEN4",
+        "categoria":  "Almacenamientos",
+        "sub":  "SSD",
+        "precio":  218420,
+        "destacado":  true,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "hd-ssd-512gb-patriot-p320-m-2-nvme-gen3",
+        "nombre":  "HD SSD 512GB PATRIOT P320 M.2 NVME GEN3",
+        "categoria":  "Almacenamientos",
+        "sub":  "SSD",
+        "precio":  228298,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "hd-ssd-500gb-adata-spectrix-s65g-rgb-m-2-nvme",
+        "nombre":  "HD SSD 500GB ADATA SPECTRIX S65G RGB M.2 NVME",
+        "categoria":  "Almacenamientos",
+        "sub":  "SSD",
+        "precio":  237556,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "hd-ssd-externo-500gb-kingston-xs2000-usb-3-2-gen2x2",
+        "nombre":  "HD SSD EXTERNO 500GB KINGSTON XS2000 USB 3.2 GEN2X2",
+        "categoria":  "Almacenamientos",
+        "sub":  "SSD",
+        "precio":  242316,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "hd-ssd-512gb-adata-xpg-gammix-s70-blade-m-2-nvme-gen4",
+        "nombre":  "HD SSD 512GB ADATA XPG GAMMIX S70 BLADE M.2 NVME GEN4",
+        "categoria":  "Almacenamientos",
+        "sub":  "SSD",
+        "precio":  243133,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "hd-ssd-1tb-wd-green-sn350-m-2-nvme-gen3",
+        "nombre":  "HD SSD 1TB WD GREEN SN350 M.2 NVME GEN3",
+        "categoria":  "Almacenamientos",
+        "sub":  "SSD",
+        "precio":  310086,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "hd-ssd-1tb-wd-green-sata-iii-2-5",
+        "nombre":  "HD SSD 1TB WD GREEN SATA III 2.5\"",
+        "categoria":  "Almacenamientos",
+        "sub":  "SSD",
+        "precio":  334500,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "hd-hdd-1tb-seagate-skyhawk-sata-iii-3-5",
+        "nombre":  "HD HDD 1TB SEAGATE SKYHAWK SATA III 3.5\"",
+        "categoria":  "Almacenamientos",
+        "sub":  "HDD",
+        "precio":  244386,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "hd-hdd-externo-1tb-wd-elements-usb-3-0",
+        "nombre":  "HD HDD EXTERNO 1TB WD ELEMENTS USB 3.0",
+        "categoria":  "Almacenamientos",
+        "sub":  "HDD",
+        "precio":  276057,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "hd-hdd-externo-2tb-seagate-portable-usb-3-0",
+        "nombre":  "HD HDD EXTERNO 2TB SEAGATE PORTABLE USB 3.0",
+        "categoria":  "Almacenamientos",
+        "sub":  "HDD",
+        "precio":  289340,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "hd-hdd-2tb-seagate-skyhawk-sata-iii-3-5",
+        "nombre":  "HD HDD 2TB SEAGATE SKYHAWK SATA III 3.5\"",
+        "categoria":  "Almacenamientos",
+        "sub":  "HDD",
+        "precio":  324265,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "disco-hdd-1tb-sata3-wd-purple",
+        "nombre":  "DISCO HDD 1TB SATA3 WD PURPLE",
+        "categoria":  "Almacenamientos",
+        "sub":  "HDD",
+        "precio":  324944,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "hd-hdd-2tb-wd-purple-sata-iii-3-5",
+        "nombre":  "HD HDD 2TB WD PURPLE SATA III 3.5\"",
+        "categoria":  "Almacenamientos",
+        "sub":  "HDD",
+        "precio":  352981,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "hd-hdd-externo-2tb-wd-elements-usb-3-0",
+        "nombre":  "HD HDD EXTERNO 2TB WD ELEMENTS USB 3.0",
+        "categoria":  "Almacenamientos",
+        "sub":  "HDD",
+        "precio":  384997,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "placa-de-video-geforce-gt-210-1gb-msi-n210-md1g-d3-low-profile",
+        "nombre":  "PLACA DE VIDEO GEFORCE GT 210 1GB MSI N210-MD1G/D3 LOW PROFILE",
+        "categoria":  "Placas de video",
+        "sub":  "",
+        "precio":  76371,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "placa-de-video-geforce-gt-210-1gb-ddr3-vga-hdmi-dvi-bulk",
+        "nombre":  "PLACA DE VIDEO GEFORCE GT 210 1GB DDR3 VGA HDMI DVI BULK",
+        "categoria":  "Placas de video",
+        "sub":  "",
+        "precio":  90850,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "placa-de-video-geforce-gt-710-2gb-msi-lp",
+        "nombre":  "PLACA DE VIDEO GEFORCE GT 710 2GB MSI LP",
+        "categoria":  "Placas de video",
+        "sub":  "",
+        "precio":  139702,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "placa-de-video-geforce-gt-1030-4gb-msi-4dg4-low-profile",
+        "nombre":  "PLACA DE VIDEO GEFORCE GT 1030 4GB MSI 4DG4 LOW PROFILE",
+        "categoria":  "Placas de video",
+        "sub":  "",
+        "precio":  247791,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "placa-de-video-geforce-gt-1030-2gb-ddr4-gigabyte-low-profile",
+        "nombre":  "PLACA DE VIDEO GEFORCE GT 1030 2GB DDR4 GIGABYTE LOW PROFILE",
+        "categoria":  "Placas de video",
+        "sub":  "",
+        "precio":  249032,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "placa-de-video-geforce-rtx-3050-6gb-msi-ventus-2x-oc",
+        "nombre":  "PLACA DE VIDEO GEFORCE RTX 3050 6GB MSI VENTUS 2X OC",
+        "categoria":  "Placas de video",
+        "sub":  "",
+        "precio":  561924,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "placa-de-video-geforce-rtx-3050-6gb-msi-lp-oc",
+        "nombre":  "PLACA DE VIDEO GEFORCE RTX 3050 6GB MSI LP OC",
+        "categoria":  "Placas de video",
+        "sub":  "",
+        "precio":  566973,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "placa-de-video-geforce-rtx-3050-6gb-zotac-twin-edge-oc",
+        "nombre":  "PLACA DE VIDEO GEFORCE RTX 3050 6GB ZOTAC TWIN EDGE OC",
+        "categoria":  "Placas de video",
+        "sub":  "",
+        "precio":  573528,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "placa-de-video-geforce-rtx-3050-6gb-asus-dual-oc",
+        "nombre":  "PLACA DE VIDEO GEFORCE RTX 3050 6GB ASUS DUAL OC",
+        "categoria":  "Placas de video",
+        "sub":  "",
+        "precio":  573643,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "placa-de-video-geforce-rtx-5050-8gb-gigabyte-low-profile-oc",
+        "nombre":  "PLACA DE VIDEO GEFORCE RTX 5050 8GB GIGABYTE LOW PROFILE OC",
+        "categoria":  "Placas de video",
+        "sub":  "",
+        "precio":  791775,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "placa-de-video-geforce-rtx-5050-8gb-gigabyte-windforce-v2-oc",
+        "nombre":  "PLACA DE VIDEO GEFORCE RTX 5050 8GB GIGABYTE WINDFORCE V2 OC",
+        "categoria":  "Placas de video",
+        "sub":  "",
+        "precio":  804091,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "placa-de-video-radeon-rx-7600-8gb-gigabyte-gaming-oc",
+        "nombre":  "PLACA DE VIDEO RADEON RX 7600 8GB GIGABYTE GAMING OC",
+        "categoria":  "Placas de video",
+        "sub":  "",
+        "precio":  835762,
+        "destacado":  true,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "placa-de-video-geforce-rtx-5050-8gb-msi-ventus-2x-oc",
+        "nombre":  "PLACA DE VIDEO GEFORCE RTX 5050 8GB MSI VENTUS 2X OC",
+        "categoria":  "Placas de video",
+        "sub":  "",
+        "precio":  880900,
+        "destacado":  true,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "placa-de-video-geforce-rtx-5050-8gb-zotac-twin-edge-oc",
+        "nombre":  "PLACA DE VIDEO GEFORCE RTX 5050 8GB ZOTAC TWIN EDGE OC",
+        "categoria":  "Placas de video",
+        "sub":  "",
+        "precio":  886719,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "placa-de-video-geforce-rtx-5050-8gb-gigabyte-gaming-oc-3x",
+        "nombre":  "PLACA DE VIDEO GEFORCE RTX 5050 8GB GIGABYTE GAMING OC 3X",
+        "categoria":  "Placas de video",
+        "sub":  "",
+        "precio":  905107,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "placa-de-video-geforce-rtx-5050-8gb-asus-dual-oc-edition",
+        "nombre":  "PLACA DE VIDEO GEFORCE RTX 5050 8GB ASUS DUAL OC EDITION",
+        "categoria":  "Placas de video",
+        "sub":  "",
+        "precio":  905625,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "fuente-500w-lnz-bx550-ss",
+        "nombre":  "FUENTE 500W LNZ BX550-SS",
+        "categoria":  "Fuentes de poder",
+        "sub":  "",
+        "precio":  18844,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "fuente-500w-lnz-xs550-ce",
+        "nombre":  "FUENTE 500W LNZ XS550-CE",
+        "categoria":  "Fuentes de poder",
+        "sub":  "",
+        "precio":  22609,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "fuente-500w-sfx-atx-20-4-sata",
+        "nombre":  "FUENTE 500W SFX ATX 20+4 SATA",
+        "categoria":  "Fuentes de poder",
+        "sub":  "",
+        "precio":  23036,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "fuente-aureox-arxe-500w",
+        "nombre":  "FUENTE AUREOX ARXE 500W",
+        "categoria":  "Fuentes de poder",
+        "sub":  "",
+        "precio":  25346,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "fuente-550w-performance-sata-4-cable-power",
+        "nombre":  "FUENTE 550W PERFORMANCE SATA *4 CABLE POWER",
+        "categoria":  "Fuentes de poder",
+        "sub":  "",
+        "precio":  30126,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "fuente-aureox-arxgp-500w",
+        "nombre":  "FUENTE AUREOX ARXGP 500W",
+        "categoria":  "Fuentes de poder",
+        "sub":  "",
+        "precio":  45402,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "fuente-600w-aureox-arxgp-600w",
+        "nombre":  "FUENTE 600W AUREOX ARXGP-600W",
+        "categoria":  "Fuentes de poder",
+        "sub":  "",
+        "precio":  49956,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "fuente-700w-lnz-sx700-ts",
+        "nombre":  "FUENTE 700W LNZ SX700-TS",
+        "categoria":  "Fuentes de poder",
+        "sub":  "",
+        "precio":  55516,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "fuente-500w-evolabs-power-series",
+        "nombre":  "FUENTE 500W EVOLABS POWER SERIES",
+        "categoria":  "Fuentes de poder",
+        "sub":  "",
+        "precio":  65274,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "fuente-500w-raptor-volt-80-plus-silver",
+        "nombre":  "FUENTE 500W RAPTOR VOLT 80 PLUS SILVER",
+        "categoria":  "Fuentes de poder",
+        "sub":  "",
+        "precio":  72484,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "fuente-600w-evolabs-power-series",
+        "nombre":  "FUENTE 600W EVOLABS POWER SERIES",
+        "categoria":  "Fuentes de poder",
+        "sub":  "",
+        "precio":  73404,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "fuente-550w-msi-mag-a550bn-80-plus-bronze",
+        "nombre":  "FUENTE 550W MSI MAG A550BN 80 PLUS BRONZE",
+        "categoria":  "Fuentes de poder",
+        "sub":  "",
+        "precio":  82581,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "fuente-500w-thermaltake-smart-80-plus-white",
+        "nombre":  "FUENTE 500W THERMALTAKE SMART 80 PLUS WHITE",
+        "categoria":  "Fuentes de poder",
+        "sub":  "",
+        "precio":  83455,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "fuente-600w-thermaltake-smart-80-plus-white",
+        "nombre":  "FUENTE 600W THERMALTAKE SMART 80 PLUS WHITE",
+        "categoria":  "Fuentes de poder",
+        "sub":  "",
+        "precio":  85847,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "fuente-550w-gigabyte-white-gp-p550ss-ice-80-plus-silver",
+        "nombre":  "FUENTE 550W GIGABYTE WHITE GP-P550SS ICE 80 PLUS SILVER",
+        "categoria":  "Fuentes de poder",
+        "sub":  "",
+        "precio":  86584,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "fuente-650w-evolabs-supreme-series-80-plus-bronze",
+        "nombre":  "FUENTE 650W EVOLABS SUPREME SERIES 80 PLUS BRONZE",
+        "categoria":  "Fuentes de poder",
+        "sub":  "",
+        "precio":  88630,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "fuente-550w-gigabyte-gp-p550ss-80-plus-silver",
+        "nombre":  "FUENTE 550W GIGABYTE GP-P550SS 80 PLUS SILVER",
+        "categoria":  "Fuentes de poder",
+        "sub":  "",
+        "precio":  88883,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "fuente-550w-80-plus-bronze-corsair-cx550",
+        "nombre":  "FUENTE 550W 80 PLUS BRONZE CORSAIR CX550",
+        "categoria":  "Fuentes de poder",
+        "sub":  "",
+        "precio":  91046,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "fuente-600w-adata-xpg-probe-80-plus-bronze",
+        "nombre":  "FUENTE 600W ADATA XPG PROBE 80 PLUS BRONZE",
+        "categoria":  "Fuentes de poder",
+        "sub":  "",
+        "precio":  93851,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "fuente-650w-gigabyte-gp-p650ss-ice-80-plus-silver-blanca",
+        "nombre":  "FUENTE 650W GIGABYTE GP-P650SS ICE 80 PLUS SILVER BLANCA",
+        "categoria":  "Fuentes de poder",
+        "sub":  "",
+        "precio":  101901,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "fuente-750w-evolabs-supreme-series-80-plus-silver",
+        "nombre":  "FUENTE 750W EVOLABS SUPREME SERIES 80 PLUS SILVER",
+        "categoria":  "Fuentes de poder",
+        "sub":  "",
+        "precio":  107571,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "fuente-650w-asus-prime-650b-80-plus-bronze",
+        "nombre":  "FUENTE 650W ASUS PRIME 650B 80 PLUS BRONZE",
+        "categoria":  "Fuentes de poder",
+        "sub":  "",
+        "precio":  108086,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "fuente-650w-arkham-coreshield-by-xpg-80-plus-gold-oem",
+        "nombre":  "FUENTE 650W ARKHAM CORESHIELD BY XPG 80 PLUS GOLD OEM",
+        "categoria":  "Fuentes de poder",
+        "sub":  "",
+        "precio":  108456,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "fuente-700w-adata-xpg-probe-80-plus-bronze",
+        "nombre":  "FUENTE 700W ADATA XPG PROBE 80 PLUS BRONZE",
+        "categoria":  "Fuentes de poder",
+        "sub":  "",
+        "precio":  109066,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "fuente-750w-sentey-mbp750-vm-atx-3-1-pcie-5-1-80-plus-bronze-semi-modu",
+        "nombre":  "FUENTE 750W SENTEY MBP750-VM ATX 3.1 PCIE 5.1 80 PLUS BRONZE SEMI MODULAR",
+        "categoria":  "Fuentes de poder",
+        "sub":  "",
+        "precio":  109793,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "fuente-700w-gamemax-80-plus-bronze-vp-700-m-rgb",
+        "nombre":  "FUENTE 700W GAMEMAX 80 PLUS BRONZE VP-700-M-RGB",
+        "categoria":  "Fuentes de poder",
+        "sub":  "",
+        "precio":  113482,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "fuente-850w-sentey-mbp850-gm-atx-3-1-pcie-5-1-80-plus-bronze-semi-modu",
+        "nombre":  "FUENTE 850W SENTEY MBP850-GM ATX 3.1 PCIE 5.1 80 PLUS BRONZE SEMI MODULAR",
+        "categoria":  "Fuentes de poder",
+        "sub":  "",
+        "precio":  114561,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "fuente-650w-adata-xpg-pylon-80-plus-bronze",
+        "nombre":  "FUENTE 650W ADATA XPG PYLON 80 PLUS BRONZE",
+        "categoria":  "Fuentes de poder",
+        "sub":  "",
+        "precio":  116265,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "gabinete-nova-cm-04q1-micro-atx-p-mother-a520m-b550m-h510m-a620m",
+        "nombre":  "GABINETE NOVA CM-04Q1 MICRO ATX P/MOTHER A520M B550M H510M A620M",
+        "categoria":  "Gabinetes",
+        "sub":  "",
+        "precio":  25875,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "gabinete-gamer-aureox-skoll-arx-200g",
+        "nombre":  "GABINETE GAMER AUREOX SKOLL ARX 200G",
+        "categoria":  "Gabinetes",
+        "sub":  "",
+        "precio":  38836,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "gabinete-sentey-h30-black-vidro-lateral-y-frontal",
+        "nombre":  "GABINETE SENTEY H30 BLACK VIDRO LATERAL Y FRONTAL",
+        "categoria":  "Gabinetes",
+        "sub":  "",
+        "precio":  41295,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "gabinete-sentey-h30-white-vidro-lateral-y-frontal",
+        "nombre":  "GABINETE SENTEY H30 WHITE VIDRO LATERAL Y FRONTAL",
+        "categoria":  "Gabinetes",
+        "sub":  "",
+        "precio":  43600,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "gabinete-kit-c-teclado-c-mouse",
+        "nombre":  "GABINETE KIT C/TECLADO C/MOUSE",
+        "categoria":  "Gabinetes",
+        "sub":  "",
+        "precio":  43988,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "gabinete-kit-performance-mate-c-fuente-500w",
+        "nombre":  "GABINETE KIT PERFORMANCE MATE C/FUENTE 500W",
+        "categoria":  "Gabinetes",
+        "sub":  "",
+        "precio":  44369,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "gabinete-kit-gamer-c-fuente-600w-rgb-teclado-mouse-y-parlantes-aurus",
+        "nombre":  "GABINETE KIT GAMER C/FUENTE 600W RGB TECLADO MOUSE Y PARLANTES AURUS",
+        "categoria":  "Gabinetes",
+        "sub":  "",
+        "precio":  46897,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "gabinete-raptor-blaze-force-tg-fan-rgb",
+        "nombre":  "GABINETE RAPTOR BLAZE FORCE TG FAN RGB",
+        "categoria":  "Gabinetes",
+        "sub":  "",
+        "precio":  47357,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "gabinete-gamer-aureox-vanth-205g",
+        "nombre":  "GABINETE GAMER AUREOX VANTH 205G",
+        "categoria":  "Gabinetes",
+        "sub":  "",
+        "precio":  47886,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "gabinete-teros-te-1036s-mid-tower-c-fuente-250w",
+        "nombre":  "GABINETE TEROS TE-1036S MID TOWER C/FUENTE 250W",
+        "categoria":  "Gabinetes",
+        "sub":  "",
+        "precio":  50863,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "gabinete-kit-con-teclado-mouse-y-parlante",
+        "nombre":  "GABINETE KIT CON TECLADO MOUSE Y PARLANTE",
+        "categoria":  "Gabinetes",
+        "sub":  "",
+        "precio":  52900,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "gabinete-evolabs-streak-tg-2fan-frgb",
+        "nombre":  "GABINETE EVOLABS STREAK TG 2FAN FRGB",
+        "categoria":  "Gabinetes",
+        "sub":  "",
+        "precio":  53624,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "gabinete-sentey-t5-black-tg-lateral-y-frontal-3fan-argb",
+        "nombre":  "GABINETE SENTEY T5 BLACK TG LATERAL Y FRONTAL 3FAN ARGB",
+        "categoria":  "Gabinetes",
+        "sub":  "",
+        "precio":  55055,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "gabinete-raptor-thunder-strike-tg-1fan-rgb-blanco",
+        "nombre":  "GABINETE RAPTOR THUNDER STRIKE TG 1FAN RGB BLANCO",
+        "categoria":  "Gabinetes",
+        "sub":  "",
+        "precio":  55062,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "gabinete-raptor-thunder-strike-tg-1fan-rgb-negro",
+        "nombre":  "GABINETE RAPTOR THUNDER STRIKE TG 1FAN RGB NEGRO",
+        "categoria":  "Gabinetes",
+        "sub":  "",
+        "precio":  55062,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "gabinete-kit-c-teclado-c-mouse-c-auricular-gamer",
+        "nombre":  "GABINETE KIT C/TECLADO C/MOUSE C/AURICULAR GAMER",
+        "categoria":  "Gabinetes",
+        "sub":  "",
+        "precio":  55545,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "gabinete-gamer-aureox-pictor-arx-370g-4-coolers",
+        "nombre":  "GABINETE GAMER AUREOX PICTOR ARX 370G 4 COOLERS",
+        "categoria":  "Gabinetes",
+        "sub":  "",
+        "precio":  55959,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "gabinete-evolabs-sophystix-tg-3fan-frgb",
+        "nombre":  "GABINETE EVOLABS SOPHYSTIX TG 3FAN FRGB",
+        "categoria":  "Gabinetes",
+        "sub":  "",
+        "precio":  58409,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "gabinete-raptor-infinity-mesh-tg-4fan-rgb",
+        "nombre":  "GABINETE RAPTOR INFINITY MESH TG 4FAN RGB",
+        "categoria":  "Gabinetes",
+        "sub":  "",
+        "precio":  61951,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "gabinete-raptor-blaze-force-v2-tg-3fan-rgb",
+        "nombre":  "GABINETE RAPTOR BLAZE FORCE V2 TG 3FAN RGB",
+        "categoria":  "Gabinetes",
+        "sub":  "",
+        "precio":  63146,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "gabinete-gamer-raidmax-meshian-x609m-tg",
+        "nombre":  "GABINETE GAMER RAIDMAX MESHIAN X609M TG",
+        "categoria":  "Gabinetes",
+        "sub":  "",
+        "precio":  64779,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "gabinete-evolabs-artist-tg-2fan-argb",
+        "nombre":  "GABINETE EVOLABS ARTIST TG 2FAN ARGB",
+        "categoria":  "Gabinetes",
+        "sub":  "",
+        "precio":  65492,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "gabinete-arkham-vorus-tg-4fan-argb",
+        "nombre":  "GABINETE ARKHAM VORUS TG 4FAN ARGB",
+        "categoria":  "Gabinetes",
+        "sub":  "",
+        "precio":  66757,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "gabinete-performance-slim-kit-5836-fuente-600w-teclado-mouse",
+        "nombre":  "GABINETE PERFORMANCE SLIM KIT 5836 FUENTE 600W TECLADO+MOUSE",
+        "categoria":  "Gabinetes",
+        "sub":  "",
+        "precio":  71875,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "gabinete-evolabs-duality-tg-4fan-argb",
+        "nombre":  "GABINETE EVOLABS DUALITY TG 4FAN ARGB",
+        "categoria":  "Gabinetes",
+        "sub":  "",
+        "precio":  75452,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "gabinete-adata-xpg-valor-air-black",
+        "nombre":  "GABINETE ADATA XPG VALOR AIR BLACK",
+        "categoria":  "Gabinetes",
+        "sub":  "",
+        "precio":  80557,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "gabinete-adata-xpg-lander-500-tg-4fan-argb",
+        "nombre":  "GABINETE ADATA XPG LANDER 500 TG 4FAN ARGB",
+        "categoria":  "Gabinetes",
+        "sub":  "",
+        "precio":  82006,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "gabinete-adata-xpg-valor-air-4fan-white",
+        "nombre":  "GABINETE ADATA XPG VALOR AIR 4FAN WHITE",
+        "categoria":  "Gabinetes",
+        "sub":  "",
+        "precio":  82110,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "gabinete-thermaltake-s100-tg-snow-white",
+        "nombre":  "GABINETE THERMALTAKE S100 TG SNOW WHITE",
+        "categoria":  "Gabinetes",
+        "sub":  "",
+        "precio":  86514,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    },
+    {
+        "id":  "gabinete-thermaltake-versa-h16-tg-3fan-argb-snow-white",
+        "nombre":  "GABINETE THERMALTAKE VERSA H16 TG 3FAN ARGB SNOW WHITE",
+        "categoria":  "Gabinetes",
+        "sub":  "",
+        "precio":  88780,
+        "destacado":  false,
+        "stock":  "consultar",
+        "imagen":  ""
+    }
+]

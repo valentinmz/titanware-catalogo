@@ -3,507 +3,209 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Titanware · Catálogo de componentes de PC</title>
-<meta name="description" content="Catálogo de componentes de PC de Titanware. Procesadores, placas de video, memorias, almacenamiento y más. San Francisco Solano, envíos a todo el país.">
+<title>Titanware · Componentes y PCs armadas</title>
+<meta name="description" content="Titanware: armá tu PC con compatibilidad garantizada, PCs armadas listas para usar y componentes (procesadores, placas de video, memorias y más). San Francisco Solano, envíos a todo el país.">
 <meta name="theme-color" content="#050509">
-<meta property="og:title" content="Titanware · Catálogo de componentes de PC">
-<meta property="og:description" content="Procesadores, placas de video, memorias y más. Consultá stock y precio por WhatsApp.">
+<meta property="og:title" content="Titanware · Componentes y PCs armadas">
+<meta property="og:description" content="Armá tu PC a medida, elegí una PC armada o comprá componentes. Pedidos por WhatsApp.">
 <meta property="og:type" content="website">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='110 170 1032 1032'%3E%3Crect x='110' y='170' width='1032' height='1032' rx='200' fill='%23050509'/%3E%3Cpath fill='%238A00FF' d='M663 470h98l109 215 118-215h89L870 813z'/%3E%3Cpath fill='%23F5F5F7' d='M484 470h92l116 215 117-215h88L692 823z'/%3E%3Cpath fill='%23F5F5F7' d='M174 342h631l-44 87H453v391l-49 50-49-50V429H221z'/%3E%3Cpath fill='%238A00FF' d='M771 841l34 34-34 34-34-34z'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --bg: #050509;
-    --bg-2: #09090f;
-    --surface: #0D0D14;
-    --surface-2: #14141e;
-    --line: #1c1c28;
-    --line-2: #2b2b3b;
-    --text: #F5F5F7;
-    --text-2: #D9DCE5;
-    --muted: #8b8e9c;
-    --violet: #8A00FF;
-    --violet-hover: #5B00D6;
-    --violet-soft: #B026FF;
-    --violet-tint: rgba(138, 0, 255, .12);
-    --ok: #4fc98e;
-    --warn: #e2b04f;
-    --off: #e0717f;
-    --radius: 12px;
-    --radius-sm: 8px;
-    --header-h: 64px;
-    --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 8px 24px rgba(0, 0, 0, .25);
-    --shadow-lg: 0 24px 64px rgba(0, 0, 0, .55);
-    --brand-font: "Chakra Petch", "Segoe UI", system-ui, sans-serif;
-    --body: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
-  }
-  * { box-sizing: border-box; }
-  html { color-scheme: dark; -webkit-text-size-adjust: 100%; scroll-padding-top: calc(var(--header-h) + 1rem); }
-  body {
-    margin: 0;
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--body);
-    font-size: 15px;
-    line-height: 1.55;
-    -webkit-font-smoothing: antialiased;
-  }
-  img { max-width: 100%; display: block; }
-  button, input, select { font: inherit; color: inherit; }
-  a { color: var(--violet-soft); }
-  :focus-visible { outline: 2px solid var(--violet-soft); outline-offset: 2px; }
-  svg { flex: none; }
-
-  .wrap { width: 100%; max-width: 1920px; margin-inline: auto; padding-inline: clamp(1rem, 2.5vw, 3rem); }
-
-  /* Header */
-  .top {
-    position: sticky; top: 0; z-index: 20; height: var(--header-h);
-    background: rgba(5, 5, 9, .85);
-    backdrop-filter: saturate(140%) blur(12px);
-    -webkit-backdrop-filter: saturate(140%) blur(12px);
-    border-bottom: 1px solid var(--line);
-  }
-  .top .wrap { height: 100%; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
-  .brand { display: flex; align-items: center; gap: .6rem; text-decoration: none; color: var(--text); }
-  .brand .logo { width: 41px; height: 26px; }
-  .brand span { font-family: var(--brand-font); font-weight: 700; font-size: 1.15rem; letter-spacing: .1em; }
-  .nav { display: flex; align-items: center; gap: 2.25rem; }
-  .nav a:not(.btn) { color: var(--text-2); text-decoration: none; font-size: .9rem; font-weight: 500; }
-  .nav a:not(.btn):hover { color: var(--text); }
-
-  /* Buttons */
-  .btn {
-    display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
-    background: var(--violet); color: #fff; border: 1px solid transparent; cursor: pointer;
-    padding: .7rem 1.15rem; border-radius: var(--radius-sm);
-    font-weight: 600; font-size: .92rem; text-decoration: none; white-space: nowrap;
-    transition: background .15s, border-color .15s, transform .15s;
-  }
-  .btn:hover { background: var(--violet-hover); }
-  .btn:active { transform: translateY(1px); }
-  .btn svg { width: 18px; height: 18px; }
-  .btn.sm { padding: .5rem .9rem; font-size: .88rem; }
-  .btn.ghost { background: transparent; border-color: var(--line-2); color: var(--text); }
-  .btn.ghost:hover { background: var(--surface-2); border-color: var(--muted); }
-  .btn.wa { background: #1fae57; }
-  .btn.wa:hover { background: #1a9a4c; }
-  .btn.block { width: 100%; }
-
-  /* Hero */
-  .hero {
-    position: relative; overflow: hidden;
-    border-bottom: 1px solid var(--line);
-    background:
-      radial-gradient(900px 420px at 85% -10%, rgba(138, 0, 255, .18), transparent 60%),
-      radial-gradient(600px 300px at 0% 110%, rgba(138, 0, 255, .08), transparent 60%),
-      var(--bg);
-  }
-  .hero::after {
-    content: ""; position: absolute; inset: 0; pointer-events: none;
-    background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
-    background-size: 56px 56px; opacity: .25;
-    mask-image: radial-gradient(ellipse at 70% 0%, #000 0%, transparent 70%);
-    -webkit-mask-image: radial-gradient(ellipse at 70% 0%, #000 0%, transparent 70%);
-  }
-  .hero .wrap { position: relative; z-index: 1; padding-block: 3.5rem 3rem; }
-  .eyebrow {
-    display: inline-flex; align-items: center; gap: .5rem;
-    font-size: .8rem; font-weight: 500; color: var(--text-2);
-    padding: .3rem .75rem .3rem .55rem; border: 1px solid var(--line-2); border-radius: 999px;
-    background: rgba(13, 13, 20, .7); margin-bottom: 1.4rem;
-  }
-  .eyebrow i { width: 7px; height: 7px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 0 3px rgba(79, 201, 142, .18); }
-  .hero h1 {
-    font-weight: 700; letter-spacing: -.035em;
-    font-size: clamp(2.2rem, 5.2vw, 3.75rem); line-height: 1.05;
-    margin: 0 0 1.1rem; max-width: 18ch;
-  }
-  .hero h1 em { font-style: normal; color: var(--violet-soft); }
-  .hero p.lead { color: var(--text-2); max-width: 56ch; margin: 0 0 2rem; font-size: 1.08rem; }
-  .search {
-    display: flex; align-items: center; gap: .75rem;
-    background: var(--surface); border: 1px solid var(--line-2); border-radius: var(--radius);
-    padding: .35rem .35rem .35rem 1.1rem; max-width: 640px;
-    box-shadow: var(--shadow);
-    transition: border-color .15s, box-shadow .15s;
-  }
-  .search:focus-within { border-color: var(--violet); box-shadow: var(--shadow), 0 0 0 4px var(--violet-tint); }
-  .search svg { width: 20px; height: 20px; color: var(--muted); }
-  .search input { flex: 1; min-width: 0; border: 0; background: none; padding: .7rem 0; outline: none; font-size: 1rem; }
-  .search input::placeholder { color: var(--muted); }
-  .search input::-webkit-search-cancel-button { filter: invert(.6); }
-  .trust { display: flex; flex-wrap: wrap; gap: .6rem 1.75rem; margin: 1.75rem 0 0; padding: 0; list-style: none; color: var(--text-2); font-size: .9rem; }
-  .trust li { display: inline-flex; align-items: center; gap: .5rem; }
-  .trust svg { width: 18px; height: 18px; color: var(--violet-soft); }
-
-  .hero-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; gap: 3rem; }
-  .hero-visual {
-    position: relative; justify-self: center;
-    width: min(100%, 500px); aspect-ratio: 1; display: grid; place-items: center;
-  }
-  .hero-visual > * { grid-area: 1 / 1; }
-  .circuit { width: 100%; height: 100%; overflow: visible; }
-  .cz-pin, .cz-trace { fill: none; stroke: rgba(138, 0, 255, .5); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-  .cz-pin { stroke: rgba(176, 38, 255, .55); stroke-width: 3; }
-  .cz-pad { fill: none; stroke: rgba(176, 38, 255, .7); stroke-width: 9; stroke-linecap: round; }
-  .cz-flow {
-    fill: none; stroke: #B026FF; stroke-width: 2.5; stroke-linecap: round;
-    stroke-dasharray: 10 90; stroke-dashoffset: 100;
-    filter: drop-shadow(0 0 4px rgba(138, 0, 255, .9));
-    animation: flow 3.2s linear infinite;
-  }
-  .cz-flow.f2 { animation-delay: -1.1s; animation-duration: 3.8s; }
-  .cz-flow.f3 { animation-delay: -2.2s; animation-duration: 2.6s; }
-  .cz-chip { fill: rgba(13, 13, 20, .85); stroke: rgba(138, 0, 255, .55); stroke-width: 1.5; }
-  .cz-chip-in { fill: none; stroke: rgba(138, 0, 255, .22); stroke-width: 1; stroke-dasharray: 4 6; }
-  .cz-dot { fill: rgba(176, 38, 255, .6); }
-  @keyframes flow { to { stroke-dashoffset: 0; } }
-  .glow { width: 46%; height: 46%; border-radius: 50%; background: rgba(91, 0, 214, .35); filter: blur(70px); }
-  .hero-logo {
-    position: relative; width: 38%; height: auto; margin-top: -10%;
-    filter: drop-shadow(0 12px 40px rgba(91, 0, 214, .45));
-    animation: float 6s ease-in-out infinite;
-  }
-  .hero-word { align-self: end; margin-bottom: 29%; text-align: center; position: relative; }
-  .hero-word strong { display: block; font-family: var(--brand-font); font-size: clamp(.95rem, 1.3vw, 1.2rem); letter-spacing: .3em; margin-right: -.3em; }
-  .hero-word span { display: block; font-size: .66rem; font-weight: 600; letter-spacing: .3em; margin-right: -.3em; text-transform: uppercase; color: var(--muted); margin-top: .2rem; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  @keyframes float { 50% { transform: translateY(-10px); } }
-
-  /* Toolbar */
-  .toolbar {
-    position: sticky; top: var(--header-h); z-index: 10;
-    background: rgba(5, 5, 9, .92);
-    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--line);
-  }
-  .toolbar .wrap { display: flex; align-items: center; gap: 2rem; padding-block: .9rem; }
-  .cats-scroll { position: relative; flex: 1; min-width: 0; }
-  .cats-scroll.overflow::after {
-    content: ""; position: absolute; top: 0; right: 0; bottom: 0; width: 32px; pointer-events: none;
-    background: linear-gradient(90deg, transparent, var(--bg));
-  }
-  .cats { display: flex; gap: .5rem; overflow-x: auto; scrollbar-width: none; padding-right: 32px; }
-  .cats::-webkit-scrollbar { display: none; }
-  .cat {
-    flex: none; display: inline-flex; align-items: center; gap: .45rem;
-    background: transparent; border: 1px solid var(--line); border-radius: 999px;
-    padding: .42rem .85rem; cursor: pointer; font-size: .87rem; font-weight: 500; white-space: nowrap; color: var(--text-2);
-    transition: background .15s, border-color .15s, color .15s;
-  }
-  .cat small { color: var(--muted); font-size: .75rem; font-weight: 500; font-variant-numeric: tabular-nums; }
-  .cat:hover { border-color: var(--line-2); color: var(--text); background: var(--surface); }
-  .cat[aria-pressed="true"] { background: var(--text); border-color: var(--text); color: var(--bg); }
-  .cat[aria-pressed="true"] small { color: #5d586e; }
-  .filters { display: flex; align-items: center; gap: .5rem; flex: none; }
-  .select { position: relative; }
-  .select option { background: var(--surface); color: var(--text); }
-  .select select {
-    appearance: none; -webkit-appearance: none;
-    background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm);
-    padding: .45rem 2rem .45rem .75rem; color: var(--text); font-size: .87rem; cursor: pointer;
-  }
-  .select select:hover { border-color: var(--line-2); }
-  .select::after {
-    content: ""; position: absolute; right: .8rem; top: 50%; width: 6px; height: 6px; pointer-events: none;
-    border-right: 1.5px solid var(--muted); border-bottom: 1.5px solid var(--muted);
-    transform: translateY(-70%) rotate(45deg);
-  }
-  .subcats { display: flex; flex-wrap: wrap; gap: .4rem; padding-top: .9rem; }
-  .subcats[hidden] { display: none; }
-  .sub {
-    background: transparent; border: 1px solid var(--line); border-radius: var(--radius-sm); cursor: pointer;
-    padding: .3rem .7rem; font-size: .8rem; font-weight: 500; color: var(--muted);
-  }
-  .sub:hover { color: var(--text); border-color: var(--line-2); }
-  .sub[aria-pressed="true"] { color: var(--violet-soft); border-color: rgba(138, 0, 255, .55); background: var(--violet-tint); }
-  .results-tools { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem 1rem; }
-  .results-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; padding-top: 2rem; }
-  .results-head h2 { margin: 0; font-size: 1.15rem; font-weight: 600; letter-spacing: -.01em; }
-  .count { color: var(--muted); font-size: .88rem; font-variant-numeric: tabular-nums; }
-
-  /* Grid */
-  .grid {
-    display: grid; gap: 1rem;
-    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
-    padding: 1.1rem 0 4.5rem;
-  }
-  .card {
-    position: relative; display: flex; flex-direction: column; overflow: hidden;
-    background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
-    padding: 0; text-align: left; cursor: pointer;
-    transition: border-color .2s, transform .2s, box-shadow .2s;
-  }
-  .card:hover { border-color: var(--line-2); transform: translateY(-3px); box-shadow: var(--shadow); }
-  .card:hover .thumb svg { color: var(--violet-soft); transform: scale(1.04); }
-  .card:hover .card-cta { color: var(--text); }
-  .card:hover .card-cta svg { transform: translateX(3px); }
-  .thumb {
-    aspect-ratio: 4 / 3; display: grid; place-items: center;
-    background:
-      radial-gradient(circle at 50% 55%, rgba(138, 0, 255, .13), transparent 62%),
-      var(--bg-2);
-    border-bottom: 1px solid var(--line);
-    overflow: hidden;
-  }
-  .thumb img { width: 100%; height: 100%; object-fit: contain; padding: 1.25rem; }
-  .thumb svg { width: 34%; height: auto; color: var(--text-2); transition: color .25s, transform .25s; }
-  .thumb > .t-bg, .thumb > .t-logo, .thumb > .t-word { grid-area: 1 / 1; }
-  .thumb .t-bg { width: 100%; height: 100%; display: grid; place-items: center; opacity: .12; }
-  .thumb .t-bg svg { width: 64%; transform: rotate(-8deg) translateY(6%); }
-  .thumb .t-bg.solo { opacity: 1; }
-  .thumb .t-bg.solo svg { width: 34%; transform: none; }
-  .t-logo {
-    width: 52%; aspect-ratio: 16 / 10; background: var(--text); position: relative;
-    -webkit-mask: var(--logo) center / contain no-repeat; mask: var(--logo) center / contain no-repeat;
-    transition: background .25s, transform .25s;
-  }
-  .t-word {
-    position: relative; padding: 0 1rem; text-align: center; color: var(--text);
-    font-family: var(--brand-font); font-weight: 700; text-transform: uppercase;
-    font-size: clamp(1.05rem, 1.5vw, 1.4rem); letter-spacing: .14em; line-height: 1.15;
-    transition: color .25s, transform .25s;
-  }
-  .card:hover .t-logo { background: var(--violet-soft); transform: scale(1.05); }
-  .card:hover .t-word { color: var(--violet-soft); transform: scale(1.05); }
-  .card:hover .thumb .t-bg svg { transform: rotate(-8deg) translateY(6%); }
-  .modal .t-logo { width: 58%; }
-  .modal .t-word { font-size: 1.8rem; }
-  .modal .thumb .t-bg svg { width: 70%; }
-  .card-body { padding: 1rem 1.1rem 1.1rem; display: flex; flex-direction: column; gap: .3rem; flex: 1; }
-  .meta { display: flex; justify-content: space-between; gap: .5rem; font-size: .72rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
-  .card h3 { font-weight: 600; font-size: 1.02rem; line-height: 1.3; letter-spacing: -.01em; margin: 0; }
-  .specs-short { color: var(--muted); font-size: .85rem; margin: 0; line-height: 1.45; }
-  .card-foot { margin-top: auto; padding-top: .9rem; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .5rem; }
-  .price { font-weight: 700; font-size: 1.15rem; letter-spacing: -.01em; font-variant-numeric: tabular-nums; }
-  .price.ask { font-size: .9rem; font-weight: 600; color: var(--text-2); }
-  .stock {
-    font-size: .75rem; font-weight: 500; white-space: nowrap; display: inline-flex; align-items: center; gap: .4rem;
-    padding: .18rem .55rem; border-radius: 999px; background: color-mix(in srgb, currentColor 12%, transparent);
-  }
-  .stock::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
-  .stock.disponible { color: var(--ok); }
-  .stock.consultar { color: var(--violet-soft); }
-  .stock.sin-stock { color: var(--off); }
-  .card-cta {
-    display: flex; align-items: center; justify-content: space-between;
-    margin-top: .9rem; padding-top: .8rem; border-top: 1px solid var(--line);
-    font-size: .85rem; font-weight: 500; color: var(--muted); transition: color .15s;
-  }
-  .card-cta svg { width: 16px; height: 16px; transition: transform .2s; }
-  .badge {
-    position: absolute; top: .75rem; left: .75rem; z-index: 1;
-    display: inline-flex; align-items: center; gap: .3rem;
-    background: rgba(5, 5, 9, .75); color: var(--violet-soft);
-    border: 1px solid rgba(138, 0, 255, .45); border-radius: 999px;
-    backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
-    font-size: .72rem; font-weight: 600; padding: .2rem .6rem;
-  }
-  .badge svg { width: 12px; height: 12px; }
-  .card.is-off .thumb svg, .card.is-off .thumb img { opacity: .45; }
-
-  .empty { grid-column: 1 / -1; text-align: center; padding: 4.5rem 1rem; color: var(--muted); border: 1px dashed var(--line-2); border-radius: var(--radius); }
-  .empty strong { display: block; color: var(--text); font-size: 1.15rem; font-weight: 600; margin-bottom: .4rem; }
-  .empty .actions { display: flex; justify-content: center; flex-wrap: wrap; gap: .6rem; margin-top: 1.4rem; }
-
-  /* Modal */
-  dialog {
-    width: min(820px, 100% - 2rem); max-height: 90vh; padding: 0;
-    border: 1px solid var(--line-2); border-radius: 16px;
-    background: var(--surface); color: var(--text); box-shadow: var(--shadow-lg);
-  }
-  dialog[open] { animation: pop .2s ease-out; }
-  dialog::backdrop { background: rgba(5, 5, 9, .75); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
-  @keyframes pop { from { opacity: 0; transform: translateY(8px) scale(.98); } }
-  .modal { display: grid; grid-template-columns: 1fr 1.15fr; }
-  .modal .thumb { aspect-ratio: auto; min-height: 100%; border-bottom: 0; border-right: 1px solid var(--line); }
-  .modal .thumb svg { width: 42%; }
-  .modal-body { padding: 2rem 1.75rem 1.75rem; display: flex; flex-direction: column; gap: 1rem; }
-  .modal-body h2 { font-size: 1.55rem; font-weight: 700; letter-spacing: -.025em; line-height: 1.2; margin: -.4rem 0 0; }
-  .modal-price { display: flex; align-items: center; justify-content: space-between; gap: .75rem; padding: .9rem 1rem; background: var(--bg-2); border: 1px solid var(--line); border-radius: var(--radius-sm); }
-  .modal-price .price { font-size: 1.35rem; }
-  .modal-price .price.ask { font-size: 1rem; }
-  .spec-title { font-size: .72rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: .25rem 0 -.4rem; }
-  .spec-list { list-style: none; margin: 0; padding: 0; }
-  .spec-list li { display: flex; gap: .6rem; align-items: flex-start; padding: .55rem 0; border-bottom: 1px solid var(--line); font-size: .92rem; color: var(--text-2); }
-  .spec-list li:last-child { border-bottom: 0; }
-  .spec-list svg { width: 16px; height: 16px; margin-top: .2rem; color: var(--violet-soft); }
-  .close {
-    position: absolute; top: .75rem; right: .75rem; z-index: 2;
-    width: 36px; height: 36px; display: grid; place-items: center; border-radius: 50%;
-    background: var(--surface-2); border: 1px solid var(--line-2); cursor: pointer; color: var(--text-2);
-  }
-  .close:hover { color: var(--text); border-color: var(--muted); }
-  .close svg { width: 16px; height: 16px; }
-  .note { font-size: .8rem; color: var(--muted); margin: -.25rem 0 0; text-align: center; }
-
-  /* Info */
-  .info { border-top: 1px solid var(--line); background: var(--bg-2); padding: 3.5rem 0; }
-  .info-head { margin-bottom: 1.75rem; }
-  .info-head h2 { margin: 0 0 .35rem; font-size: 1.5rem; font-weight: 700; letter-spacing: -.02em; }
-  .info-head p { margin: 0; color: var(--muted); }
-  .info-grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
-  .feature { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 1.4rem; }
-  .feature .ico { width: 40px; height: 40px; display: grid; place-items: center; border-radius: 10px; background: var(--violet-tint); color: var(--violet-soft); margin-bottom: 1rem; }
-  .feature .ico svg { width: 20px; height: 20px; }
-  .feature h3 { font-size: 1rem; font-weight: 600; margin: 0 0 .3rem; }
-  .feature p { margin: 0; color: var(--muted); font-size: .9rem; }
-  .cta-band {
-    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.25rem;
-    margin-top: 1rem; padding: 1.5rem 1.6rem; border-radius: var(--radius);
-    border: 1px solid rgba(138, 0, 255, .35);
-    background: linear-gradient(120deg, rgba(138, 0, 255, .16), rgba(138, 0, 255, .04));
-  }
-  .cta-band h3 { margin: 0 0 .2rem; font-size: 1.1rem; font-weight: 600; }
-  .cta-band p { margin: 0; color: var(--text-2); font-size: .92rem; }
-
-  /* Footer */
-  footer { border-top: 1px solid var(--line); padding: 2rem 0 5.5rem; color: var(--muted); font-size: .85rem; }
-  footer .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; }
-  footer .brand .logo { width: 33px; height: 21px; }
-  footer .brand span { font-size: .95rem; }
-  .foot-links { display: flex; flex-wrap: wrap; gap: 1.25rem; }
-  .foot-links a { color: var(--text-2); text-decoration: none; display: inline-flex; align-items: center; gap: .4rem; }
-  .foot-links a:hover { color: var(--text); }
-  .foot-links svg { width: 16px; height: 16px; }
-
-  .wa-float {
-    position: fixed; right: 1.25rem; bottom: 1.25rem; z-index: 30;
-    width: 54px; height: 54px; border-radius: 50%; display: grid; place-items: center;
-    background: #1fae57; color: #fff; box-shadow: 0 8px 24px rgba(0, 0, 0, .45);
-    transition: transform .2s, background .15s;
-  }
-  .wa-float:hover { transform: scale(1.06); background: #1a9a4c; }
-  .wa-float svg { width: 28px; height: 28px; }
-
-  @media (max-width: 1000px) {
-    .hero-grid { grid-template-columns: 1fr; }
-    .hero-visual { display: none; }
-  }
-  @media (max-width: 900px) {
-    .nav a:not(.btn) { display: none; }
-  }
-  @media (max-width: 640px) {
-    .hero .wrap { padding-block: 2.75rem 2.25rem; }
-    .hero p.lead { font-size: 1rem; }
-    .trust { gap: .5rem 1.1rem; font-size: .85rem; }
-    .results-tools, .filters { width: 100%; }
-    .filters .select { flex: 1 1 auto; }
-    .select select { width: 100%; }
-    .modal { grid-template-columns: 1fr; }
-    .modal .thumb { aspect-ratio: 16 / 9; border-right: 0; border-bottom: 1px solid var(--line); }
-    .modal-body { padding: 1.4rem; }
-    .grid { grid-template-columns: repeat(auto-fill, minmax(155px, 1fr)); gap: .7rem; }
-    .card-body { padding: .8rem; }
-    .card h3 { font-size: .95rem; }
-    .price { font-size: 1rem; }
-    .specs-short, .card-cta, .card .meta span + span { display: none; }
-    .card:hover { transform: none; }
-  }
-  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; animation: none !important; } }
-</style>
+<link rel="stylesheet" href="assets/css/site.css">
 </head>
 <body>
 
-<header class="top">
-  <div class="wrap">
-    <a class="brand" href="#" aria-label="Titanware, inicio">
-      <!-- El logo está definido una sola vez como <symbol id="logo"> al final del body -->
-      <svg class="logo" viewBox="0 0 932 594" aria-hidden="true"><use href="#logo"/></svg>
-      <span>TITANWARE</span>
-    </a>
-    <nav class="nav" aria-label="Principal">
-      <a href="#catalogo">Catálogo</a>
-      <a href="#servicios">Servicios</a>
-      <a class="btn sm wa" id="topWa" href="#" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-wa"/></svg>
-        <span>Escribinos</span>
-      </a>
-    </nav>
+<div class="site-head">
+  <div class="topbar">
+    <div class="wrap">
+      <span><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-wa"/></svg> Atención por WhatsApp: <a id="topPhone" href="#" target="_blank" rel="noopener"></a></span>
+      <span>Envíos a todo el país · Retiro en <span id="topPlace"></span></span>
+    </div>
   </div>
-</header>
+  <header class="top">
+    <div class="wrap">
+      <a class="brand" href="#/" aria-label="Titanware, inicio">
+        <svg class="logo" viewBox="0 0 932 594" aria-hidden="true"><use href="#logo"/></svg>
+        <span>TITANWARE</span>
+      </a>
+      <form class="hsearch" id="hsearch" role="search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input id="q" type="search" placeholder="Buscá procesadores, placas de video, marcas…" autocomplete="off" aria-label="Buscar productos">
+      </form>
+      <div class="hactions">
+        <a class="btn sm wa" id="topWa" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-wa"/></svg><span>WhatsApp</span></a>
+        <button class="cart-btn" id="cartBtn" type="button" aria-label="Ver carrito">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2 3h3l2.7 12.4a1 1 0 0 0 1 .8h9.6a1 1 0 0 0 1-.8L21 7H6"/></svg>
+          <span class="cart-count" id="cartCount" hidden>0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+  <nav class="mainnav" aria-label="Principal">
+    <div class="wrap" id="mainnav">
+      <a class="hi" href="#/armar" data-route="armar">Armá tu PC</a>
+      <a href="#/pcs" data-route="pcs">PC Armadas</a>
+      <a href="#/catalogo" data-route="catalogo">Todo el catálogo</a>
+      <span class="sep"></span>
+    </div>
+  </nav>
+</div>
 
 <main>
-  <section class="hero">
-    <div class="wrap hero-grid">
-      <div class="hero-copy">
-      <span class="eyebrow"><i></i> Atención por WhatsApp · Envíos a todo el país</span>
-      <h1>Componentes de PC <em>seleccionados</em> para tu próximo equipo.</h1>
-      <p class="lead">Procesadores, placas de video, memorias y todo lo que necesitás para armar o mejorar tu PC. Elegí el producto y te confirmamos stock y precio al instante.</p>
-      <label class="search">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-        <input id="q" type="search" placeholder="Buscá por modelo o marca, ej: RTX 4060" autocomplete="off" aria-label="Buscar productos">
-      </label>
-      <ul class="trust">
-        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Asesoramiento personalizado</li>
-        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 3h15v13H1zM16 8h4l3 3v5h-7"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg> Envíos a todo el país</li>
-        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0 5 5L22 14l-8 8-2.3-2.3a4 4 0 0 0-5-5L2 10l8-8z"/></svg> Armado y servicio técnico</li>
-      </ul>
-      </div>
-      <div class="hero-visual" aria-hidden="true">
-        <svg class="circuit" viewBox="0 0 500 500">
-          <defs>
-            <radialGradient id="fade"><stop offset=".5" stop-color="#fff"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
-            <mask id="fadeMask"><rect width="500" height="500" fill="url(#fade)"/></mask>
-            <g id="side">
-              <path class="cz-pin" d="M160 120v-14M190 120v-14M220 120v-14M250 120v-14M280 120v-14M310 120v-14M340 120v-14"/>
-              <path class="cz-trace" d="M160 106V82l-38-38H58M190 106V62l-20-20V12M220 106V54M250 106V14M280 106V70l30-30V16M310 106V94l20-20h32M340 106V86l38-38h60"/>
-              <path class="cz-pad" d="M58 44h.01M170 12h.01M220 54h.01M250 14h.01M310 16h.01M362 74h.01M438 48h.01"/>
-              <path class="cz-flow" pathLength="100" d="M160 106V82l-38-38H58"/>
-              <path class="cz-flow f2" pathLength="100" d="M280 106V70l30-30V16"/>
-              <path class="cz-flow f3" pathLength="100" d="M250 106V14"/>
+  <!-- ================= INICIO ================= -->
+  <section id="v-home" data-view="home" hidden>
+    <div class="hero">
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <span class="eyebrow"><i></i> Compatibilidad verificada · Envíos a todo el país</span>
+          <h1>Armá tu PC a medida, <em>compatible</em> y al mejor precio.</h1>
+          <p class="lead">Elegí componente por componente y el armador te muestra solo lo que es compatible. O llevate una PC armada lista para usar. Mandás el pedido por WhatsApp y te lo confirmamos al instante.</p>
+          <div class="hero-ctas">
+            <a class="btn" href="#/armar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0 5 5L22 14l-8 8-2.3-2.3a4 4 0 0 0-5-5L2 10l8-8z"/></svg> Armá tu PC</a>
+            <a class="btn ghost" href="#/pcs">Ver PCs armadas</a>
+          </div>
+          <ul class="trust">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Asesoramiento personalizado</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 3h15v13H1zM16 8h4l3 3v5h-7"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg> Envíos a todo el país</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0 5 5L22 14l-8 8-2.3-2.3a4 4 0 0 0-5-5L2 10l8-8z"/></svg> Armado y servicio técnico</li>
+          </ul>
+        </div>
+        <div class="hero-visual" aria-hidden="true">
+          <svg class="circuit" viewBox="0 0 500 500">
+            <defs>
+              <radialGradient id="fade"><stop offset=".5" stop-color="#fff"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+              <mask id="fadeMask"><rect width="500" height="500" fill="url(#fade)"/></mask>
+              <g id="side">
+                <path class="cz-pin" d="M160 120v-14M190 120v-14M220 120v-14M250 120v-14M280 120v-14M310 120v-14M340 120v-14"/>
+                <path class="cz-trace" d="M160 106V82l-38-38H58M190 106V62l-20-20V12M220 106V54M250 106V14M280 106V70l30-30V16M310 106V94l20-20h32M340 106V86l38-38h60"/>
+                <path class="cz-pad" d="M58 44h.01M170 12h.01M220 54h.01M250 14h.01M310 16h.01M362 74h.01M438 48h.01"/>
+                <path class="cz-flow" pathLength="100" d="M160 106V82l-38-38H58"/>
+                <path class="cz-flow f2" pathLength="100" d="M280 106V70l30-30V16"/>
+                <path class="cz-flow f3" pathLength="100" d="M250 106V14"/>
+              </g>
+            </defs>
+            <g mask="url(#fadeMask)">
+              <use href="#side"/>
+              <use href="#side" transform="rotate(90 250 250)"/>
+              <use href="#side" transform="rotate(180 250 250)"/>
+              <use href="#side" transform="rotate(270 250 250)"/>
             </g>
-          </defs>
-          <g mask="url(#fadeMask)">
-            <use href="#side"/>
-            <use href="#side" transform="rotate(90 250 250)"/>
-            <use href="#side" transform="rotate(180 250 250)"/>
-            <use href="#side" transform="rotate(270 250 250)"/>
-          </g>
-          <rect class="cz-chip" x="120" y="120" width="260" height="260" rx="22"/>
-          <rect class="cz-chip-in" x="136" y="136" width="228" height="228" rx="14"/>
-          <circle class="cz-dot" cx="150" cy="150" r="4"/>
-        </svg>
-        <div class="glow"></div>
-        <svg class="hero-logo" viewBox="0 0 932 594"><use href="#logo"/></svg>
-        <div class="hero-word"><strong>TITANWARE</strong><span>Componentes para PC</span></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="toolbar" id="catalogo" aria-label="Filtros del catálogo">
-    <div class="wrap">
-      <div class="cats-scroll"><div class="cats" id="cats" role="group" aria-label="Categorías"></div></div>
-    </div>
-  </section>
-
-  <section class="wrap">
-    <div class="results-head">
-      <h2 id="resultsTitle">Todos los productos</h2>
-      <div class="results-tools">
-        <span class="count" id="count" aria-live="polite"></span>
-        <div class="filters">
-          <div class="select">
-            <select id="brand" aria-label="Filtrar por marca"><option value="">Todas las marcas</option></select>
-          </div>
-          <div class="select">
-            <select id="sort" aria-label="Ordenar">
-              <option value="destacados">Destacados</option>
-              <option value="az">Nombre (A–Z)</option>
-              <option value="precio-asc">Menor precio</option>
-              <option value="precio-desc">Mayor precio</option>
-            </select>
-          </div>
+            <rect class="cz-chip" x="120" y="120" width="260" height="260" rx="22"/>
+            <rect class="cz-chip-in" x="136" y="136" width="228" height="228" rx="14"/>
+            <circle class="cz-dot" cx="150" cy="150" r="4"/>
+          </svg>
+          <div class="glow"></div>
+          <svg class="hero-logo" viewBox="0 0 932 594"><use href="#logo"/></svg>
+          <div class="hero-word"><strong>TITANWARE</strong><span>Componentes para PC</span></div>
         </div>
       </div>
     </div>
-    <div class="subcats" id="subcats" role="group" aria-label="Subcategorías" hidden></div>
-    <div class="grid" id="grid"></div>
+
+    <div class="wrap">
+      <div class="sec">
+        <div class="tiles">
+          <a class="tile main" href="#/armar">
+            <small>Paso a paso</small>
+            <h3>Armá tu PC</h3>
+            <p>Elegí AMD o Intel y armala componente por componente, sin errores de compatibilidad.</p>
+            <span class="go">Empezar a armar <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+            <span class="t-ico" id="tileIcoBuild"></span>
+          </a>
+          <a class="tile" href="#/pcs">
+            <small>Listas para usar</small>
+            <h3>PC Armadas</h3>
+            <p>Equipos pensados para gaming, hogar, oficina y trabajo profesional.</p>
+            <span class="go">Ver PCs <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+            <span class="t-ico" id="tileIcoPcs"></span>
+          </a>
+          <a class="tile" href="#/catalogo">
+            <small>Componentes</small>
+            <h3>Catálogo</h3>
+            <p>Procesadores, mothers, memorias, discos, fuentes, gabinetes y más.</p>
+            <span class="go">Ver catálogo <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+            <span class="t-ico" id="tileIcoCat"></span>
+          </a>
+        </div>
+      </div>
+
+      <div class="sec" id="homePcsSec">
+        <div class="sec-head">
+          <div><h2>PCs armadas destacadas</h2><p>Listas para enchufar y usar. También podés personalizarlas.</p></div>
+          <a class="link-more" href="#/pcs">Ver todas <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </div>
+        <div class="pc-grid" id="homePcs"></div>
+      </div>
+
+      <div class="sec">
+        <div class="sec-head">
+          <div><h2>Productos destacados</h2><p>Lo más elegido por nuestros clientes.</p></div>
+          <a class="link-more" href="#/catalogo">Ver catálogo <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </div>
+        <div class="grid" id="homeProducts" style="padding-top:0"></div>
+      </div>
+    </div>
   </section>
 
+  <!-- ================= ARMÁ TU PC ================= -->
+  <section id="v-armar" data-view="armar" hidden>
+    <div class="wrap">
+      <div class="page-head">
+        <div class="crumbs"><a href="#/">Inicio</a> / Armá tu PC</div>
+        <h1>Armá tu PC</h1>
+        <p id="bIntro">Elegí la marca del procesador y el armador te va mostrando solo los componentes compatibles con lo que vas eligiendo. Cuando esté lista, la agregás al carrito y nos mandás el pedido por WhatsApp.</p>
+      </div>
+      <div id="builder"></div>
+    </div>
+  </section>
+
+  <!-- ================= PCs ARMADAS ================= -->
+  <section id="v-pcs" data-view="pcs" hidden>
+    <div class="wrap">
+      <div class="page-head">
+        <div class="crumbs"><a href="#/">Inicio</a> / PC Armadas</div>
+        <h1>PC Armadas</h1>
+        <p>Computadoras pensadas para cada necesidad, con componentes compatibles y probados. Podés llevarlas así o personalizarlas en el armador.</p>
+      </div>
+      <div class="tabs" id="pcTabs" role="group" aria-label="Tipo de PC"></div>
+      <div class="pc-grid" id="pcGrid" style="padding-bottom:4rem"></div>
+    </div>
+  </section>
+
+  <!-- ================= CATÁLOGO ================= -->
+  <section id="v-catalogo" data-view="catalogo" hidden>
+    <div class="toolbar" aria-label="Filtros del catálogo">
+      <div class="wrap">
+        <div class="cats-scroll"><div class="cats" id="cats" role="group" aria-label="Categorías"></div></div>
+      </div>
+    </div>
+    <div class="wrap">
+      <div class="results-head">
+        <h2 id="resultsTitle">Todos los productos</h2>
+        <div class="results-tools">
+          <span class="count" id="count" aria-live="polite"></span>
+          <div class="filters">
+            <div class="select">
+              <select id="brand" aria-label="Filtrar por marca"><option value="">Todas las marcas</option></select>
+            </div>
+            <div class="select">
+              <select id="sort" aria-label="Ordenar">
+                <option value="destacados">Destacados</option>
+                <option value="az">Nombre (A–Z)</option>
+                <option value="precio-asc">Menor precio</option>
+                <option value="precio-desc">Mayor precio</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="subcats" id="subcats" role="group" aria-label="Subcategorías" hidden></div>
+      <div class="grid" id="grid"></div>
+    </div>
+  </section>
+
+  <!-- ================= INFO (todas las páginas) ================= -->
   <section class="info" id="servicios">
     <div class="wrap">
       <div class="info-head">
@@ -517,19 +219,19 @@
         </div>
         <div class="feature">
           <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0 5 5L22 14l-8 8-2.3-2.3a4 4 0 0 0-5-5L2 10l8-8z"/></svg></div>
-          <h3>Servicio técnico</h3><p>Armado, mantenimiento, limpieza y diagnóstico de equipos.</p>
+          <h3>Armado y servicio técnico</h3><p>Armamos tu PC, y hacemos mantenimiento, limpieza y diagnóstico de equipos.</p>
         </div>
         <div class="feature">
           <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s7-6.1 7-12a7 7 0 1 0-14 0c0 5.9 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg></div>
-          <h3>Retiro en San Francisco Solano</h3><p>Coordiná por WhatsApp y retirá en el local.</p>
+          <h3>Retiro en <span class="place"></span></h3><p>Coordiná por WhatsApp y retirá en el local.</p>
         </div>
       </div>
       <div class="cta-band">
         <div>
           <h3>¿No encontrás lo que buscás?</h3>
-          <p>Escribinos y te lo conseguimos. También armamos presupuestos de PC completas.</p>
+          <p>Escribinos y te lo conseguimos. También te asesoramos para elegir tu próxima PC.</p>
         </div>
-        <a class="btn wa" id="bandWa" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-wa"/></svg> Pedir presupuesto</a>
+        <a class="btn wa" id="bandWa" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-wa"/></svg> Pedir asesoramiento</a>
       </div>
     </div>
   </section>
@@ -537,13 +239,13 @@
 
 <footer>
   <div class="wrap">
-    <a class="brand" href="#" aria-label="Titanware, volver arriba">
+    <a class="brand" href="#/" aria-label="Titanware, inicio">
       <svg class="logo" viewBox="0 0 932 594" aria-hidden="true"><use href="#logo"/></svg>
       <span>TITANWARE</span>
     </a>
-    <span>© <span id="year"></span> Titanware Hardware &amp; PC · San Francisco Solano, Buenos Aires</span>
+    <span>© <span id="year"></span> Titanware Hardware &amp; PC · <span id="footPlace"></span></span>
     <div class="foot-links">
-      <a href="https://instagram.com/titanwareok" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg> @titanwareok</a>
+      <a id="footIg" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg> <span></span></a>
       <a id="footWa" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-wa"/></svg> WhatsApp</a>
     </div>
   </div>
@@ -559,707 +261,11 @@
 </svg>
 
 <dialog id="modal" aria-labelledby="mTitle"></dialog>
+<dialog id="cart" class="drawer" aria-labelledby="cartTitle"></dialog>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script>
-/* =========================================================
-   CONFIGURACIÓN — lo único que necesitás tocar
-   ========================================================= */
-
-// 1) Número de WhatsApp del local: código de país + área + número, sin "+", espacios ni 15.
-//    Ejemplo para un celular de Buenos Aires: 5491123456789
-const WHATSAPP = "5491166811031";
-
-// 2) (Opcional) Link de Google Sheets publicado como CSV.
-//    Si lo dejás vacío, se usa el CATÁLOGO de abajo.
-//    Columnas de la planilla: nombre, marca, categoria, sub, specs, precio, stock, imagen, destacado
-//    - specs: separadas con |   (ej: 6 núcleos | 12 hilos | AM5). Si la dejás vacía se arman solas.
-//    - precio: solo números (ej: 350000) o vacío para "Consultar precio"
-//    - stock: disponible / consultar / sin stock
-//    - destacado: si / no
-const SHEET_CSV_URL = "";
-
-// 3) Categorías del catálogo, en el orden en que se muestran.
-const CATEGORIAS = ["Motherboards", "Procesadores", "Coolers", "Memorias RAM", "Almacenamientos", "Fuentes de poder", "Placas de video", "Gabinetes"];
-
-// 4) Productos destacados: alcanza con una parte del nombre, tal cual está en el catálogo.
-const DESTACADOS = [
-  "RYZEN 5 5600 S/VIDEO",
-  "CORE I5 12400F S/VIDEO C/COOLER BOX",
-  "RYZEN 5 8600G",
-  "RTX 5050 8GB MSI VENTUS",
-  "RX 7600 8GB",
-  "GIGABYTE B550M K",
-  "8GB DDR4 3200 KINGSTON FURY BEAST RGB",
-  "KINGSTON SNVS NV3",
-  "HYPER 212 SPECTRUM",
-];
-
-// 5) Productos sin stock (misma regla que destacados). Lo que no esté acá figura "Consultar".
-const SIN_STOCK = [];
-
-// 6) Fotos de productos (opcional): parte del nombre → ruta o link de la imagen.
-//    Subí las fotos a una carpeta "img" del repositorio, por ejemplo:
-//    "RYZEN 5 5600 S/VIDEO": "img/ryzen-5-5600.webp",
-const IMAGENES = {
-};
-
-// 7) CATÁLOGO. Pegá los productos tal cual: una línea por producto con "NOMBRE — $precio".
-//    Las líneas que empiezan con # indican "Categoría | Subcategoría" de los productos que siguen.
-//    La marca, el nombre prolijo y las características se sacan solos del nombre.
-const CATALOGO = `
-# Motherboards | AMD AM4
-MOTHER MSI A520M-A PRO DDR4 AM4 — $95.013
-MOTHER ASUS PRIME A520M-K DDR4 AM4 — $100.878
-MOTHER GIGABYTE A520M K V2 DDR4 AM4 +Q A320 — $101.096
-MOTHER ASUS PRIME A520M-K CSM DDR4 AM4 — $116.265
-MOTHER GIGABYTE B550M K DDR4 AM4 — $142.991
-MOTHER MSI PRO B550M-B DDR4 AM4 — $146.326
-MOTHER MSI B550M-A PRO DDR4 AM4 — $152.764
-MOTHER ASUS PRIME B550M-K ARGB DDR4 AM4 — $171.040
-
-# Motherboards | AMD AM5
-MOTHER GIGABYTE A620M H DDR5 AM5 — $141.933
-MOTHER MSI PRO B840M-B DDR5 AM5 — $165.807
-
-# Motherboards | Intel
-MOTHER ASUS PRO H410M-C2/CSM DDR4 S1200 — $105.742
-MOTHER MSI PRO H610M-B DDR5 S1700 — $121.095
-MOTHER MSI PRO H610M-S DDR4 S1700 — $127.742
-MOTHER ASUS PRIME H610M-F D4 R2.0 DDR4 S1700 — $129.823
-MOTHER MSI PRO H610M-G DDR5 S1700 — $134.447
-MOTHER GIGABYTE H610M K DDR4 GEN5 S1700 — $134.619
-MOTHER GIGABYTE H610M K V2 DDR5 S1700 — $135.321
-MOTHER MSI PRO H610M-A DDR4 S1700 — $138.092
-MOTHER ASUS PRIME H610M-K DDR5 S1700 — $139.093
-MOTHER ASUS PRIME H610M-K D4 DDR4 S1700 — $146.779
-MOTHER GIGABYTE H610M K GEN5 DDR5 S1700 — $160.413
-
-# Procesadores | AMD AM4
-MICRO AMD ATHLON 3000G C/VIDEO S/COOLER CPU AM4 — $52.187
-MICRO AMD 3000G ATHLON C/VIDEO C/COOLER CPU AM4 — $62.054
-MICRO AMD ATHLON 3000G VEGA 3 BOX AM4 — $75.486
-MICRO AMD RYZEN 3 3200G C/VIDEO S/COOLER CPU AM4 — $97.187
-MICRO AMD RYZEN 3 3200G C/VIDEO C/COOLER CPU AM4 — $107.053
-MICRO AMD RYZEN 5 3500X S/VIDEO S/COOLER CPU AM4 — $115.402
-MICRO AMD RYZEN 3 3200G C/VIDEO C/COOLER AMD CPU AM4 — $116.507
-MICRO AMD RYZEN 5 3500X S/VIDEO C/COOLER CPU AM4 — $125.269
-MICRO AMD RYZEN 3 3200G C/VIDEO C/COOLER BOX AM4 — $125.339
-MICRO AMD RYZEN 5 3400G C/VIDEO S/COOLER CPU AM4 — $137.425
-MICRO AMD RYZEN 5 3400G C/VIDEO C/COOLER CPU AM4 — $147.292
-MICRO AMD RYZEN 5 5600 S/VIDEO C/COOLER AM4 — $250.574
-MICRO AMD RYZEN 7 5700 S/VIDEO C/COOLER AM4 — $303.105
-MICRO AMD RYZEN 5 5600GT C/VIDEO C/COOLER AM4 SIMIL 5600G — $324.093
-MICRO AMD RYZEN 7 5700G C/VIDEO C/COOLER AM4 MEJOR Q 5600GT — $390.183
-
-# Procesadores | AMD AM5
-MICRO AMD RYZEN 5 8400F S/VIDEO S/COOLER CPU AM5 — $236.923
-MICRO AMD RYZEN 5 8500G C/VIDEO S/COOLER CPU AM5 — $280.128
-MICRO AMD RYZEN 5 8500G C/VIDEO C/COOLER BOX AM5 — $284.050
-MICRO AMD RYZEN 5 8400F S/VIDEO C/COOLER BOX AM5 — $307.420
-MICRO AMD RYZEN 5 8600G C/VIDEO C/COOLER BOX AM5 — $358.800
-MICRO AMD RYZEN 5 7600X C/VIDEO S/COOLER CPU AM5 — $390.379
-
-# Procesadores | Intel LGA 1200
-MICRO INTEL CELERON G5925 S1200 IDEAL PC OFICINA +Q G5905 — $114.183
-MICRO INTEL CORE I3 10105F S/VIDEO C/COOLER BOX S1200 — $152.904
-
-# Procesadores | Intel LGA 1700
-MICRO INTEL CORE I3 13100F S/VIDEO C/COOLER BOX S1700 — $159.793
-MICRO INTEL PENTIUM G7400 S1700 — $209.449
-MICRO INTEL CORE I3 12100F S/VIDEO C/COOLER BOX S1700 — $216.729
-MICRO INTEL CORE I3 14100F S/VIDEO C/COOLER BOX S1700 — $226.332
-MICRO INTEL CORE I3 14100F S/VIDEO C/COOLER S1700 — $226.895
-MICRO INTEL CORE I3 12100 C/VIDEO C/COOLER BOX S1700 — $284.797
-MICRO INTEL CORE I3 14100 C/VIDEO C/COOLER BOX S1700 — $308.568
-MICRO INTEL CORE I5 12400F S/VIDEO C/COOLER BOX S1700 — $309.350
-MICRO INTEL CORE I5 14400F S/VIDEO S/COOLER S1700 — $330.901
-MICRO INTEL CORE I5 12400F S/VIDEO C/COOLER S1700 — $332.132
-MICRO INTEL CORE I5 14400F TRAY S/VIDEO S/COOLER S1700 — $343.505
-MICRO INTEL CORE I5 12400 C/VIDEO C/COOLER BOX S1700 — $389.448
-MICRO INTEL CORE I5 12400 C/VIDEO S/COOLER S1700 — $392.253
-MICRO INTEL CORE I5 14400F S/VIDEO C/COOLER BOX S1700 — $399.591
-
-# Coolers | Coolers CPU
-CPU COOLER INTEL PERFORMANCE S1700 — $15.199
-CPU COOLER KELYX POTENCIA MAXIMA 95W P/AMD/INTEL — $16.548
-CPU COOLER RAPTOR CRYO RGB POTENCIA MAXIMA 95W P/AMD/INTEL — $18.975
-CPU COOLER EVOLABS CRYO 4H ARGB — $33.810
-CPU COOLER COOLERMASTER HYPER 212 SPECTRUM V3 RGB — $36.857
-CPU COOLER EVOLABS CRYO PRO 4H ARGB — $43.355
-CPU COOLER MSI MAG COREFROZR AA13 BLACK AM4 AM5 S1700 S1851 — $47.840
-CPU COOLER THERMALTAKE UX200 SE ARGB WHITE CL-P116-AL12SW-A — $52.900
-CPU COOLER THERMALTAKE UX200 SE ARGB CL-P105-AL12SW-A — $54.127
-CPU COOLER THERMALTAKE UX500 ARGB SYNC — $56.396
-CPU COOLER THERMALTAKE UX500 ARGB SYNC WHITE — $56.396
-CPU COOLER ADATA XPG MAESTRO PLUS 42SA ARGB — $57.776
-CPU COOLER COOLERMASTER HYPER 212 3DHP BLACK — $63.859
-CPU COOLER THERMALTAKE ASTRIA 200 ARGB CL-P119-AL12SW-A — $74.267
-CPU COOLER THERMALTAKE ASTRIA 200 ARGB WHITE CL-P137-AL12SW-A — $75.428
-CPU COOLER ADATA XPG MAESTRO PLUS 62DA ARGB — $100.763
-CPU COOLER THERMALTAKE ASTRIA 400 ARGB CL-P120-CA12SW-A — $104.132
-CPU COOLER THERMALTAKE ASTRIA 400 ARGB WHITE CL-P138-CA12SW-A — $106.639
-CPU COOLER THERMALTAKE ASTRIA 600 ARGB WHITE CL-P139-CA12SW-A — $135.275
-CPU COOLER COOLERMASTER HYPER 212 RGB BLACK EDITION S1700 — $139.030
-CPU COOLER COOLERMASTER HYPER 612 APEX BLACK MAP-T6PN-225PK-R1 — $139.602
-CPU COOLER COOLERMASTER HYPER 212 BLACK EDITION SILENT FAN — $140.075
-CPU COOLER COOLERMASTER MASTERAIR MA620M — $304.498
-
-# Memorias RAM | DDR3
-MEMORIA SODIMM 4GB DDR3 1600 HIKSEMI HIKER — $26.703
-MEMORIA 4GB DDR3 1600 HIKVISION / HIKSEMI — $27.485
-MEMORIA 8GB DDR3 1600 HIKSEMI / HIKVISION — $42.861
-MEMORIA SODIMM 8GB DDR3 1600 HIKSEMI HIKER HSC308S16Z1 — $45.805
-
-# Memorias RAM | DDR4
-MEMORIA 8GB DDR4 3200 PATRIOT SIGNATURE — $78.683
-MEMORIA 8GB DDR4 3200 WICGTYP — $123.625
-MEMORIA SODIMM 8GB DDR4 3200 PATRIOT SIGNATURE — $124.924
-MEMORIA SODIMM 8GB DDR4 3200 ADATA PREMIER — $132.583
-MEMORIA 8GB DDR4 3200 HIKSEMI HIKER — $135.482
-MEMORIA 8GB DDR4 3200 ADATA PREMIER — $136.361
-MEMORIA 8GB DDR4 3200 LEXAR — $136.361
-MEMORIA 8GB DDR4 3200 HIKSEMI ARMOR C/DISIPADOR — $140.622
-MEMORIA 8GB DDR4 3200 ARKHAM BLACK RGB — $140.760
-MEMORIA 8GB DDR4 3200 C/DISIPADOR TERMICO STARMEMORY — $140.760
-MEMORIA 8GB DDR4 3200 HIKSEMI ARMOR WHITE C/DISIPADOR — $158.930
-MEMORIA 8GB DDR4 3200 HIKSEMI FUTURE RGB — $162.265
-MEMORIA 8GB DDR4 3200 ADATA XPG GAMMIX D35 — $163.116
-MEMORIA SODIMM 8GB DDR4 3200 KINGSTON NO-ECC KCP432SS8/8 — $165.514
-MEMORIA 8GB DDR4 3200 ADATA XPG SPECTRIX D35G RGB — $169.982
-MEMORIA 8GB DDR4 3200 CORSAIR VENGEANCE RGB RS — $175.688
-MEMORIA 8GB DDR4 3200 CORSAIR VENGEANCE LPX — $194.753
-MEMORIA 8GB DDR4 3200 KINGSTON FURY BEAST RGB — $195.040
-MEMORIA SODIMM 8GB DDR4 3200 CRUCIAL — $201.250
-MEMORIA 8GB DDR4 3200 KINGSTON FURY BEAST — $210.335
-MEMORIA 8GB DDR4 3600 KINGSTON FURY BEAST RGB — $219.016
-MEMORIA 16GB DDR4 3200 C/DISIPADOR TERMICO STARMEMORY — $224.008
-MEMORIA SODIMM 16GB DDR4 3200 HIKSEMI HIKER — $224.813
-MEMORIA 8GB DDR4 3200 KINGSTON VALUE RAM KVR — $250.505
-MEMORIA 16GB DDR4 3200 LEXAR — $253.529
-MEMORIA 16GB DDR4 3200 KINGSTON VALUE RAM KVR — $255.265
-
-# Memorias RAM | DDR5
-MEMORIA SODIMM DDR5 8GB DDR5 4800 CORSAIR VENGEANCE — $165.485
-MEMORIA 8GB DDR5 5600 PATRIOT SIGNATURE — $246.226
-
-# Almacenamientos | SSD
-HD SSD 120GB MEMOX SATA III 2.5" — $52.647
-HD SSD 120GB HIKSEMI WAVE SATA III 2.5" — $57.569
-HD SSD 128GB HIKSEMI WAVE M.2 NVME GEN3 2280 — $66.769
-HD SSD 240GB RAPTOR LEGACY SATA III 2.5" — $72.103
-HD SSD 256GB LEXAR NQ100 SATA III 2.5" — $80.057
-HD SSD 240GB HIKSEMI WAVE SATA III 2.5" — $81.926
-HD SSD 240GB MSI SPATIUM S270 SATA III 2.5" — $83.501
-HD SSD 256GB ADATA SU650 ULTIMATE SATA III 2.5" — $95.496
-HD SSD 256GB HIKSEMI WAVE M.2 NVME GEN3 2280 — $100.050
-HD SSD 256GB MEMOX M.2 NVME GEN3 — $104.945
-HD SSD 256GB PATRIOT P300 M.2 NVME GEN3 — $117.116
-HD SSD 512GB LEXAR NQ100 SATA III 2.5" — $135.482
-HD SSD 480GB PATRIOT BURST ELITE SATA III 2.5" — $147.096
-HD SSD 480GB MEMOX SATA III 2.5" — $152.053
-HD SSD 480GB MSI SPATIUM S270 SATA III 2.5" — $153.847
-HD SSD 480GB HIKSEMI WAVE SATA III 2.5" — $158.896
-HD SSD 480GB KINGSTON A400 SATA III 2.5" — $171.718
-HD SSD 512GB HIKSEMI WAVE M.2 NVME GEN3 — $188.266
-HD SSD 512GB PATRIOT P300 M.2 NVME GEN3 — $189.807
-HD SSD 500GB WD GREEN SATA III 2.5" — $200.583
-HD SSD 512GB HIKSEMI FUTURE LITE M.2 NVME GEN4 — $203.630
-HD SSD 500GB ADATA LEGEND 860 M.2 NVME GEN4 — $217.476
-HD SSD 500GB KINGSTON SNVS NV3 M.2 NVME GEN4 — $218.420
-HD SSD 512GB PATRIOT P320 M.2 NVME GEN3 — $228.298
-HD SSD 500GB ADATA SPECTRIX S65G RGB M.2 NVME — $237.556
-HD SSD EXTERNO 500GB KINGSTON XS2000 USB 3.2 GEN2X2 — $242.316
-HD SSD 512GB ADATA XPG GAMMIX S70 BLADE M.2 NVME GEN4 — $243.133
-HD SSD 1TB WD GREEN SN350 M.2 NVME GEN3 — $310.086
-HD SSD 1TB WD GREEN SATA III 2.5" — $334.500
-
-# Almacenamientos | HDD
-HD HDD 1TB SEAGATE SKYHAWK SATA III 3.5" — $244.386
-HD HDD EXTERNO 1TB WD ELEMENTS USB 3.0 — $276.057
-HD HDD EXTERNO 2TB SEAGATE PORTABLE USB 3.0 — $289.340
-HD HDD 2TB SEAGATE SKYHAWK SATA III 3.5" — $324.265
-DISCO HDD 1TB SATA3 WD PURPLE — $324.944
-HD HDD 2TB WD PURPLE SATA III 3.5" — $352.981
-HD HDD EXTERNO 2TB WD ELEMENTS USB 3.0 — $384.997
-
-# Placas de video
-PLACA DE VIDEO GEFORCE GT 210 1GB MSI N210-MD1G/D3 LOW PROFILE — $76.371
-PLACA DE VIDEO GEFORCE GT 210 1GB DDR3 VGA HDMI DVI BULK — $90.850
-PLACA DE VIDEO GEFORCE GT 710 2GB MSI LP — $139.702
-PLACA DE VIDEO GEFORCE GT 1030 4GB MSI 4DG4 LOW PROFILE — $247.791
-PLACA DE VIDEO GEFORCE GT 1030 2GB DDR4 GIGABYTE LOW PROFILE — $249.032
-PLACA DE VIDEO GEFORCE RTX 3050 6GB MSI VENTUS 2X OC — $561.924
-PLACA DE VIDEO GEFORCE RTX 3050 6GB MSI LP OC — $566.973
-PLACA DE VIDEO GEFORCE RTX 3050 6GB ZOTAC TWIN EDGE OC — $573.528
-PLACA DE VIDEO GEFORCE RTX 3050 6GB ASUS DUAL OC — $573.643
-PLACA DE VIDEO GEFORCE RTX 5050 8GB GIGABYTE LOW PROFILE OC — $791.775
-PLACA DE VIDEO GEFORCE RTX 5050 8GB GIGABYTE WINDFORCE V2 OC — $804.091
-PLACA DE VIDEO RADEON RX 7600 8GB GIGABYTE GAMING OC — $835.762
-PLACA DE VIDEO GEFORCE RTX 5050 8GB MSI VENTUS 2X OC — $880.900
-PLACA DE VIDEO GEFORCE RTX 5050 8GB ZOTAC TWIN EDGE OC — $886.719
-PLACA DE VIDEO GEFORCE RTX 5050 8GB GIGABYTE GAMING OC 3X — $905.107
-PLACA DE VIDEO GEFORCE RTX 5050 8GB ASUS DUAL OC EDITION — $905.625
-
-# Fuentes de poder
-FUENTE 500W LNZ BX550-SS — $18.844
-FUENTE 500W LNZ XS550-CE — $22.609
-FUENTE 500W SFX ATX 20+4 SATA — $23.036
-FUENTE AUREOX ARXE 500W — $25.346
-FUENTE 550W PERFORMANCE SATA *4 CABLE POWER — $30.126
-FUENTE AUREOX ARXGP 500W — $45.402
-FUENTE 600W AUREOX ARXGP-600W — $49.956
-FUENTE 700W LNZ SX700-TS — $55.516
-FUENTE 500W EVOLABS POWER SERIES — $65.274
-FUENTE 500W RAPTOR VOLT 80 PLUS SILVER — $72.484
-FUENTE 600W EVOLABS POWER SERIES — $73.404
-FUENTE 550W MSI MAG A550BN 80 PLUS BRONZE — $82.581
-FUENTE 500W THERMALTAKE SMART 80 PLUS WHITE — $83.455
-FUENTE 600W THERMALTAKE SMART 80 PLUS WHITE — $85.847
-FUENTE 550W GIGABYTE WHITE GP-P550SS ICE 80 PLUS SILVER — $86.584
-FUENTE 650W EVOLABS SUPREME SERIES 80 PLUS BRONZE — $88.630
-FUENTE 550W GIGABYTE GP-P550SS 80 PLUS SILVER — $88.883
-FUENTE 550W 80 PLUS BRONZE CORSAIR CX550 — $91.046
-FUENTE 600W ADATA XPG PROBE 80 PLUS BRONZE — $93.851
-FUENTE 650W GIGABYTE GP-P650SS ICE 80 PLUS SILVER BLANCA — $101.901
-FUENTE 750W EVOLABS SUPREME SERIES 80 PLUS SILVER — $107.571
-FUENTE 650W ASUS PRIME 650B 80 PLUS BRONZE — $108.086
-FUENTE 650W ARKHAM CORESHIELD BY XPG 80 PLUS GOLD OEM — $108.456
-FUENTE 700W ADATA XPG PROBE 80 PLUS BRONZE — $109.066
-FUENTE 750W SENTEY MBP750-VM ATX 3.1 PCIE 5.1 80 PLUS BRONZE SEMI MODULAR — $109.793
-FUENTE 700W GAMEMAX 80 PLUS BRONZE VP-700-M-RGB — $113.482
-FUENTE 850W SENTEY MBP850-GM ATX 3.1 PCIE 5.1 80 PLUS BRONZE SEMI MODULAR — $114.561
-FUENTE 650W ADATA XPG PYLON 80 PLUS BRONZE — $116.265
-
-# Gabinetes
-GABINETE NOVA CM-04Q1 MICRO ATX P/MOTHER A520M B550M H510M A620M — $25.875
-GABINETE GAMER AUREOX SKOLL ARX 200G — $38.836
-GABINETE SENTEY H30 BLACK VIDRO LATERAL Y FRONTAL — $41.295
-GABINETE SENTEY H30 WHITE VIDRO LATERAL Y FRONTAL — $43.600
-GABINETE KIT C/TECLADO C/MOUSE — $43.988
-GABINETE KIT PERFORMANCE MATE C/FUENTE 500W — $44.369
-GABINETE KIT GAMER C/FUENTE 600W RGB TECLADO MOUSE Y PARLANTES AURUS — $46.897
-GABINETE RAPTOR BLAZE FORCE TG FAN RGB — $47.357
-GABINETE GAMER AUREOX VANTH 205G — $47.886
-GABINETE TEROS TE-1036S MID TOWER C/FUENTE 250W — $50.863
-GABINETE KIT CON TECLADO MOUSE Y PARLANTE — $52.900
-GABINETE EVOLABS STREAK TG 2FAN FRGB — $53.624
-GABINETE SENTEY T5 BLACK TG LATERAL Y FRONTAL 3FAN ARGB — $55.055
-GABINETE RAPTOR THUNDER STRIKE TG 1FAN RGB BLANCO — $55.062
-GABINETE RAPTOR THUNDER STRIKE TG 1FAN RGB NEGRO — $55.062
-GABINETE KIT C/TECLADO C/MOUSE C/AURICULAR GAMER — $55.545
-GABINETE GAMER AUREOX PICTOR ARX 370G 4 COOLERS — $55.959
-GABINETE EVOLABS SOPHYSTIX TG 3FAN FRGB — $58.409
-GABINETE RAPTOR INFINITY MESH TG 4FAN RGB — $61.951
-GABINETE RAPTOR BLAZE FORCE V2 TG 3FAN RGB — $63.146
-GABINETE GAMER RAIDMAX MESHIAN X609M TG — $64.779
-GABINETE EVOLABS ARTIST TG 2FAN ARGB — $65.492
-GABINETE ARKHAM VORUS TG 4FAN ARGB — $66.757
-GABINETE PERFORMANCE SLIM KIT 5836 FUENTE 600W TECLADO+MOUSE — $71.875
-GABINETE EVOLABS DUALITY TG 4FAN ARGB — $75.452
-GABINETE ADATA XPG VALOR AIR BLACK — $80.557
-GABINETE ADATA XPG LANDER 500 TG 4FAN ARGB — $82.006
-GABINETE ADATA XPG VALOR AIR 4FAN WHITE — $82.110
-GABINETE THERMALTAKE S100 TG SNOW WHITE — $86.514
-GABINETE THERMALTAKE VERSA H16 TG 3FAN ARGB SNOW WHITE — $88.780
-`;
-
-/* =========================================================
-   A partir de acá no hace falta tocar nada
-   ========================================================= */
-
-const ICONS = {
-  "Procesadores": '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="16" y="16" width="32" height="32"/><rect x="24" y="24" width="16" height="16"/><path d="M22 8v8M32 8v8M42 8v8M22 48v8M32 48v8M42 48v8M8 22h8M8 32h8M8 42h8M48 22h8M48 32h8M48 42h8"/></svg>',
-  "Placas de video": '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 18h52v26H6zM12 44v6h20v-6"/><circle cx="22" cy="31" r="8"/><circle cx="42" cy="31" r="8"/></svg>',
-  "Memorias RAM": '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 20h52v20H6z"/><path d="M13 26h6v8h-6zM23 26h6v8h-6zM35 26h6v8h-6zM45 26h6v8h-6zM10 40v6M16 40v6M22 40v6M28 40v6M36 40v6M42 40v6M48 40v6M54 40v6"/></svg>',
-  "Almacenamientos": '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 24h52v16H6z"/><path d="M12 29h14v6H12zM32 29h8v6h-8zM52 28v8"/></svg>',
-  "Motherboards": '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10 8h44v48H10z"/><path d="M18 16h14v14H18zM40 14v22M46 14v22M18 38h28M18 46h20"/></svg>',
-  "Fuentes de poder": '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M8 16h48v32H8z"/><circle cx="26" cy="32" r="10"/><path d="M26 22v20M16 32h20M44 24h6M44 30h6M44 40l4-6h-4l4-6"/></svg>',
-  "Coolers": '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10 10h44v44H10z"/><circle cx="32" cy="32" r="4"/><path d="M32 28c-2-8 4-14 10-12-2 6-6 10-10 12zM36 32c8-2 14 4 12 10-6-2-10-6-12-10zM32 36c2 8-4 14-10 12 2-6 6-10 10-12zM28 32c-8 2-14-4-12-10 6 2 10 6 12 10z"/></svg>',
-  "Gabinetes": '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6h28v52H18z"/><path d="M24 14h16M24 20h16"/><circle cx="32" cy="38" r="8"/></svg>',
-  "default": '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10 14h44v30H10zM24 50h16M32 44v6"/></svg>'
-};
-const WA_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-wa"/></svg>';
-const ARROW = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
-const CHECK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>';
-const STAR = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.9 7.5.7-5.7 5 1.7 7.4L12 18.3 5.5 22l1.7-7.4-5.7-5 7.5-.7z"/></svg>';
-
-const $ = (s) => document.querySelector(s);
-const state = { q: "", cat: "Todos", sub: "", brand: "", sort: "destacados" };
-let items = [];
-
-const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-const norm = (s) => String(s ?? "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-const money = new Intl.NumberFormat("es-AR", { style: "currency", currency: "ARS", maximumFractionDigits: 0 });
-const waLink = (text) => `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(text)}`;
-
-/* ---------- Lectura del catálogo en texto ---------- */
-
-function parseCatalogo(text) {
-  const out = []; let categoria = "Otros", sub = "";
-  for (const raw of text.split(/\r?\n/)) {
-    const line = raw.trim();
-    if (!line) continue;
-    if (line.startsWith("#")) {
-      [categoria, sub = ""] = line.slice(1).split("|").map((s) => s.trim());
-      continue;
-    }
-    const m = line.match(/^(.*?)\s*[—–-]\s*\$\s*([\d.,]+)\s*$/);
-    out.push({ nombre: m ? m[1] : line, precio: m ? m[2] : "", categoria, sub, crudo: m ? m[1] : line });
-  }
-  return out;
-}
-
-const matchesAny = (list, name) => list.some((k) => k && norm(name).includes(norm(k)));
-
-// Marcas, en orden de prioridad (el fabricante de la placa antes que el del chip)
-const BRANDS = ["COOLERMASTER", "COOLER MASTER", "THERMALTAKE", "ARKHAM", "ADATA", "XPG", "ASUS", "MSI", "GIGABYTE", "ZOTAC", "KINGSTON", "CORSAIR",
-  "PATRIOT", "LEXAR", "CRUCIAL", "HIKSEMI", "HIKVISION", "MEMOX", "WICGTYP", "STARMEMORY", "SEAGATE", "WD", "RAPTOR", "EVOLABS", "KELYX",
-  "AUREOX", "SENTEY", "GAMEMAX", "RAIDMAX", "TEROS", "NOVA", "LNZ", "PERFORMANCE", "AURUS", "AMD", "INTEL"];
-const BRAND_NAME = { COOLERMASTER: "Cooler Master", "COOLER MASTER": "Cooler Master", STARMEMORY: "StarMemory", GAMEMAX: "GameMax", WICGTYP: "Wicgtyp" };
-const UPPER = new Set(["AMD", "ASUS", "MSI", "ADATA", "XPG", "WD", "LNZ", "RGB", "ARGB", "FRGB", "DDR3", "DDR4", "DDR5", "SSD", "HDD", "SATA", "III", "USB", "ATX", "SFX",
-  "OC", "LP", "TG", "CSM", "VGA", "HDMI", "DVI", "GT", "RTX", "RX", "CPU", "KVR", "ECC", "OEM", "PRO", "MAG", "SE", "V2", "V3", "H", "K", "A", "B", "G", "S", "M", "SN350",
-  "D4", "R2.0", "LPX", "RS", "ARX", "ICE", "BX550-SS", "XS550-CE", "SX700-TS", "CX550", "NQ100", "SU650", "A400", "S270", "P300", "P320", "S65G", "S70", "XS2000", "SNVS", "ARXE", "ARXGP", "RAM", "NO-ECC", "SE"]);
-const SPECIAL = { NVME: "NVMe", PCIE: "PCIe", GEFORCE: "GeForce", I3: "i3", I5: "i5", I7: "i7", SODIMM: "SODIMM", COOLERMASTER: "Cooler Master", STARMEMORY: "StarMemory",
-  GAMEMAX: "GameMax", MASTERAIR: "MasterAir", COREFROZR: "CoreFrozr", HIKER: "Hiker", Y: "y", DE: "de", CON: "con", BY: "by", VIDRO: "Vidrio", TERMICO: "Térmico", BLANCA: "Blanca" };
-
-function niceToken(t) {
-  const up = t.toUpperCase();
-  if (SPECIAL[up]) return SPECIAL[up];
-  if (/^GEN\d/.test(up)) return "Gen" + up.slice(3).toLowerCase();
-  if (/^[CSP]\/./.test(up)) {
-    const r = niceToken(t.slice(2));
-    return up[0].toLowerCase() + "/" + (/^[A-Z][a-z]+$/.test(r) ? r.toLowerCase() : r);
-  }
-  if (up.includes("/")) return up.split("/").map(niceToken).join("/");
-  if (UPPER.has(up) || /\d/.test(up) || up.length <= 2) return up;
-  return up[0] + up.slice(1).toLowerCase();
-}
-
-// Notas de venta dentro del nombre ("+Q A320", "SIMIL 5600G"...) → pasan a características
-function splitNotes(name) {
-  const notes = [];
-  name = name
-    .replace(/\s+IDEAL PC OFICINA/i, () => (notes.push("Ideal para PC de oficina"), ""))
-    .replace(/\s+(?:\+Q|MEJOR Q)\s+(\S+)/gi, (_, m) => (notes.push(`Mejor que ${m}`), ""))
-    .replace(/\s+SIMIL\s+(\S+)/gi, (_, m) => (notes.push(`Similar a ${m}`), ""));
-  return [name, notes];
-}
-
-const PREFIX = /^(MOTHER|MICRO|CPU COOLER|MEMORIA|HD|DISCO|PLACA DE VIDEO|FUENTE|GABINETE)\s+/i;
-const CORES = { "3000G": "2 núcleos / 4 hilos", "3200G": "4 núcleos / 4 hilos", "3400G": "4 núcleos / 8 hilos", "3500X": "6 núcleos / 6 hilos",
-  "5600": "6 núcleos / 12 hilos", "5600GT": "6 núcleos / 12 hilos", "5700": "8 núcleos / 16 hilos", "5700G": "8 núcleos / 16 hilos",
-  "8400F": "6 núcleos / 12 hilos", "8500G": "6 núcleos / 12 hilos", "8600G": "6 núcleos / 12 hilos", "7600X": "6 núcleos / 12 hilos",
-  "G5925": "2 núcleos / 2 hilos", "G7400": "2 núcleos / 4 hilos", "10105F": "4 núcleos / 8 hilos", "12100": "4 núcleos / 8 hilos", "12100F": "4 núcleos / 8 hilos",
-  "13100F": "4 núcleos / 8 hilos", "14100": "4 núcleos / 8 hilos", "14100F": "4 núcleos / 8 hilos", "12400": "6 núcleos / 12 hilos", "12400F": "6 núcleos / 12 hilos",
-  "14400F": "10 núcleos / 16 hilos" };
-const SOCKET = { AM4: "AM4", AM5: "AM5", S1200: "LGA 1200", S1700: "LGA 1700", S1851: "LGA 1851" };
-
-function autoSpecs(N, cat) {
-  const s = [], has = (re) => re.test(N), cap = N.match(/\b(\d+)\s?(GB|TB)\b/);
-  const sockets = [...N.matchAll(/\b(AM4|AM5|S1200|S1700|S1851)\b/g)].map((m) => SOCKET[m[1]]);
-  const light = has(/\bARGB\b/) ? "Iluminación ARGB" : has(/\bF?RGB\b/) ? "Iluminación RGB" : "";
-  const white = has(/\b(WHITE|BLANCO|BLANCA)\b/) ? "Color blanco" : "";
-  if (cat === "Motherboards") {
-    const chip = N.match(/\b([ABHXZ]\d{3})M?\b/);
-    if (sockets[0]) s.push(`Socket ${sockets[0]}`);
-    if (chip) s.push(`Chipset ${chip[1]}`);
-    const ddr = N.match(/\bDDR(\d)\b/); if (ddr) s.push(`Memoria DDR${ddr[1]}`);
-    if (has(/\b[ABH]\d{3}M\b|\b[ABH]\d{3}M-/)) s.push("Formato Micro-ATX");
-    if (has(/\bGEN5\b/)) s.push("Slot PCIe Gen5");
-    if (light) s.push(light);
-  } else if (cat === "Procesadores") {
-    const model = Object.keys(CORES).sort((a, b) => b.length - a.length).find((k) => new RegExp(`\\b${k}\\b`).test(N));
-    if (model) s.push(CORES[model]);
-    if (sockets[0]) s.push(`Socket ${sockets[0]}`);
-    if (has(/C\/VIDEO|VEGA|CELERON|PENTIUM/)) s.push("Gráficos integrados");
-    if (has(/S\/VIDEO/)) s.push("Requiere placa de video");
-    if (has(/C\/COOLER/) || (has(/\bBOX\b/) && !has(/S\/COOLER/))) s.push("Incluye cooler");
-    if (has(/S\/COOLER/)) s.push("No incluye cooler");
-    if (has(/\bBOX\b/)) s.push("Versión Box (en caja)");
-    if (has(/\bTRAY\b/)) s.push("Versión Tray");
-  } else if (cat === "Coolers") {
-    s.push("Refrigeración por aire");
-    const w = N.match(/\b(\d+)W\b/); if (w) s.push(`Soporta hasta ${w[1]} W`);
-    if (sockets.length > 1) s.push(`Compatible ${sockets.join(" / ")}`);
-    else if (sockets[0]) s.push(`Compatible ${sockets[0]}`);
-    else if (has(/AMD\/INTEL/)) s.push("Compatible AMD e Intel");
-    if (light) s.push(light);
-    if (white) s.push(white);
-    if (has(/SILENT/)) s.push("Ventilador silencioso");
-  } else if (cat === "Memorias RAM") {
-    if (cap) s.push(`Capacidad ${cap[1]} ${cap[2]}`);
-    const sp = N.match(/\bDDR(\d)\s+(?:\d+GB\s+DDR\d\s+)?(\d{4})\b/); if (sp) s.push(`DDR${sp[1]} ${sp[2]} MHz`);
-    s.push(has(/SODIMM/) ? "SODIMM (notebook)" : "DIMM (PC de escritorio)");
-    if (has(/DISIPADOR|FURY|VENGEANCE|GAMMIX|SPECTRIX|ARMOR/)) s.push("Con disipador");
-    if (light) s.push(light);
-    if (white) s.push(white);
-  } else if (cat === "Almacenamientos") {
-    if (cap) s.push(`Capacidad ${cap[1]} ${cap[2]}`);
-    const ssd = has(/\bSSD\b/);
-    s.push(ssd ? "Disco sólido (SSD)" : "Disco rígido (HDD)");
-    const gen = N.match(/GEN(\d)\b/);
-    if (has(/EXTERNO/)) s.push(`Externo${has(/USB/) ? " · USB " + (N.match(/USB\s([\d.]+)/) || [, ""])[1] : ""}`.trim());
-    else if (has(/NVME/)) s.push(`M.2 NVMe${gen ? " PCIe Gen" + gen[1] : ""}`);
-    else if (has(/2\.5"/)) s.push('SATA III · 2.5"');
-    else if (has(/3\.5"|SATA3|SATA III/)) s.push('SATA III · 3.5"');
-    if (has(/PURPLE|SKYHAWK/)) s.push("Ideal para videovigilancia");
-    if (light) s.push(light);
-  } else if (cat === "Placas de video") {
-    const chip = N.match(/\b(GT|RTX|RX)\s(\d{3,4})\b/);
-    if (chip) s.push(`${chip[1] === "RX" ? "AMD Radeon" : "NVIDIA GeForce"} ${chip[1]} ${chip[2]}`);
-    if (cap) s.push(`Memoria ${cap[1]} GB`);
-    if (has(/LOW PROFILE|\bLP\b/)) s.push("Perfil bajo (low profile)");
-    if (has(/\b3X\b/)) s.push("Triple ventilador"); else if (has(/\b2X\b|TWIN|DUAL|WINDFORCE/)) s.push("Doble ventilador");
-    if (has(/\bOC\b/)) s.push("Overclock de fábrica");
-    if (has(/VGA HDMI DVI/)) s.push("Salidas VGA / HDMI / DVI");
-  } else if (cat === "Fuentes de poder") {
-    const w = N.match(/\b(\d{3})W\b/) || N.match(/\b(\d{3})W\b|-(\d{3})W/); if (w) s.push(`Potencia ${w[1]} W`);
-    const plus = N.match(/80 PLUS (WHITE|BRONZE|SILVER|GOLD|PLATINUM)/);
-    if (plus) s.push(`Certificación 80 Plus ${niceToken(plus[1])}`);
-    if (has(/SEMI MODULAR/)) s.push("Semi modular");
-    if (has(/ATX 3\.1/)) s.push("ATX 3.1 · PCIe 5.1");
-    if (has(/\bSFX\b/)) s.push("Formato SFX");
-    if (has(/ICE|BLANCA/)) s.push("Color blanco");
-    if (light) s.push(light);
-  } else if (cat === "Gabinetes") {
-    if (has(/\bTG\b|VIDRO/)) s.push("Vidrio templado");
-    const fans = N.match(/\b(\d)\s?(?:FAN|COOLERS)\b/); if (fans) s.push(`${fans[1]} ${fans[1] === "1" ? "ventilador incluido" : "ventiladores incluidos"}`);
-    if (has(/MESH/)) s.push("Frente mesh");
-    const psu = N.match(/FUENTE\s(\d{3})W|C\/FUENTE\s(\d{3})W/); if (psu) s.push(`Incluye fuente de ${psu[1] || psu[2]} W`);
-    const extras = [has(/TECLADO/) && "teclado", has(/MOUSE/) && "mouse", has(/PARLANTE/) && "parlantes", has(/AURICULAR/) && "auriculares"].filter(Boolean);
-    if (extras.length) s.push(`Incluye ${extras.join(", ").replace(/, ([^,]*)$/, " y $1")}`);
-    if (has(/MICRO ATX/)) s.push("Formato Micro-ATX"); else if (has(/MID TOWER/)) s.push("Mid tower");
-    if (light) s.push(light);
-    if (white) s.push(white);
-  }
-  return s;
-}
-
-function enrich(p) {
-  const raw = String(p.crudo || p.nombre || "").trim();
-  let [name, notes] = splitNotes(raw);
-  const N = name.toUpperCase();
-  if (name === name.toUpperCase()) {
-    name = name.replace(PREFIX, "").replace(/\s+CPU(?=\s+(AM4|AM5)\b)/, "").replace(/\s+/g, " ");
-    name = name.split(" ").map(niceToken).join(" ");
-  }
-  let marca = String(p.marca || "").trim();
-  if (!marca) {
-    const b = BRANDS.find((b) => new RegExp(`(^|[\\s/])${b}($|[\\s/])`).test(N));
-    marca = b ? BRAND_NAME[b] || niceToken(b) : /GEFORCE/.test(N) ? "NVIDIA" : /RADEON/.test(N) ? "AMD" : "Genérico";
-  }
-  const given = Array.isArray(p.specs) ? p.specs : String(p.specs || "").split("|");
-  const specs = given.map((s) => s.trim()).filter(Boolean);
-  return { ...p, nombre: name.trim(), marca, specs: (specs.length ? specs : autoSpecs(N, p.categoria)).concat(notes), crudo: raw };
-}
-
-function clean(p, i) {
-  p = enrich(p);
-  const precio = Number(String(p.precio ?? "").replace(/[^\d]/g, "")) || null;
-  let stock = norm(p.stock).trim();
-  stock = matchesAny(SIN_STOCK, p.crudo) || stock.startsWith("sin") ? "sin stock" : stock.startsWith("disp") ? "disponible" : "consultar";
-  const img = Object.keys(IMAGENES).find((k) => matchesAny([k], p.crudo));
-  return {
-    id: i,
-    nombre: p.nombre,
-    marca: p.marca,
-    categoria: String(p.categoria || "Otros").trim(),
-    sub: String(p.sub || "").trim(),
-    specs: p.specs,
-    precio, stock,
-    imagen: String(p.imagen || (img ? IMAGENES[img] : "")).trim(),
-    destacado: ["si", "sí", "true", "1", "x"].includes(norm(p.destacado).trim()) || matchesAny(DESTACADOS, p.crudo),
-  };
-}
-
-function parseCSV(text) {
-  const rows = []; let row = [], cell = "", q = false;
-  for (let i = 0; i < text.length; i++) {
-    const c = text[i];
-    if (q) {
-      if (c === '"' && text[i + 1] === '"') { cell += '"'; i++; }
-      else if (c === '"') q = false;
-      else cell += c;
-    } else if (c === '"') q = true;
-    else if (c === ",") { row.push(cell); cell = ""; }
-    else if (c === "\n" || c === "\r") {
-      if (c === "\r" && text[i + 1] === "\n") i++;
-      row.push(cell); rows.push(row); row = []; cell = "";
-    } else cell += c;
-  }
-  if (cell || row.length) { row.push(cell); rows.push(row); }
-  const head = rows.shift().map((h) => norm(h).trim());
-  return rows.filter((r) => r.some((c) => c.trim())).map((r) => Object.fromEntries(head.map((h, i) => [h, r[i] ?? ""])));
-}
-
-const stockLabel = { "disponible": "Disponible", "consultar": "Consultar", "sin stock": "Sin stock" };
-// Logos de marca (img/marcas, de Simple Icons). Las marcas sin logo se muestran con su nombre.
-const LOGOS = { AMD: "amd.svg", Intel: "intel.svg", ASUS: "asus.svg", MSI: "msi.svg", NVIDIA: "nvidia.svg", Corsair: "corsair.svg", Seagate: "seagate.svg",
-  WD: "westerndigital.svg", "Cooler Master": "coolermaster.svg", ADATA: "adata.png", XPG: "xpg.png", Hiksemi: "hiksemi.png", Gigabyte: "gigabyte.png",
-  Thermaltake: "thermaltake.png", Evolabs: "evolabs.png", Kingston: "kingston.png", Aureox: "aureox.png", Sentey: "sentey.png" };
-const logoFor = (p) => (p.marca === "ADATA" && /\bXPG\b/i.test(p.nombre) ? LOGOS.XPG : LOGOS[p.marca]);
-const thumb = (p) => {
-  if (p.imagen) return `<img src="${esc(p.imagen)}" alt="${esc(p.nombre)}" loading="lazy">`;
-  const bg = `<span class="t-bg">${ICONS[p.categoria] || ICONS.default}</span>`;
-  const logo = logoFor(p);
-  if (logo) return `${bg}<span class="t-logo" style="--logo:url('img/marcas/${logo}')" role="img" aria-label="${esc(p.marca)}"></span>`;
-  if (p.marca === "Genérico") return bg.replace("t-bg", "t-bg solo");
-  return `${bg}<span class="t-word">${esc(p.marca)}</span>`;
-};
-const priceHtml = (p) => p.precio
-  ? `<span class="price">${money.format(p.precio)}</span>`
-  : `<span class="price ask">Consultar precio</span>`;
-
-function renderCats() {
-  const counts = items.reduce((a, p) => (a[p.categoria] = (a[p.categoria] || 0) + 1, a), {});
-  const extra = Object.keys(counts).filter((c) => !CATEGORIAS.includes(c));
-  const cats = ["Todos", ...CATEGORIAS, ...extra];
-  $("#cats").innerHTML = cats.map((c) =>
-    `<button class="cat" type="button" data-cat="${esc(c)}" aria-pressed="${c === state.cat}">${esc(c)} <small>${c === "Todos" ? items.length : counts[c] || 0}</small></button>`
-  ).join("");
-  updateCatsFade();
-  renderSubs();
-}
-
-function renderSubs() {
-  const subs = state.cat === "Todos" ? [] : [...new Set(items.filter((p) => p.categoria === state.cat && p.sub).map((p) => p.sub))];
-  $("#subcats").hidden = subs.length < 2;
-  $("#subcats").innerHTML = ["", ...subs].map((s) =>
-    `<button class="sub" type="button" data-sub="${esc(s)}" aria-pressed="${s === state.sub}">${s ? esc(s) : "Todas"}</button>`
-  ).join("");
-}
-
-// Degradé a la derecha solo cuando las categorías no entran y se pueden deslizar
-function updateCatsFade() {
-  const el = $("#cats");
-  el.parentElement.classList.toggle("overflow", el.scrollLeft + el.clientWidth < el.scrollWidth - 2);
-}
-$("#cats").addEventListener("scroll", updateCatsFade, { passive: true });
-addEventListener("resize", updateCatsFade);
-
-// Solo las marcas que hay en la categoría/subcategoría elegida, con su cantidad
-function renderBrands() {
-  const counts = {};
-  for (const p of items) {
-    if (state.cat !== "Todos" && p.categoria !== state.cat) continue;
-    if (state.sub && p.sub !== state.sub) continue;
-    if (p.marca && p.marca !== "Genérico") counts[p.marca] = (counts[p.marca] || 0) + 1;
-  }
-  const brands = Object.keys(counts).sort((a, b) => a.localeCompare(b));
-  if (!counts[state.brand]) state.brand = "";
-  $("#brand").innerHTML = `<option value="">Todas las marcas</option>` +
-    brands.map((b) => `<option value="${esc(b)}"${b === state.brand ? " selected" : ""}>${esc(b)} (${counts[b]})</option>`).join("");
-}
-
-function filtered() {
-  const q = norm(state.q).split(/\s+/).filter(Boolean);
-  let list = items.filter((p) => {
-    if (state.cat !== "Todos" && p.categoria !== state.cat) return false;
-    if (state.sub && p.sub !== state.sub) return false;
-    if (state.brand && p.marca !== state.brand) return false;
-    const hay = norm([p.nombre, p.marca, p.categoria, p.sub, ...p.specs].join(" "));
-    return q.every((w) => hay.includes(w));
-  });
-  const byPrice = (dir) => (a, b) => (a.precio == null) - (b.precio == null) || dir * ((a.precio || 0) - (b.precio || 0));
-  const sorters = {
-    destacados: (a, b) => b.destacado - a.destacado || (a.stock === "sin stock") - (b.stock === "sin stock") || a.id - b.id,
-    az: (a, b) => a.nombre.localeCompare(b.nombre),
-    "precio-asc": byPrice(1),
-    "precio-desc": byPrice(-1),
-  };
-  return list.sort(sorters[state.sort]);
-}
-
-function render() {
-  const list = filtered();
-  $("#count").textContent = `${list.length} ${list.length === 1 ? "producto" : "productos"}`;
-  $("#resultsTitle").textContent = state.cat === "Todos" ? "Todos los productos" : state.cat + (state.sub ? ` · ${state.sub}` : "");
-  if (!list.length) {
-    const ask = waLink(`Hola Titanware! Estoy buscando: ${state.q.trim() || "un producto"}. ¿Lo tienen o lo pueden conseguir?`);
-    $("#grid").innerHTML = `<div class="empty"><strong>No encontramos productos con esos filtros</strong>Probá con otra búsqueda o consultanos: capaz lo conseguimos.<div class="actions"><button class="btn ghost" type="button" id="reset">Ver todo el catálogo</button><a class="btn wa" href="${ask}" target="_blank" rel="noopener">${WA_ICON} Consultar por WhatsApp</a></div></div>`;
-    return;
-  }
-  $("#grid").innerHTML = list.map((p) => `
-    <button class="card${p.stock === "sin stock" ? " is-off" : ""}" type="button" data-id="${p.id}" aria-label="${esc(p.marca + " " + p.nombre)}, ver detalle">
-      ${p.destacado ? `<span class="badge">${STAR} Destacado</span>` : ""}
-      <div class="thumb">${thumb(p)}</div>
-      <div class="card-body">
-        <div class="meta"><span>${esc(p.marca)}</span><span>${esc(p.sub || p.categoria)}</span></div>
-        <h3>${esc(p.nombre)}</h3>
-        <p class="specs-short">${esc(p.specs.slice(0, 2).join(", "))}</p>
-        <div class="card-foot">${priceHtml(p)}<span class="stock ${p.stock.replace(" ", "-")}">${stockLabel[p.stock]}</span></div>
-        <div class="card-cta">Ver detalle ${ARROW}</div>
-      </div>
-    </button>`).join("");
-}
-
-function openProduct(id) {
-  const p = items.find((x) => x.id === id);
-  if (!p) return;
-  const full = norm(p.nombre).includes(norm(p.marca)) || p.marca === "Genérico" ? p.nombre : `${p.marca} ${p.nombre}`;
-  const msg = `Hola Titanware! Quería consultar por: ${full}${p.precio ? ` (${money.format(p.precio)})` : ""}. ¿Tienen stock?`;
-  const m = $("#modal");
-  m.innerHTML = `
-    <button class="close" type="button" aria-label="Cerrar" data-close><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
-    <div class="modal">
-      <div class="thumb">${thumb(p)}</div>
-      <div class="modal-body">
-        <div class="meta"><span>${esc(p.marca)} · ${esc(p.categoria)}${p.sub ? ` · ${esc(p.sub)}` : ""}</span></div>
-        <h2 id="mTitle">${esc(p.nombre)}</h2>
-        <div class="modal-price">${priceHtml(p)}<span class="stock ${p.stock.replace(" ", "-")}">${stockLabel[p.stock]}</span></div>
-        ${p.specs.length ? `<p class="spec-title">Características</p><ul class="spec-list">${p.specs.map((s) => `<li>${CHECK}<span>${esc(s)}</span></li>`).join("")}</ul>` : ""}
-        <a class="btn wa block" href="${waLink(msg)}" target="_blank" rel="noopener">${WA_ICON} Consultar por WhatsApp</a>
-        <p class="note">Precios y stock sujetos a cambios. Confirmalos por WhatsApp antes de tu compra.</p>
-      </div>
-    </div>`;
-  m.showModal();
-}
-
-// Eventos
-$("#q").addEventListener("input", (e) => { state.q = e.target.value; render(); });
-$("#brand").addEventListener("change", (e) => { state.brand = e.target.value; render(); });
-$("#sort").addEventListener("change", (e) => { state.sort = e.target.value; render(); });
-$("#cats").addEventListener("click", (e) => {
-  const b = e.target.closest(".cat"); if (!b) return;
-  state.cat = b.dataset.cat; state.sub = ""; renderCats(); renderBrands(); render();
-});
-$("#subcats").addEventListener("click", (e) => {
-  const b = e.target.closest(".sub"); if (!b) return;
-  state.sub = b.dataset.sub; renderSubs(); renderBrands(); render();
-});
-$("#grid").addEventListener("click", (e) => {
-  if (e.target.closest("#reset")) {
-    Object.assign(state, { q: "", cat: "Todos", sub: "", brand: "" });
-    $("#q").value = "";
-    renderCats(); renderBrands(); render(); return;
-  }
-  const c = e.target.closest(".card"); if (c) openProduct(Number(c.dataset.id));
-});
-$("#modal").addEventListener("click", (e) => {
-  if (e.target.closest("[data-close]") || e.target === e.currentTarget) e.currentTarget.close();
-});
-
-// Inicio
-const general = waLink("Hola Titanware! Quería hacer una consulta.");
-["#topWa", "#floatWa", "#footWa"].forEach((s) => ($(s).href = general));
-$("#bandWa").href = waLink("Hola Titanware! Quería pedir un presupuesto para armar una PC.");
-$("#year").textContent = new Date().getFullYear();
-
-async function init() {
-  let data = parseCatalogo(CATALOGO);
-  if (SHEET_CSV_URL) {
-    try {
-      const res = await fetch(SHEET_CSV_URL, { cache: "no-store" });
-      if (!res.ok) throw new Error(res.status);
-      data = parseCSV(await res.text());
-    } catch (err) {
-      console.warn("No se pudo leer la planilla, se usan los productos de ejemplo.", err);
-    }
-  }
-  items = data.map(clean).filter((p) => p.nombre);
-  renderCats(); renderBrands(); render();
-}
-init();
-</script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/core.js"></script>
+<script src="assets/js/app.js"></script>
 </body>
 </html>
