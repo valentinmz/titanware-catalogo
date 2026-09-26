@@ -210,11 +210,6 @@
         : `<p>Estás trabajando sin conexión: podés editar y descargar los archivos, pero no publicar.</p><div class="row-actions"><button class="btn" type="button" data-goconnect>Conectar con GitHub</button></div>`}
       </div>
       <div class="panel-card" style="max-width:820px;margin-top:1rem">
-        <h2>Copia de los datos</h2>
-        <p>Descargá los archivos de la tienda. Sirven como respaldo o para subirlos a mano a otro hosting (van en la carpeta <code>data/</code>).</p>
-        <div class="row-actions"><button class="btn ghost" type="button" data-dl="catalogo">Descargar catalogo.json</button><button class="btn ghost" type="button" data-dl="pcs">Descargar pcs.json</button></div>
-      </div>
-      <div class="panel-card" style="max-width:820px;margin-top:1rem">
         <h2>Datos de la tienda</h2>
         <p>El WhatsApp, Instagram, la ubicación y las categorías se configuran en el archivo <code>assets/js/config.js</code>.</p>
         <p class="hint" style="margin:0">WhatsApp actual: ${esc(CFG.negocio.whatsappVisible)} · Instagram: @${esc(CFG.negocio.instagram)}</p>
@@ -717,7 +712,6 @@
     if ((x = el("[data-impclear]"))) { S.imp = null; renderTab(); return; }
     if ((x = el("[data-apply]"))) { applyImport(); return; }
     if ((x = el("[data-allmiss]"))) { S.imp.faltan.forEach((m) => (m.act = x.dataset.allmiss)); renderTab(); return; }
-    if ((x = el("[data-dl]"))) { download(x.dataset.dl); return; }
     if ((x = el("[data-reload]"))) {
       if ((S.dirty.catalogo || S.dirty.pcs) && !confirm("Tenés cambios sin publicar. Si recargás se pierden. ¿Seguir?")) return;
       try { await loadData(); toast("Datos recargados desde GitHub"); } catch (err) { toast(err.message, false); }
