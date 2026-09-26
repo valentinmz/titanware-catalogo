@@ -227,7 +227,8 @@
         "precio":  62054,
         "destacado":  false,
         "stock":  "consultar",
-        "imagen":  ""
+        "imagen":  "",
+        "caja":  "img/productos/cajas/micro-amd-3000g-athlon-c-video-c-cooler-cpu-am4.webp"
     },
     {
         "id":  "micro-amd-athlon-3000g-vega-3-box-am4",
@@ -237,7 +238,8 @@
         "precio":  75486,
         "destacado":  false,
         "stock":  "consultar",
-        "imagen":  ""
+        "imagen":  "",
+        "caja":  "img/productos/cajas/micro-amd-athlon-3000g-vega-3-box-am4.webp"
     },
     {
         "id":  "micro-amd-ryzen-3-3200g-c-video-s-cooler-cpu-am4",
@@ -257,7 +259,8 @@
         "precio":  107053,
         "destacado":  false,
         "stock":  "consultar",
-        "imagen":  ""
+        "imagen":  "",
+        "caja":  "img/productos/cajas/micro-amd-ryzen-3-3200g-c-video-c-cooler-cpu-am4.webp"
     },
     {
         "id":  "micro-amd-ryzen-5-3500x-s-video-s-cooler-cpu-am4",
@@ -277,7 +280,8 @@
         "precio":  116507,
         "destacado":  false,
         "stock":  "consultar",
-        "imagen":  ""
+        "imagen":  "",
+        "caja":  "img/productos/cajas/micro-amd-ryzen-3-3200g-c-video-c-cooler-amd-cpu-am4.webp"
     },
     {
         "id":  "micro-amd-ryzen-5-3500x-s-video-c-cooler-cpu-am4",
@@ -287,7 +291,8 @@
         "precio":  125269,
         "destacado":  false,
         "stock":  "consultar",
-        "imagen":  ""
+        "imagen":  "",
+        "caja":  "img/productos/cajas/micro-amd-ryzen-5-3500x-s-video-c-cooler-cpu-am4.webp"
     },
     {
         "id":  "micro-amd-ryzen-3-3200g-c-video-c-cooler-box-am4",
@@ -297,7 +302,8 @@
         "precio":  125339,
         "destacado":  false,
         "stock":  "consultar",
-        "imagen":  ""
+        "imagen":  "",
+        "caja":  "img/productos/cajas/micro-amd-ryzen-3-3200g-c-video-c-cooler-box-am4.webp"
     },
     {
         "id":  "micro-amd-ryzen-5-3400g-c-video-s-cooler-cpu-am4",
@@ -317,7 +323,8 @@
         "precio":  147292,
         "destacado":  false,
         "stock":  "consultar",
-        "imagen":  ""
+        "imagen":  "",
+        "caja":  "img/productos/cajas/micro-amd-ryzen-5-3400g-c-video-c-cooler-cpu-am4.webp"
     },
     {
         "id":  "micro-amd-ryzen-5-5600-s-video-c-cooler-am4",
@@ -427,7 +434,8 @@
         "precio":  114183,
         "destacado":  false,
         "stock":  "consultar",
-        "imagen":  ""
+        "imagen":  "",
+        "caja":  "img/productos/cajas/micro-intel-celeron-g5925-s1200-ideal-pc-oficina-q-g5905.webp"
     },
     {
         "id":  "micro-intel-core-i3-10105f-s-video-c-cooler-box-s1200",
@@ -437,7 +445,8 @@
         "precio":  152904,
         "destacado":  false,
         "stock":  "consultar",
-        "imagen":  ""
+        "imagen":  "",
+        "caja":  "img/productos/cajas/micro-intel-core-i3-10105f-s-video-c-cooler-box-s1200.webp"
     },
     {
         "id":  "micro-intel-core-i3-13100f-s-video-c-cooler-box-s1700",
@@ -447,7 +456,8 @@
         "precio":  159793,
         "destacado":  false,
         "stock":  "consultar",
-        "imagen":  "img/productos/intel-core-13th-gen-chip.webp"
+        "imagen":  "img/productos/intel-core-13th-gen-chip.webp",
+        "caja":  "img/productos/cajas/micro-intel-core-i3-13100f-s-video-c-cooler-box-s1700.webp"
     },
     {
         "id":  "micro-intel-pentium-g7400-s1700",
@@ -457,7 +467,8 @@
         "precio":  209449,
         "destacado":  false,
         "stock":  "consultar",
-        "imagen":  ""
+        "imagen":  "",
+        "caja":  "img/productos/cajas/micro-intel-pentium-g7400-s1700.webp"
     },
     {
         "id":  "micro-intel-core-i3-12100f-s-video-c-cooler-box-s1700",
@@ -467,7 +478,8 @@
         "precio":  216729,
         "destacado":  false,
         "stock":  "consultar",
-        "imagen":  ""
+        "imagen":  "",
+        "caja":  "img/productos/cajas/micro-intel-core-i3-12100f-s-video-c-cooler-box-s1700.webp"
     },
     {
         "id":  "micro-intel-core-i3-14100f-s-video-c-cooler-box-s1700",
@@ -477,7 +489,8 @@
         "precio":  226332,
         "destacado":  false,
         "stock":  "consultar",
-        "imagen":  "img/productos/intel-core-13th-gen-chip.webp"
+        "imagen":  "img/productos/intel-core-13th-gen-chip.webp",
+        "caja":  "img/productos/cajas/micro-intel-core-i3-14100f-s-video-c-cooler-box-s1700.webp"
     },
     {
         "id":  "micro-intel-core-i3-14100f-s-video-c-cooler-s1700",
@@ -487,7 +500,8 @@
         "precio":  226895,
         "destacado":  false,
         "stock":  "consultar",
-        "imagen":  "img/productos/intel-core-13th-gen-chip.webp"
+        "imagen":  "img/productos/intel-core-13th-gen-chip.webp",
+        "caja":  "img/productos/cajas/micro-intel-core-i3-14100f-s-video-c-cooler-s1700.webp"
     },
     {
         "id":  "micro-intel-core-i3-12100-c-video-c-cooler-box-s1700",
@@ -497,7 +511,8 @@
         "precio":  284797,
         "destacado":  false,
         "stock":  "consultar",
-        "imagen":  ""
+        "imagen":  "",
+        "caja":  "img/productos/cajas/micro-intel-core-i3-12100-c-video-c-cooler-box-s1700.webp"
     },
     {
         "id":  "micro-intel-core-i3-14100-c-video-c-cooler-box-s1700",
@@ -507,7 +522,8 @@
         "precio":  308568,
         "destacado":  false,
         "stock":  "consultar",
-        "imagen":  "img/productos/intel-core-13th-gen-chip.webp"
+        "imagen":  "img/productos/intel-core-13th-gen-chip.webp",
+        "caja":  "img/productos/cajas/micro-intel-core-i3-14100-c-video-c-cooler-box-s1700.webp"
     },
     {
         "id":  "micro-intel-core-i5-12400f-s-video-c-cooler-box-s1700",
@@ -517,7 +533,8 @@
         "precio":  309350,
         "destacado":  true,
         "stock":  "consultar",
-        "imagen":  ""
+        "imagen":  "",
+        "caja":  "img/productos/cajas/micro-intel-core-i5-12400f-s-video-c-cooler-box-s1700.webp"
     },
     {
         "id":  "micro-intel-core-i5-14400f-s-video-s-cooler-s1700",
@@ -537,7 +554,8 @@
         "precio":  332132,
         "destacado":  false,
         "stock":  "consultar",
-        "imagen":  ""
+        "imagen":  "",
+        "caja":  "img/productos/cajas/micro-intel-core-i5-12400f-s-video-c-cooler-s1700.webp"
     },
     {
         "id":  "micro-intel-core-i5-14400f-tray-s-video-s-cooler-s1700",
@@ -557,7 +575,8 @@
         "precio":  389448,
         "destacado":  false,
         "stock":  "consultar",
-        "imagen":  ""
+        "imagen":  "",
+        "caja":  "img/productos/cajas/micro-intel-core-i5-12400-c-video-c-cooler-box-s1700.webp"
     },
     {
         "id":  "micro-intel-core-i5-12400-c-video-s-cooler-s1700",
@@ -577,7 +596,8 @@
         "precio":  399591,
         "destacado":  false,
         "stock":  "consultar",
-        "imagen":  "img/productos/intel-core-13th-gen-chip.webp"
+        "imagen":  "img/productos/intel-core-13th-gen-chip.webp",
+        "caja":  "img/productos/cajas/micro-intel-core-i5-14400f-s-video-c-cooler-box-s1700.webp"
     },
     {
         "id":  "cpu-cooler-intel-performance-s1700",
@@ -597,7 +617,8 @@
         "precio":  16548,
         "destacado":  false,
         "stock":  "consultar",
-        "imagen":  "img/productos/cpu-cooler-kelyx-potencia-maxima-95w-p-amd-intel.webp"
+        "imagen":  "img/productos/cpu-cooler-kelyx-potencia-maxima-95w-p-amd-intel.webp",
+        "caja":  "img/productos/cajas/cpu-cooler-kelyx-potencia-maxima-95w-p-amd-intel.webp"
     },
     {
         "id":  "cpu-cooler-raptor-cryo-rgb-potencia-maxima-95w-p-amd-intel",
@@ -607,7 +628,8 @@
         "precio":  18975,
         "destacado":  false,
         "stock":  "consultar",
-        "imagen":  "img/productos/cpu-cooler-raptor-cryo-rgb-potencia-maxima-95w-p-amd-intel.webp"
+        "imagen":  "img/productos/cpu-cooler-raptor-cryo-rgb-potencia-maxima-95w-p-amd-intel.webp",
+        "caja":  "img/productos/cajas/cpu-cooler-raptor-cryo-rgb-potencia-maxima-95w-p-amd-intel.webp"
     },
     {
         "id":  "cpu-cooler-evolabs-cryo-4h-argb",
@@ -817,7 +839,8 @@
         "precio":  26703,
         "destacado":  false,
         "stock":  "consultar",
-        "imagen":  "img/productos/hiksemi-hiker-sodimm.webp"
+        "imagen":  "img/productos/hiksemi-hiker-sodimm.webp",
+        "caja":  "img/productos/cajas/memoria-sodimm-4gb-ddr3-1600-hiksemi-hiker.webp"
     },
     {
         "id":  "memoria-4gb-ddr3-1600-hikvision-hiksemi",
@@ -827,7 +850,8 @@
         "precio":  27485,
         "destacado":  false,
         "stock":  "consultar",
-        "imagen":  "img/productos/hiksemi-hiker-udimm.webp"
+        "imagen":  "img/productos/hiksemi-hiker-udimm.webp",
+        "caja":  "img/productos/cajas/memoria-4gb-ddr3-1600-hikvision-hiksemi.webp"
     },
     {
         "id":  "memoria-8gb-ddr3-1600-hiksemi-hikvision",
@@ -837,7 +861,8 @@
         "precio":  42861,
         "destacado":  false,
         "stock":  "consultar",
-        "imagen":  "img/productos/hiksemi-hiker-udimm.webp"
+        "imagen":  "img/productos/hiksemi-hiker-udimm.webp",
+        "caja":  "img/productos/cajas/memoria-8gb-ddr3-1600-hiksemi-hikvision.webp"
     },
     {
         "id":  "memoria-sodimm-8gb-ddr3-1600-hiksemi-hiker-hsc308s16z1",
@@ -847,7 +872,8 @@
         "precio":  45805,
         "destacado":  false,
         "stock":  "consultar",
-        "imagen":  "img/productos/hiksemi-hiker-sodimm.webp"
+        "imagen":  "img/productos/hiksemi-hiker-sodimm.webp",
+        "caja":  "img/productos/cajas/memoria-sodimm-8gb-ddr3-1600-hiksemi-hiker-hsc308s16z1.webp"
     },
     {
         "id":  "memoria-8gb-ddr4-3200-patriot-signature",
@@ -877,7 +903,8 @@
         "precio":  124924,
         "destacado":  false,
         "stock":  "consultar",
-        "imagen":  ""
+        "imagen":  "",
+        "caja":  "img/productos/cajas/memoria-sodimm-8gb-ddr4-3200-patriot-signature.webp"
     },
     {
         "id":  "memoria-sodimm-8gb-ddr4-3200-adata-premier",
@@ -887,7 +914,8 @@
         "precio":  132583,
         "destacado":  false,
         "stock":  "consultar",
-        "imagen":  "img/productos/adata-premier-ddr4-sodimm.webp"
+        "imagen":  "img/productos/adata-premier-ddr4-sodimm.webp",
+        "caja":  "img/productos/cajas/memoria-sodimm-8gb-ddr4-3200-adata-premier.webp"
     },
     {
         "id":  "memoria-8gb-ddr4-3200-hiksemi-hiker",
@@ -897,7 +925,8 @@
         "precio":  135482,
         "destacado":  false,
         "stock":  "consultar",
-        "imagen":  "img/productos/hiksemi-hiker-udimm.webp"
+        "imagen":  "img/productos/hiksemi-hiker-udimm.webp",
+        "caja":  "img/productos/cajas/memoria-8gb-ddr4-3200-hiksemi-hiker.webp"
     },
     {
         "id":  "memoria-8gb-ddr4-3200-adata-premier",
@@ -907,7 +936,8 @@
         "precio":  136361,
         "destacado":  false,
         "stock":  "consultar",
-        "imagen":  "img/productos/adata-premier-ddr4-udimm.webp"
+        "imagen":  "img/productos/adata-premier-ddr4-udimm.webp",
+        "caja":  "img/productos/cajas/memoria-8gb-ddr4-3200-adata-premier.webp"
     },
     {
         "id":  "memoria-8gb-ddr4-3200-lexar",
@@ -927,7 +957,8 @@
         "precio":  140622,
         "destacado":  false,
         "stock":  "consultar",
-        "imagen":  "img/productos/hiksemi-armor-black-ddr4.webp"
+        "imagen":  "img/productos/hiksemi-armor-black-ddr4.webp",
+        "caja":  "img/productos/cajas/memoria-8gb-ddr4-3200-hiksemi-armor-c-disipador.webp"
     },
     {
         "id":  "memoria-8gb-ddr4-3200-arkham-black-rgb",
@@ -1017,7 +1048,8 @@
         "precio":  194753,
         "destacado":  false,
         "stock":  "consultar",
-        "imagen":  "img/productos/corsair-vengeance-lpx-ddr4-black.webp"
+        "imagen":  "img/productos/corsair-vengeance-lpx-ddr4-black.webp",
+        "caja":  "img/productos/cajas/memoria-8gb-ddr4-3200-corsair-vengeance-lpx.webp"
     },
     {
         "id":  "memoria-8gb-ddr4-3200-kingston-fury-beast-rgb",
@@ -1077,7 +1109,8 @@
         "precio":  224813,
         "destacado":  false,
         "stock":  "consultar",
-        "imagen":  "img/productos/hiksemi-hiker-sodimm.webp"
+        "imagen":  "img/productos/hiksemi-hiker-sodimm.webp",
+        "caja":  "img/productos/cajas/memoria-sodimm-16gb-ddr4-3200-hiksemi-hiker.webp"
     },
     {
         "id":  "memoria-8gb-ddr4-3200-kingston-value-ram-kvr",
@@ -1147,7 +1180,8 @@
         "precio":  57569,
         "destacado":  false,
         "stock":  "consultar",
-        "imagen":  "img/productos/hiksemi-wave-s.webp"
+        "imagen":  "img/productos/hiksemi-wave-s.webp",
+        "caja":  "img/productos/cajas/hd-ssd-120gb-hiksemi-wave-sata-iii-2-5.webp"
     },
     {
         "id":  "hd-ssd-128gb-hiksemi-wave-m-2-nvme-gen3-2280",
@@ -1157,7 +1191,8 @@
         "precio":  66769,
         "destacado":  false,
         "stock":  "consultar",
-        "imagen":  "img/productos/hiksemi-wave-p.webp"
+        "imagen":  "img/productos/hiksemi-wave-p.webp",
+        "caja":  "img/productos/cajas/hd-ssd-128gb-hiksemi-wave-m-2-nvme-gen3-2280.webp"
     },
     {
         "id":  "hd-ssd-240gb-raptor-legacy-sata-iii-2-5",
@@ -1187,7 +1222,8 @@
         "precio":  81926,
         "destacado":  false,
         "stock":  "consultar",
-        "imagen":  "img/productos/hiksemi-wave-s.webp"
+        "imagen":  "img/productos/hiksemi-wave-s.webp",
+        "caja":  "img/productos/cajas/hd-ssd-240gb-hiksemi-wave-sata-iii-2-5.webp"
     },
     {
         "id":  "hd-ssd-240gb-msi-spatium-s270-sata-iii-2-5",
@@ -1197,7 +1233,8 @@
         "precio":  83501,
         "destacado":  false,
         "stock":  "consultar",
-        "imagen":  "img/productos/msi-spatium-s270.webp"
+        "imagen":  "img/productos/msi-spatium-s270.webp",
+        "caja":  "img/productos/cajas/hd-ssd-240gb-msi-spatium-s270-sata-iii-2-5.webp"
     },
     {
         "id":  "hd-ssd-256gb-adata-su650-ultimate-sata-iii-2-5",
@@ -1207,7 +1244,8 @@
         "precio":  95496,
         "destacado":  false,
         "stock":  "consultar",
-        "imagen":  "img/productos/adata-su650.webp"
+        "imagen":  "img/productos/adata-su650.webp",
+        "caja":  "img/productos/cajas/hd-ssd-256gb-adata-su650-ultimate-sata-iii-2-5.webp"
     },
     {
         "id":  "hd-ssd-256gb-hiksemi-wave-m-2-nvme-gen3-2280",
@@ -1217,7 +1255,8 @@
         "precio":  100050,
         "destacado":  false,
         "stock":  "consultar",
-        "imagen":  "img/productos/hiksemi-wave-p.webp"
+        "imagen":  "img/productos/hiksemi-wave-p.webp",
+        "caja":  "img/productos/cajas/hd-ssd-256gb-hiksemi-wave-m-2-nvme-gen3-2280.webp"
     },
     {
         "id":  "hd-ssd-256gb-memox-m-2-nvme-gen3",
@@ -1277,7 +1316,8 @@
         "precio":  153847,
         "destacado":  false,
         "stock":  "consultar",
-        "imagen":  "img/productos/msi-spatium-s270.webp"
+        "imagen":  "img/productos/msi-spatium-s270.webp",
+        "caja":  "img/productos/cajas/hd-ssd-480gb-msi-spatium-s270-sata-iii-2-5.webp"
     },
     {
         "id":  "hd-ssd-480gb-hiksemi-wave-sata-iii-2-5",
@@ -1287,7 +1327,8 @@
         "precio":  158896,
         "destacado":  false,
         "stock":  "consultar",
-        "imagen":  "img/productos/hiksemi-wave-s.webp"
+        "imagen":  "img/productos/hiksemi-wave-s.webp",
+        "caja":  "img/productos/cajas/hd-ssd-480gb-hiksemi-wave-sata-iii-2-5.webp"
     },
     {
         "id":  "hd-ssd-480gb-kingston-a400-sata-iii-2-5",
@@ -1297,7 +1338,8 @@
         "precio":  171718,
         "destacado":  false,
         "stock":  "consultar",
-        "imagen":  "img/productos/kingston-a400.webp"
+        "imagen":  "img/productos/kingston-a400.webp",
+        "caja":  "img/productos/cajas/hd-ssd-480gb-kingston-a400-sata-iii-2-5.webp"
     },
     {
         "id":  "hd-ssd-512gb-hiksemi-wave-m-2-nvme-gen3",
@@ -1307,7 +1349,8 @@
         "precio":  188266,
         "destacado":  false,
         "stock":  "consultar",
-        "imagen":  "img/productos/hiksemi-wave-p.webp"
+        "imagen":  "img/productos/hiksemi-wave-p.webp",
+        "caja":  "img/productos/cajas/hd-ssd-512gb-hiksemi-wave-m-2-nvme-gen3.webp"
     },
     {
         "id":  "hd-ssd-512gb-patriot-p300-m-2-nvme-gen3",
@@ -1327,7 +1370,8 @@
         "precio":  200583,
         "destacado":  false,
         "stock":  "consultar",
-        "imagen":  "img/productos/wd-green-sata.webp"
+        "imagen":  "img/productos/wd-green-sata.webp",
+        "caja":  "img/productos/cajas/hd-ssd-500gb-wd-green-sata-iii-2-5.webp"
     },
     {
         "id":  "hd-ssd-512gb-hiksemi-future-lite-m-2-nvme-gen4",
@@ -1337,7 +1381,8 @@
         "precio":  203630,
         "destacado":  false,
         "stock":  "consultar",
-        "imagen":  "img/productos/hiksemi-future-lite.webp"
+        "imagen":  "img/productos/hiksemi-future-lite.webp",
+        "caja":  "img/productos/cajas/hd-ssd-512gb-hiksemi-future-lite-m-2-nvme-gen4.webp"
     },
     {
         "id":  "hd-ssd-500gb-adata-legend-860-m-2-nvme-gen4",
@@ -1347,7 +1392,8 @@
         "precio":  217476,
         "destacado":  false,
         "stock":  "consultar",
-        "imagen":  "img/productos/adata-legend-860.webp"
+        "imagen":  "img/productos/adata-legend-860.webp",
+        "caja":  "img/productos/cajas/hd-ssd-500gb-adata-legend-860-m-2-nvme-gen4.webp"
     },
     {
         "id":  "hd-ssd-500gb-kingston-snvs-nv3-m-2-nvme-gen4",
@@ -1357,7 +1403,8 @@
         "precio":  218420,
         "destacado":  true,
         "stock":  "consultar",
-        "imagen":  "img/productos/kingston-nv3.webp"
+        "imagen":  "img/productos/kingston-nv3.webp",
+        "caja":  "img/productos/cajas/hd-ssd-500gb-kingston-snvs-nv3-m-2-nvme-gen4.webp"
     },
     {
         "id":  "hd-ssd-512gb-patriot-p320-m-2-nvme-gen3",
@@ -1377,7 +1424,8 @@
         "precio":  237556,
         "destacado":  false,
         "stock":  "consultar",
-        "imagen":  "img/productos/xpg-spectrix-s65g.webp"
+        "imagen":  "img/productos/xpg-spectrix-s65g.webp",
+        "caja":  "img/productos/cajas/hd-ssd-500gb-adata-spectrix-s65g-rgb-m-2-nvme.webp"
     },
     {
         "id":  "hd-ssd-externo-500gb-kingston-xs2000-usb-3-2-gen2x2",
@@ -1387,7 +1435,8 @@
         "precio":  242316,
         "destacado":  false,
         "stock":  "consultar",
-        "imagen":  "img/productos/kingston-xs2000.webp"
+        "imagen":  "img/productos/kingston-xs2000.webp",
+        "caja":  "img/productos/cajas/hd-ssd-externo-500gb-kingston-xs2000-usb-3-2-gen2x2.webp"
     },
     {
         "id":  "hd-ssd-512gb-adata-xpg-gammix-s70-blade-m-2-nvme-gen4",
@@ -1397,7 +1446,8 @@
         "precio":  243133,
         "destacado":  false,
         "stock":  "consultar",
-        "imagen":  "img/productos/xpg-gammix-s70-blade.webp"
+        "imagen":  "img/productos/xpg-gammix-s70-blade.webp",
+        "caja":  "img/productos/cajas/hd-ssd-512gb-adata-xpg-gammix-s70-blade-m-2-nvme-gen4.webp"
     },
     {
         "id":  "hd-ssd-1tb-wd-green-sn350-m-2-nvme-gen3",
@@ -1527,7 +1577,8 @@
         "precio":  247791,
         "destacado":  false,
         "stock":  "consultar",
-        "imagen":  "img/productos/placa-de-video-geforce-gt-1030-4gb-msi-4dg4-low-profile.webp"
+        "imagen":  "img/productos/placa-de-video-geforce-gt-1030-4gb-msi-4dg4-low-profile.webp",
+        "caja":  "img/productos/cajas/placa-de-video-geforce-gt-1030-4gb-msi-4dg4-low-profile.webp"
     },
     {
         "id":  "placa-de-video-geforce-gt-1030-2gb-ddr4-gigabyte-low-profile",
@@ -1547,7 +1598,8 @@
         "precio":  561924,
         "destacado":  false,
         "stock":  "consultar",
-        "imagen":  "img/productos/placa-de-video-geforce-rtx-3050-6gb-msi-ventus-2x-oc.webp"
+        "imagen":  "img/productos/placa-de-video-geforce-rtx-3050-6gb-msi-ventus-2x-oc.webp",
+        "caja":  "img/productos/cajas/placa-de-video-geforce-rtx-3050-6gb-msi-ventus-2x-oc.webp"
     },
     {
         "id":  "placa-de-video-geforce-rtx-3050-6gb-msi-lp-oc",
@@ -1557,7 +1609,8 @@
         "precio":  566973,
         "destacado":  false,
         "stock":  "consultar",
-        "imagen":  "img/productos/placa-de-video-geforce-rtx-3050-6gb-msi-lp-oc.webp"
+        "imagen":  "img/productos/placa-de-video-geforce-rtx-3050-6gb-msi-lp-oc.webp",
+        "caja":  "img/productos/cajas/placa-de-video-geforce-rtx-3050-6gb-msi-lp-oc.webp"
     },
     {
         "id":  "placa-de-video-geforce-rtx-3050-6gb-zotac-twin-edge-oc",
@@ -1577,7 +1630,8 @@
         "precio":  573643,
         "destacado":  false,
         "stock":  "consultar",
-        "imagen":  "img/productos/placa-de-video-geforce-rtx-3050-6gb-asus-dual-oc.webp"
+        "imagen":  "img/productos/placa-de-video-geforce-rtx-3050-6gb-asus-dual-oc.webp",
+        "caja":  "img/productos/cajas/placa-de-video-geforce-rtx-3050-6gb-asus-dual-oc.webp"
     },
     {
         "id":  "placa-de-video-geforce-rtx-5050-8gb-gigabyte-low-profile-oc",
@@ -1617,7 +1671,8 @@
         "precio":  880900,
         "destacado":  true,
         "stock":  "consultar",
-        "imagen":  "img/productos/placa-de-video-geforce-rtx-5050-8gb-msi-ventus-2x-oc.webp"
+        "imagen":  "img/productos/placa-de-video-geforce-rtx-5050-8gb-msi-ventus-2x-oc.webp",
+        "caja":  "img/productos/cajas/placa-de-video-geforce-rtx-5050-8gb-msi-ventus-2x-oc.webp"
     },
     {
         "id":  "placa-de-video-geforce-rtx-5050-8gb-zotac-twin-edge-oc",
@@ -1647,7 +1702,8 @@
         "precio":  905625,
         "destacado":  false,
         "stock":  "consultar",
-        "imagen":  "img/productos/placa-de-video-geforce-rtx-5050-8gb-asus-dual-oc-edition.webp"
+        "imagen":  "img/productos/placa-de-video-geforce-rtx-5050-8gb-asus-dual-oc-edition.webp",
+        "caja":  "img/productos/cajas/placa-de-video-geforce-rtx-5050-8gb-asus-dual-oc-edition.webp"
     },
     {
         "id":  "fuente-500w-lnz-bx550-ss",
@@ -1727,7 +1783,8 @@
         "precio":  55516,
         "destacado":  false,
         "stock":  "consultar",
-        "imagen":  "img/productos/lnz-sx700-ts.webp"
+        "imagen":  "img/productos/lnz-sx700-ts.webp",
+        "caja":  "img/productos/cajas/fuente-700w-lnz-sx700-ts.webp"
     },
     {
         "id":  "fuente-500w-evolabs-power-series",
@@ -1767,7 +1824,8 @@
         "precio":  82581,
         "destacado":  false,
         "stock":  "consultar",
-        "imagen":  "img/productos/msi-mag-a550bn.webp"
+        "imagen":  "img/productos/msi-mag-a550bn.webp",
+        "caja":  "img/productos/cajas/fuente-550w-msi-mag-a550bn-80-plus-bronze.webp"
     },
     {
         "id":  "fuente-500w-thermaltake-smart-80-plus-white",
@@ -1777,7 +1835,8 @@
         "precio":  83455,
         "destacado":  false,
         "stock":  "consultar",
-        "imagen":  "img/productos/thermaltake-smart-500w.webp"
+        "imagen":  "img/productos/thermaltake-smart-500w.webp",
+        "caja":  "img/productos/cajas/fuente-500w-thermaltake-smart-80-plus-white.webp"
     },
     {
         "id":  "fuente-600w-thermaltake-smart-80-plus-white",
@@ -1787,7 +1846,8 @@
         "precio":  85847,
         "destacado":  false,
         "stock":  "consultar",
-        "imagen":  "img/productos/thermaltake-smart-600w.webp"
+        "imagen":  "img/productos/thermaltake-smart-600w.webp",
+        "caja":  "img/productos/cajas/fuente-600w-thermaltake-smart-80-plus-white.webp"
     },
     {
         "id":  "fuente-550w-gigabyte-white-gp-p550ss-ice-80-plus-silver",
@@ -1797,7 +1857,8 @@
         "precio":  86584,
         "destacado":  false,
         "stock":  "consultar",
-        "imagen":  "img/productos/gigabyte-p550ss-ice.webp"
+        "imagen":  "img/productos/gigabyte-p550ss-ice.webp",
+        "caja":  "img/productos/cajas/fuente-550w-gigabyte-white-gp-p550ss-ice-80-plus-silver.webp"
     },
     {
         "id":  "fuente-650w-evolabs-supreme-series-80-plus-bronze",
@@ -1817,7 +1878,8 @@
         "precio":  88883,
         "destacado":  false,
         "stock":  "consultar",
-        "imagen":  "img/productos/gigabyte-p550ss.webp"
+        "imagen":  "img/productos/gigabyte-p550ss.webp",
+        "caja":  "img/productos/cajas/fuente-550w-gigabyte-gp-p550ss-80-plus-silver.webp"
     },
     {
         "id":  "fuente-550w-80-plus-bronze-corsair-cx550",
@@ -1827,7 +1889,8 @@
         "precio":  91046,
         "destacado":  false,
         "stock":  "consultar",
-        "imagen":  "img/productos/corsair-cx550.webp"
+        "imagen":  "img/productos/corsair-cx550.webp",
+        "caja":  "img/productos/cajas/fuente-550w-80-plus-bronze-corsair-cx550.webp"
     },
     {
         "id":  "fuente-600w-adata-xpg-probe-80-plus-bronze",
@@ -1847,7 +1910,8 @@
         "precio":  101901,
         "destacado":  false,
         "stock":  "consultar",
-        "imagen":  "img/productos/gigabyte-p650ss-ice.webp"
+        "imagen":  "img/productos/gigabyte-p650ss-ice.webp",
+        "caja":  "img/productos/cajas/fuente-650w-gigabyte-gp-p650ss-ice-80-plus-silver-blanca.webp"
     },
     {
         "id":  "fuente-750w-evolabs-supreme-series-80-plus-silver",
@@ -1867,7 +1931,8 @@
         "precio":  108086,
         "destacado":  false,
         "stock":  "consultar",
-        "imagen":  "img/productos/asus-prime-650b.webp"
+        "imagen":  "img/productos/asus-prime-650b.webp",
+        "caja":  "img/productos/cajas/fuente-650w-asus-prime-650b-80-plus-bronze.webp"
     },
     {
         "id":  "fuente-650w-arkham-coreshield-by-xpg-80-plus-gold-oem",
@@ -1897,7 +1962,8 @@
         "precio":  109793,
         "destacado":  false,
         "stock":  "consultar",
-        "imagen":  "img/productos/sentey-mbp750-vm.webp"
+        "imagen":  "img/productos/sentey-mbp750-vm.webp",
+        "caja":  "img/productos/cajas/fuente-750w-sentey-mbp750-vm-atx-3-1-pcie-5-1-80-plus-bronze-semi-modu.webp"
     },
     {
         "id":  "fuente-700w-gamemax-80-plus-bronze-vp-700-m-rgb",
@@ -1917,7 +1983,8 @@
         "precio":  114561,
         "destacado":  false,
         "stock":  "consultar",
-        "imagen":  "img/productos/sentey-mbp850-gm.webp"
+        "imagen":  "img/productos/sentey-mbp850-gm.webp",
+        "caja":  "img/productos/cajas/fuente-850w-sentey-mbp850-gm-atx-3-1-pcie-5-1-80-plus-bronze-semi-modu.webp"
     },
     {
         "id":  "fuente-650w-adata-xpg-pylon-80-plus-bronze",
@@ -1927,7 +1994,8 @@
         "precio":  116265,
         "destacado":  false,
         "stock":  "consultar",
-        "imagen":  "img/productos/xpg-pylon.webp"
+        "imagen":  "img/productos/xpg-pylon.webp",
+        "caja":  "img/productos/cajas/fuente-650w-adata-xpg-pylon-80-plus-bronze.webp"
     },
     {
         "id":  "gabinete-nova-cm-04q1-micro-atx-p-mother-a520m-b550m-h510m-a620m",
