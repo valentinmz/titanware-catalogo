@@ -546,7 +546,7 @@
   TW.cartMessage = function (data, nota) {
     const lines = TW.cart.items.map((i) => TW.cartLine(i, data)).filter(Boolean);
     const total = lines.reduce((t, l) => t + l.unit * l.item.qty, 0);
-    let msg = `Hola ${CFG.negocio.nombre}! Quiero consultar por este pedido:\n\n`;
+    let msg = `Hola ${CFG.negocio.nombre}! Quiero hacer este pedido:\n\n`;
     for (const l of lines) {
       msg += `• ${l.item.qty}x ${l.titulo} — ${l.unit ? TW.money(l.unit * l.item.qty) : "consultar precio"}\n`;
       for (const d of l.detalle) msg += `   - ${d}\n`;

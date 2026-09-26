@@ -66,7 +66,7 @@
     if (view === "pcs") { pcFilter = arg || "Todas"; renderPCs(); }
     if (view === "armar") renderBuilder();
     if (view === "home") renderHome();
-    if (view === "pedido") { O.step = 0; renderOrder(); }
+    if (view === "pedido") renderOrder();
     const titles = { home: "Componentes y PCs armadas", armar: "Armá tu PC", pcs: "PC Armadas", pedido: "Tu pedido", catalogo: cat.cat === "Todos" ? "Catálogo" : cat.cat };
     document.title = `Titanware · ${titles[view]}`;
     if (currentView !== view || view === "catalogo" || view === "pcs") scrollTo({ top: 0 });
@@ -565,20 +565,11 @@
   }
 
   /* =========================================================
-     TU PEDIDO (consulta por WhatsApp, sin pago online)
+     TU PEDIDO (se envía por WhatsApp, sin pago online)
      ========================================================= */
-  const OKEY = "tw_pedido_v1";
-  const ENVIOS = [
-    { id: "andreani-dom", emp: "Andreani", tipo: "A domicilio" },
-    { id: "andreani-suc", emp: "Andreani", tipo: "A sucursal de Andreani" },
-    { id: "correo-dom", emp: "Correo Argentino", tipo: "A domicilio" },
-    { id: "correo-suc", emp: "Correo Argentino", tipo: "A sucursal del correo" },
-  ];
-  const ORDER_STEPS = ["Carrito", "Tus datos", "Envío", "Confirmar"];
-  let O = { step: 0, nombre: "", tel: "", localidad: "", cp: "", envio: "", nota: "" };
-  try { O = { ...O, ...JSON.parse(localStorage.getItem(OKEY)), step: 0 }; } catch {}
-  const saveOrder = () => { try { const { step, ...rest } = O; localStorage.setItem(OKEY, JSON.stringify(rest)); } catch {} };
-  const envioOf = (id) => ENVIOS.find((e) => e.id === id);
+  const NKEY = "tw_pedido_nota";
+  let orderNote = "";
+  try { orderNote = localStorage.getItem(NKEY) || ""; } catch {}
 
   function renderCartCount() {
     const n = TW.cart.count(), el = $("#cartCount");
@@ -589,99 +580,44 @@
   function renderOrder() {
     const root = $("#order"); if (!root) return;
     const lines = orderLines();
-    if (!lines.length) O.step = 0;
     const total = lines.reduce((t, l) => t + l.unit * l.item.qty, 0);
     const ahorro = lines.reduce((t, l) => t + (l.lista ? (l.lista - l.unit) * l.item.qty : 0), 0);
     const count = lines.reduce((t, l) => t + l.item.qty, 0);
-    const stepper = `<ol class="o-steps">${ORDER_STEPS.map((s, i) => `<li class="${i < O.step ? "done" : i === O.step ? "cur" : ""}"><span>${i < O.step ? U.check : i + 1}</span>${esc(s)}</li>`).join("")}</ol>`;
     const thumbOf = (l) => l.thumb || `<span class="t-bg" style="opacity:.9">${TW.ICONS.Gabinetes}</span>`;
-
-    let main = "";
-    if (O.step === 0) {
-      main = `
-        <div class="o-card">
-          <div class="o-head"><div><h2>Tu carrito</h2><p>Estos son los productos que elegiste.</p></div>${lines.length ? `<button class="linkish" type="button" data-clear>Vaciar carrito</button>` : ""}</div>
-          ${lines.length ? `<ul class="o-items">${lines.map((l) => `
-            <li>
-              <span class="mini">${thumbOf(l)}</span>
-              <div class="o-it">
-                <strong>${esc(l.titulo)}</strong>
-                ${l.lista ? `<span class="o-off">Oferta · antes ${TW.money(l.lista)}</span>` : l.unit ? `<small>${TW.money(l.unit)} c/u</small>` : ""}
-                ${l.detalle.length ? `<details><summary>${l.detalle.length} componentes</summary><ul>${l.detalle.map((x) => `<li>${esc(x)}</li>`).join("")}</ul></details>` : ""}
-              </div>
-              <span class="qty"><button type="button" data-cq="${l.item.key}|-1" aria-label="Menos"${l.item.qty <= 1 ? " disabled" : ""}>${U.minus}</button><span>${l.item.qty}</span><button type="button" data-cq="${l.item.key}|1" aria-label="Más">${U.plus}</button></span>
-              <span class="o-pr">${l.unit ? TW.money(l.unit * l.item.qty) : "Consultar"}</span>
-              <button class="icon-btn" type="button" data-crm="${l.item.key}" aria-label="Quitar ${esc(l.titulo)}">${U.trash}</button>
-            </li>`).join("")}</ul>`
-          : `<div class="cart-empty">${U.cart}<strong>Tu carrito está vacío</strong>Sumá productos del catálogo, una PC armada o la PC que armes a tu medida.<br><a class="btn" href="#/armar">Armá tu PC</a></div>`}
-          <a class="btn ghost" href="#/catalogo">${U.back} Seguir comprando</a>
-        </div>`;
-    } else if (O.step === 1) {
-      main = `
-        <form class="o-card" id="oForm" data-ostep="1">
-          <div class="o-head"><div><h2>Tus datos</h2><p>Para saber a quién responderle. Quedan guardados solo en este navegador.</p></div></div>
-          <div class="o-grid">
-            <label class="o-fld full">Nombre y apellido<input name="nombre" required autocomplete="name" value="${esc(O.nombre)}"></label>
-            <label class="o-fld">Teléfono <small>(opcional)</small><input name="tel" type="tel" autocomplete="tel" value="${esc(O.tel)}"></label>
-            <label class="o-fld">Localidad<input name="localidad" required autocomplete="address-level2" value="${esc(O.localidad)}"></label>
-            <label class="o-fld">Código postal<input name="cp" required inputmode="numeric" autocomplete="postal-code" value="${esc(O.cp)}"></label>
-          </div>
-          <div class="o-nav"><button class="btn ghost" type="button" data-ogo="0">${U.back} Volver</button><button class="btn" type="submit">Continuar ${U.arrow}</button></div>
-        </form>`;
-    } else if (O.step === 2) {
-      main = `
-        <form class="o-card" id="oForm" data-ostep="2">
-          <div class="o-head"><div><h2>Envío</h2><p>Enviamos a todo el país. El costo del envío te lo confirmamos por WhatsApp según tu código postal${O.cp ? ` (${esc(O.cp)})` : ""}.</p></div></div>
-          <div class="o-ship">${ENVIOS.map((e) => `
-            <label class="ship${O.envio === e.id ? " sel" : ""}"><input type="radio" name="envio" value="${e.id}" required${O.envio === e.id ? " checked" : ""}>
-              <span class="ship-logo ${e.id.split("-")[0]}">${e.emp === "Andreani" ? "Andreani" : "Correo<br>Argentino"}</span>
-              <span><strong>${esc(e.emp)}</strong>${esc(e.tipo)}</span></label>`).join("")}
-          </div>
-          <div class="o-nav"><button class="btn ghost" type="button" data-ogo="1">${U.back} Volver</button><button class="btn" type="submit">Continuar ${U.arrow}</button></div>
-        </form>`;
-    } else {
-      const e = envioOf(O.envio);
-      main = `
-        <div class="o-card">
-          <div class="o-head"><div><h2>Confirmá tu consulta</h2><p>Revisá los datos. Al enviar se abre WhatsApp con todo el pedido y te respondemos con stock, costo de envío y formas de pago.</p></div></div>
-          <div class="o-review">
-            <div><small>Datos</small><strong>${esc(O.nombre)}</strong><span>${esc(O.localidad)} · CP ${esc(O.cp)}${O.tel ? ` · ${esc(O.tel)}` : ""}</span><button class="linkish" type="button" data-ogo="1">Cambiar</button></div>
-            <div><small>Envío</small><strong>${e ? esc(e.emp) : "—"}</strong><span>${e ? esc(e.tipo) : ""}</span><button class="linkish" type="button" data-ogo="2">Cambiar</button></div>
-          </div>
-          <label class="o-fld full">Nota <small>(opcional)</small><textarea id="oNota" placeholder="Algo que quieras aclarar: horarios, dirección, dudas…">${esc(O.nota)}</textarea></label>
-          <div class="o-nav"><button class="btn ghost" type="button" data-ogo="2">${U.back} Volver</button><button class="btn wa" type="button" data-send>${U.wa} Enviar consulta por WhatsApp</button></div>
-        </div>`;
-    }
-
     root.innerHTML = `
-      ${stepper}
       <div class="o-layout">
-        <div class="o-main">${main}</div>
+        <div class="o-main">
+          <div class="o-card">
+            <div class="o-head"><div><h2>Tu carrito</h2><p>Revisá los productos y mandanos el pedido por WhatsApp.</p></div>${lines.length ? `<button class="linkish" type="button" data-clear>Vaciar carrito</button>` : ""}</div>
+            ${lines.length ? `<ul class="o-items">${lines.map((l) => `
+              <li>
+                <span class="mini">${thumbOf(l)}</span>
+                <div class="o-it">
+                  <strong>${esc(l.titulo)}</strong>
+                  ${l.lista ? `<span class="o-off">Oferta · antes ${TW.money(l.lista)}</span>` : l.unit ? `<small>${TW.money(l.unit)} c/u</small>` : ""}
+                  ${l.detalle.length ? `<details><summary>${l.detalle.length} componentes</summary><ul>${l.detalle.map((x) => `<li>${esc(x)}</li>`).join("")}</ul></details>` : ""}
+                </div>
+                <span class="qty"><button type="button" data-cq="${l.item.key}|-1" aria-label="Menos"${l.item.qty <= 1 ? " disabled" : ""}>${U.minus}</button><span>${l.item.qty}</span><button type="button" data-cq="${l.item.key}|1" aria-label="Más">${U.plus}</button></span>
+                <span class="o-pr">${l.unit ? TW.money(l.unit * l.item.qty) : "Consultar"}</span>
+                <button class="icon-btn" type="button" data-crm="${l.item.key}" aria-label="Quitar ${esc(l.titulo)}">${U.trash}</button>
+              </li>`).join("")}</ul>`
+            : `<div class="cart-empty">${U.cart}<strong>Tu carrito está vacío</strong>Sumá productos del catálogo, una PC armada o la PC que armes a tu medida.<br><a class="btn" href="#/armar">Armá tu PC</a></div>`}
+            <a class="btn ghost" href="#/catalogo">${U.back} Seguir comprando</a>
+          </div>
+        </div>
         <aside class="o-card o-sum">
           <h3>Detalle de tu pedido</h3>
           <span class="o-count">Productos (${count})</span>
           <ul class="o-mini">${lines.map((l) => `<li><span class="mini">${thumbOf(l)}</span><span>${esc(l.titulo)}<small>x${l.item.qty}</small></span><b>${l.unit ? TW.money(l.unit * l.item.qty) : "Consultar"}</b></li>`).join("") || `<li class="none">Sin productos</li>`}</ul>
           ${ahorro ? `<div class="o-row"><span>Precio de lista</span><span>${TW.money(total + ahorro)}</span></div><div class="o-row save"><span>Ahorro en ofertas</span><span>-${TW.money(ahorro)}</span></div>` : ""}
-          <div class="o-row"><span>Envío</span><span>${envioOf(O.envio) ? `${esc(envioOf(O.envio).emp)} · a confirmar` : "A confirmar"}</span></div>
+          <div class="o-row"><span>Envío</span><span>A coordinar</span></div>
           <div class="o-total"><span>Total estimado</span><strong>${TW.money(total)}</strong></div>
-          ${O.step === 0 ? `<button class="btn block" type="button" data-ogo="1"${lines.length ? "" : " disabled"}>Continuar ${U.arrow}</button>` : ""}
-          <p class="fine">${U.shield} Es una consulta: no se cobra nada online. Te confirmamos stock y precio por WhatsApp.</p>
+          ${lines.length ? `<label class="o-fld">Nota <small>(opcional)</small><textarea id="oNota" placeholder="Tu nombre, localidad para el envío, dudas…">${esc(orderNote)}</textarea></label>` : ""}
+          <button class="btn wa block o-send" type="button" data-send${lines.length ? "" : " disabled"}>${U.wa} Enviar pedido por WhatsApp</button>
+          <p class="fine">${U.shield} No se cobra nada online. Te respondemos por WhatsApp para confirmar stock, envío y forma de pago.</p>
         </aside>
       </div>`;
   }
-
-  function orderMessage() {
-    const e = envioOf(O.envio);
-    const extra = [
-      `Nombre: ${O.nombre}`,
-      `Localidad: ${O.localidad} (CP ${O.cp})`,
-      O.tel ? `Teléfono: ${O.tel}` : "",
-      e ? `Envío: ${e.emp}, ${e.tipo.toLowerCase()}` : "",
-      O.nota.trim() ? `Nota: ${O.nota.trim()}` : "",
-    ].filter(Boolean).join("\n");
-    return TW.cartMessage(data, extra);
-  }
-  function goOrder(step) { O.step = step; renderOrder(); scrollTo({ top: 0, behavior: "smooth" }); }
 
   /* =========================================================
      EVENTOS
@@ -769,30 +705,18 @@
       if ((x = el("[data-cq]"))) { const [k, d] = x.dataset.cq.split("|"); const it = TW.cart.items.find((i) => i.key === k); if (it) TW.cart.setQty(k, it.qty + Number(d)); return; }
       if ((x = el("[data-crm]"))) { TW.cart.remove(x.dataset.crm); return; }
       if ((x = el("[data-clear]"))) { if (confirm("¿Vaciar el carrito?")) TW.cart.clear(); return; }
-      if ((x = el("[data-send]"))) { O.nota = $("#oNota")?.value || ""; saveOrder(); window.open(TW.waLink(orderMessage()), "_blank", "noopener"); return; }
-      if ((x = el("[data-ogo]"))) { if ($("#oNota")) O.nota = $("#oNota").value; goOrder(Number(x.dataset.ogo)); return; }
+      if ((x = el("[data-send]"))) { window.open(TW.waLink(TW.cartMessage(data, orderNote.trim() ? `Nota: ${orderNote.trim()}` : "")), "_blank", "noopener"); return; }
 
       // Cerrar diálogos
       if ((x = el("[data-close]"))) { x.closest("dialog")?.close(); return; }
       if (t.tagName === "DIALOG") t.close(); // click en el fondo
     });
 
-    // Pasos del pedido: datos y envío
-    document.addEventListener("submit", (e) => {
-      const f = e.target;
-      if (f.id !== "oForm") return;
-      e.preventDefault();
-      const fd = new FormData(f);
-      if (f.dataset.ostep === "1") ["nombre", "tel", "localidad", "cp"].forEach((k) => (O[k] = String(fd.get(k) || "").trim()));
-      if (f.dataset.ostep === "2") O.envio = String(fd.get("envio") || "");
-      saveOrder(); goOrder(Number(f.dataset.ostep) + 1);
+    // Buscador y orden del armador (sin redibujar todo) · nota del pedido
+    document.addEventListener("input", (e) => {
+      if (e.target.id === "bq") { B.q = e.target.value; renderOptions(); }
+      if (e.target.id === "oNota") { orderNote = e.target.value; try { localStorage.setItem(NKEY, orderNote); } catch {} }
     });
-    document.addEventListener("change", (e) => {
-      if (e.target.name === "envio") $$(".ship").forEach((l) => l.classList.toggle("sel", l.contains(e.target)));
-    });
-
-    // Buscador y orden del armador (sin redibujar todo)
-    document.addEventListener("input", (e) => { if (e.target.id === "bq") { B.q = e.target.value; renderOptions(); } });
     document.addEventListener("change", (e) => { if (e.target.id === "bsort") { B.sort = e.target.value; saveBuild(); renderOptions(); } });
   }
 
