@@ -45,7 +45,10 @@ svg { flex: none; }
 
 /* Header */
 .topbar { background: var(--bg-2); border-bottom: 1px solid var(--line); font-size: .78rem; color: var(--muted); }
-.topbar .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .3rem 1.5rem; padding-block: .4rem; }
+.topbar .wrap { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: .3rem 1.5rem; padding-block: .4rem; }
+.topbar .wrap > span:first-child { grid-column: 2; }
+.topbar .wrap > span:last-child { grid-column: 3; justify-self: end; display: block; min-width: 0; max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+@media (max-width: 900px) { .topbar .wrap > span:last-child { display: none; } }
 .topbar span { display: inline-flex; align-items: center; gap: .4rem; }
 .topbar svg { width: 14px; height: 14px; color: var(--violet-soft); }
 .topbar a { color: var(--text-2); text-decoration: none; }
