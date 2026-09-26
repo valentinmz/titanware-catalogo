@@ -903,8 +903,7 @@
         "precio":  124924,
         "destacado":  false,
         "stock":  "consultar",
-        "imagen":  "",
-        "caja":  "img/productos/cajas/memoria-sodimm-8gb-ddr4-3200-patriot-signature.webp"
+        "imagen":  ""
     },
     {
         "id":  "memoria-sodimm-8gb-ddr4-3200-adata-premier",
