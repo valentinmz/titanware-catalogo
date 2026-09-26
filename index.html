@@ -74,10 +74,10 @@
           </ul>
         </div>
         <div class="hero-visual" aria-hidden="true">
-          <svg class="circuit" viewBox="0 0 500 500">
+          <svg class="circuit" viewBox="-250 -250 1000 1000">
             <defs>
-              <radialGradient id="fade"><stop offset=".5" stop-color="#fff"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
-              <mask id="fadeMask"><rect width="500" height="500" fill="url(#fade)"/></mask>
+              <radialGradient id="fade"><stop offset=".3" stop-color="#fff"/><stop offset=".62" stop-color="#fff" stop-opacity=".55"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+              <mask id="fadeMask"><rect x="-250" y="-250" width="1000" height="1000" fill="url(#fade)"/></mask>
               <g id="side">
                 <path class="cz-pin" d="M160 120v-14M190 120v-14M220 120v-14M250 120v-14M280 120v-14M310 120v-14M340 120v-14"/>
                 <path class="cz-trace" d="M160 106V82l-38-38H58M190 106V62l-20-20V12M220 106V54M250 106V14M280 106V70l30-30V16M310 106V94l20-20h32M340 106V86l38-38h60"/>
@@ -85,6 +85,11 @@
                 <path class="cz-flow" pathLength="100" d="M160 106V82l-38-38H58"/>
                 <path class="cz-flow f2" pathLength="100" d="M280 106V70l30-30V16"/>
                 <path class="cz-flow f3" pathLength="100" d="M250 106V14"/>
+                <path class="cz-trace far" d="M58 44L20 6v-66l-40-40M170 12v-52l-30-30v-80M250 14v-184M310 16v-46l40-40v-60M362 74h60l40-40v-94M438 48h50l50-50"/>
+                <path class="cz-pad far" d="M-20 -100h.01M140 -150h.01M250 -170h.01M350 -130h.01M462 -60h.01M538 -2h.01"/>
+                <path class="cz-flow far" pathLength="100" d="M250 106V-170"/>
+                <path class="cz-flow far f2" pathLength="100" d="M362 74h60l40-40v-94"/>
+                <path class="cz-flow far f3" pathLength="100" d="M170 12v-52l-30-30v-80"/>
               </g>
             </defs>
             <g mask="url(#fadeMask)">
