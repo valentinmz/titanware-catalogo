@@ -64,8 +64,10 @@
   TW.logoHtml = (marca, file) => file
     ? `<span class="t-logo" style="--logo:url('${new URL("img/marcas/" + file, document.baseURI).href}')" role="img" aria-label="${esc(marca)}"></span>`
     : `<span class="t-word">${esc(marca)}</span>`;
-  TW.thumb = (p) => {
-    if (p.imagen) return `<img src="${esc(p.imagen)}" alt="${esc(p.titulo)}" loading="lazy">`;
+  TW.thumb = (p, withBox) => {
+    const main = p.imagen || p.caja;
+    if (main) return `<img class="prod" src="${esc(main)}" alt="${esc(p.titulo)}" loading="lazy">`
+      + (withBox && p.imagen && p.caja ? `<img class="box" src="${esc(p.caja)}" alt="Caja de ${esc(p.titulo)}" loading="lazy" onerror="this.remove()">` : "");
     const bg = `<span class="t-bg">${TW.ICONS[p.categoria] || TW.ICONS.default}</span>`;
     if (p.marca === "Genérico") return bg.replace("t-bg", "t-bg solo");
     return bg + TW.logoHtml(p.marca, TW.logoFor(p));
@@ -288,6 +290,7 @@
       precio, stock,
       destacado: d.destacado === true || /^(si|sí|true|1|x)$/i.test(String(d.destacado || "")),
       imagen: String(d.imagen || "").trim(),
+      caja: String(d.caja || "").trim(),
     };
   };
 

@@ -82,7 +82,7 @@
     return `
     <button class="card${p.stock === "sin stock" ? " is-off" : ""}" type="button" data-product="${esc(p.id)}" aria-label="${esc(p.titulo)}, ver detalle">
       ${p.destacado ? `<span class="badge">${U.star} Destacado</span>` : ""}
-      <div class="thumb">${TW.thumb(p)}</div>
+      <div class="thumb">${TW.thumb(p, true)}</div>
       <div class="card-body">
         <div class="meta"><span>${esc(p.marca)}</span><span>${esc(p.sub || p.categoria)}</span></div>
         <h3>${esc(p.titulo)}</h3>
@@ -102,7 +102,7 @@
     m.innerHTML = `
       <button class="close" type="button" aria-label="Cerrar" data-close>${U.close}</button>
       <div class="modal">
-        <div class="thumb">${TW.thumb(p)}</div>
+        <div class="thumb">${TW.thumb(p, true)}</div>
         <div class="modal-body">
           <div class="meta"><span>${esc(p.marca)} · ${esc(p.categoria)}${p.sub ? ` · ${esc(p.sub)}` : ""}</span></div>
           <h2 id="mTitle">${esc(p.titulo)}</h2>
@@ -319,6 +319,45 @@
   }
 
   const shortName = (p) => p.titulo.length > 34 ? p.titulo.slice(0, 32) + "…" : p.titulo;
+  const firstOf = (key) => chosen(key)[0] && data.byId[chosen(key)[0].id];
+
+  // Progreso: pasos obligatorios completos
+  function progress() {
+    const req = STEPS.filter((s) => TW.isRequired(s.key, B.sel, data.byId) || chosen(s.key).length);
+    const done = req.filter((s) => chosen(s.key).length).length;
+    return { done, total: req.length, pct: req.length ? Math.round((done / req.length) * 100) : 0 };
+  }
+
+  // Filtros de compatibilidad que se están aplicando en cada paso
+  function stepFilters(key) {
+    const cpu = firstOf("cpu"), mobo = firstOf("mobo"), pw = TW.power(B.sel, data.byId), f = [];
+    if (key === "cpu") f.push(`Plataforma ${B.sel.plataforma}`);
+    if (key === "mobo" && cpu && cpu.attrs.socket) f.push(`Socket ${cpu.attrs.socket}`);
+    if (key === "ram") { if (mobo && mobo.attrs.ddr) f.push(mobo.attrs.ddr); f.push("Solo de escritorio"); }
+    if (key === "storage") f.push("Discos internos");
+    if (key === "case" && mobo && mobo.attrs.formato) f.push(`Para mother ${mobo.attrs.formato}`);
+    if (key === "psu") f.push(`${pw.min} W o más`);
+    if (key === "cooler" && cpu) { if (cpu.attrs.socket) f.push(`Socket ${cpu.attrs.socket}`); if (cpu.attrs.tdp) f.push(`${cpu.attrs.tdp} W o más`); }
+    return f;
+  }
+
+  // Chequeos de compatibilidad, uno por uno: ok · wait (falta elegir) · bad
+  function compatChecks() {
+    const cpu = firstOf("cpu"), mobo = firstOf("mobo"), ram = firstOf("ram"), gab = firstOf("case"), psu = firstOf("psu"), cool = firstOf("cooler"), gpu = firstOf("gpu");
+    const pw = TW.power(B.sel, data.byId);
+    const errs = TW.checkBuild(B.sel, data.byId).filter((x) => x.level === "error");
+    const err = (k) => errs.find((x) => x.key === k);
+    const c = (label, key, ok, okTxt, waitTxt) => { const e = err(key); return { label, state: e ? "bad" : ok ? "ok" : "wait", txt: e ? e.msg.replace(/^[^:]+: /, "") : ok ? okTxt : waitTxt }; };
+    const psuW = psu ? psu.attrs.watts : !TW.isRequired("psu", B.sel, data.byId) && gab ? gab.attrs.fuente : 0;
+    return [
+      c("Socket", "mobo", cpu && mobo, `${cpu?.attrs.socket || ""} en procesador y mother`, cpu ? `Tu procesador es ${cpu.attrs.socket}` : "Según el procesador"),
+      c("Memoria", "ram", mobo && ram, `${ram?.attrs.ddr || mobo?.attrs.ddr || ""} compatible con la mother`.trim(), mobo ? `Tu mother usa ${mobo.attrs.ddr}` : "Según la mother"),
+      c("Gabinete", "case", mobo && gab, `Entra la mother${mobo?.attrs.formato ? ` ${mobo.attrs.formato}` : ""}`, "Según el tamaño de la mother"),
+      c("Energía", "psu", psuW, `${psuW} W para ~${pw.est} W de consumo`, `Recomendada: ${pw.rec} W o más`),
+      c("Refrigeración", "cooler", cool || (cpu && cpu.attrs.cooler), cool ? "Cooler compatible con el procesador" : "Cooler incluido con el procesador", "Según el procesador"),
+      c("Video", "gpu", gpu || (cpu && cpu.attrs.video), gpu ? "Placa de video dedicada" : "Video integrado del procesador", cpu ? "Tu procesador necesita placa de video" : "Según el procesador"),
+    ];
+  }
 
   function stepView(step) {
     const i = STEPS.indexOf(step), req = TW.isRequired(step.key, B.sel, data.byId);
@@ -328,10 +367,12 @@
     if (!req && step.key === "cooler") note = "Tu procesador ya trae cooler: este paso es opcional.";
     if (!req && step.key === "psu") note = `${optionalReason("psu")}: alcanza para tu configuración, este paso es opcional.`;
     if (req && step.key === "psu") note = `Consumo estimado de tu PC: ~${pw.est} W. Te mostramos fuentes de ${pw.min} W o más (recomendado: ${pw.rec} W o más).`;
-    if (step.key === "ram" && chosen("mobo")[0]) note = `Tu mother usa memorias ${data.byId[chosen("mobo")[0].id].attrs.ddr}. Te mostramos solo esas.`;
+    if (step.key === "ram" && firstOf("mobo")) note = `Tu mother usa memorias ${firstOf("mobo").attrs.ddr}. Te mostramos solo esas.`;
+    const filters = stepFilters(step.key);
     return `
       <div class="b-head">
-        <div><h2><small>Paso ${i + 1} de ${STEPS.length}</small>${esc(step.label)}</h2><p>${esc(step.tip)}</p></div>
+        <div class="b-title"><span class="b-ico">${TW.ICONS[step.cat]}</span>
+          <div><h2><small>Paso ${i + 1} de ${STEPS.length}${req ? "" : " · Opcional"}</small>${esc(step.label)}</h2><p>${esc(step.tip)}</p></div></div>
         <div class="b-tools">
           <label class="hsearch" style="border-radius:var(--radius-sm)">${U.search}<input id="bq" type="search" placeholder="Buscar ${esc(step.label.toLowerCase())}…" value="${esc(B.q)}" autocomplete="off"></label>
           <div class="select"><select id="bsort" aria-label="Ordenar">
@@ -341,6 +382,7 @@
           </select></div>
         </div>
       </div>
+      <div class="b-filters">${U.shield}<span>Mostrando solo lo compatible</span>${filters.map((f) => `<b>${esc(f)}</b>`).join("")}<em id="optCount"></em></div>
       ${note ? `<div class="b-note">${U.bolt}<span>${esc(note)}</span></div>` : ""}
       <div class="opt-grid" id="optGrid"></div>
       <div class="b-nav">
@@ -357,6 +399,8 @@
     let opts = TW.options(step.key, B.sel, data).filter((p) => words.every((w) => norm(p.titulo + " " + p.marca + " " + p.specs.join(" ")).includes(w)));
     const sorters = { "precio-asc": (a, b) => (a.precio || 1e12) - (b.precio || 1e12), "precio-desc": (a, b) => (b.precio || 0) - (a.precio || 0), az: (a, b) => a.titulo.localeCompare(b.titulo) };
     opts.sort(sorters[B.sort] || sorters["precio-asc"]);
+    const count = $("#optCount");
+    if (count) count.textContent = `${opts.length} ${opts.length === 1 ? "opción" : "opciones"}`;
     const picked = new Set(chosen(step.key).map((c) => c.id));
     const rec = TW.power(B.sel, data.byId).rec;
     const isRec = (p) => step.key === "psu" && p.attrs.watts >= rec && /80 PLUS/i.test(p.nombre);
@@ -364,10 +408,11 @@
     grid.innerHTML = skip + (opts.length ? opts.map((p) => `
       <button class="opt${picked.has(p.id) ? " sel" : ""}" type="button" data-pick="${esc(p.id)}">
         ${isRec(p) ? `<span class="badge">${U.bolt} Recomendada</span>` : ""}
-        <div class="thumb">${TW.thumb(p)}</div>
+        <div class="thumb">${TW.thumb(p, true)}</div>
         <div class="opt-body">
+          <span class="opt-brand">${esc(p.marca)}</span>
           <h4>${esc(p.titulo)}</h4>
-          <p>${esc(p.specs.slice(0, 2).join(" · "))}</p>
+          ${p.specs.length ? `<div class="opt-chips">${p.specs.slice(0, 3).map((s) => `<span>${esc(s)}</span>`).join("")}</div>` : ""}
           <div class="opt-foot">${TW.priceHtml(p.precio)}<span class="pick">${picked.has(p.id) ? `${U.check} Elegido` : step.multi ? `${U.plus} Sumar` : "Elegir"}</span></div>
         </div>
       </button>`).join("")
@@ -378,31 +423,53 @@
     const lines = TW.buildLines(B.sel, data.byId), total = TW.linesTotal(lines);
     const issues = TW.checkBuild(B.sel, data.byId);
     const faltan = issues.filter((x) => x.level === "falta");
-    const others = issues.filter((x) => x.level !== "falta");
-    const pw = TW.power(B.sel, data.byId);
+    const avisos = issues.filter((x) => x.level === "aviso");
+    const hasErr = issues.some((x) => x.level === "error");
+    const pw = TW.power(B.sel, data.byId), pr = progress(), checks = compatChecks();
+    const okAll = !faltan.length && !hasErr;
+    const status = hasErr ? ["bad", "Revisá la compatibilidad"] : okAll ? ["ok", "Todo compatible"] : ["wait", `Faltan ${faltan.length} ${faltan.length === 1 ? "componente" : "componentes"}`];
+
     const rows = STEPS.map((s, i) => {
       const items = chosen(s.key), req = TW.isRequired(s.key, B.sel, data.byId);
+      const first = items[0] && data.byId[items[0].id];
+      const state = items.length ? "done" : req ? "need" : "opt";
       const body = items.length ? items.map((c) => {
         const p = data.byId[c.id];
         const ctl = s.maxQty ? `<span class="qty"><button type="button" data-q="${s.key}|${esc(c.id)}|-1" aria-label="Menos"${c.qty <= 1 ? " disabled" : ""}>${U.minus}</button><span>${c.qty}</span><button type="button" data-q="${s.key}|${esc(c.id)}|1" aria-label="Más"${c.qty >= s.maxQty ? " disabled" : ""}>${U.plus}</button></span>` : "";
-        return `<span class="it">${c.qty > 1 ? `${c.qty}x ` : ""}${esc(p.titulo)}</span><span class="pr">${p.precio ? TW.money(p.precio * c.qty) : "Consultar"}</span>
-          <button class="icon-btn" type="button" data-rm="${s.key}|${esc(c.id)}" aria-label="Quitar ${esc(p.titulo)}">${U.trash}</button>${ctl ? `<span class="ctl">${ctl}</span>` : ""}`;
-      }).join("") : `<span class="it none">${req ? "Sin elegir" : esc(optionalReason(s.key))}</span><span></span><span></span>`;
-      return `<li class="sum-row"><span class="lbl">${esc(s.label)}<button type="button" data-goto="${i}">${items.length ? "Cambiar" : "Elegir"}</button></span>${body}</li>`;
+        return `<div class="s-item"><span class="it">${c.qty > 1 ? `${c.qty}x ` : ""}${esc(p.titulo)}</span><span class="pr">${p.precio ? TW.money(p.precio * c.qty) : "Consultar"}</span>
+          <button class="icon-btn" type="button" data-rm="${s.key}|${esc(c.id)}" aria-label="Quitar ${esc(p.titulo)}">${U.trash}</button>${ctl ? `<span class="ctl">${ctl}</span>` : ""}</div>`;
+      }).join("") : `<div class="s-item"><span class="it none">${req ? "Sin elegir" : esc(optionalReason(s.key))}</span></div>`;
+      return `<li class="sum-row ${state}${B.step === i ? " cur" : ""}">
+        <button class="s-ico${first && (first.imagen || first.caja) ? " ph" : ""}" type="button" data-goto="${i}" aria-label="${esc(s.label)}">${first ? TW.thumb(first) : TW.ICONS[s.cat]}${items.length ? `<i>${U.check}</i>` : ""}</button>
+        <div class="s-body"><span class="lbl">${esc(s.label)}${req || items.length ? "" : "<small>Opcional</small>"}<button type="button" data-goto="${i}">${items.length ? "Cambiar" : "Elegir"}</button></span>${body}</div></li>`;
     }).join("");
-    const okAll = !faltan.length && !others.some((x) => x.level === "error");
+
+    const psu = firstOf("psu"), gab = firstOf("case");
+    const cap = psu ? psu.attrs.watts : !TW.isRequired("psu", B.sel, data.byId) && gab ? gab.attrs.fuente : 0;
+    const scale = cap || pw.rec, use = Math.min(100, Math.round((pw.est / scale) * 100));
+    const logo = TW.LOGOS[B.sel.plataforma];
+
     return `
-      <div class="b-mobile-bar" data-toggle-side><div><span>Total de tu PC</span><strong>${TW.money(total)}</strong></div><span>${lines.length} componentes · Ver resumen ▴</span></div>
-      <div class="b-side-head"><h3>Tu PC ${esc(B.sel.plataforma)}</h3><button type="button" data-reset>Empezar de cero</button></div>
-      <ul class="sum-list">${rows}</ul>
-      <div class="b-issues">
-        ${others.map((x) => `<div class="${x.level}">${U.warn}<span>${esc(x.msg)}</span></div>`).join("")}
-        ${faltan.length ? `<div class="falta">${U.warn}<span>Te falta: ${faltan.map((x) => esc(TW.stepOf(x.key).label.toLowerCase())).join(", ")}</span></div>` : ""}
-        ${okAll ? `<div class="ok">${U.check}<span>Todos los componentes son compatibles</span></div>` : ""}
+      <div class="b-mobile-bar" data-toggle-side><div><span>Total de tu PC</span><strong>${TW.money(total)}</strong></div><span>${pr.done}/${pr.total} listos · Ver resumen ▴</span></div>
+      <div class="b-side-head">
+        <div class="t"><span class="plat-logo">${logo ? TW.logoHtml(B.sel.plataforma, logo) : ""}</span><div><h3>Tu PC</h3><span class="st ${status[0]}">${status[0] === "ok" ? U.check : U.warn}${esc(status[1])}</span></div></div>
+        <button type="button" data-reset>Empezar de cero</button>
       </div>
-      <div class="b-power">${U.bolt}<span>Consumo estimado ~${pw.est} W · Fuente recomendada ${pw.rec} W o más</span></div>
+      <div class="b-prog"><div><span>Progreso</span><strong>${pr.done} de ${pr.total} listos</strong></div><i><b style="width:${pr.pct}%"></b></i></div>
+      <ul class="sum-list">${rows}</ul>
+      <details class="b-compat" open>
+        <summary><span>${U.shield} Compatibilidad</span><em>${checks.filter((x) => x.state === "ok").length}/${checks.length}</em></summary>
+        <ul>${checks.map((x) => `<li class="${x.state}"><span class="dot">${x.state === "ok" ? U.check : x.state === "bad" ? U.close : ""}</span><span><strong>${esc(x.label)}</strong>${esc(x.txt)}</span></li>`).join("")}</ul>
+        ${avisos.map((x) => `<p class="aviso">${U.warn}${esc(x.msg)}</p>`).join("")}
+      </details>
+      <div class="b-power">
+        <div class="row"><span>${U.bolt} Consumo estimado</span><strong>~${pw.est} W</strong></div>
+        <i class="${use > 85 ? "hot" : ""}"><b style="width:${use}%"></b></i>
+        <small>${cap ? `Tu fuente: ${cap} W · uso ${use}%` : `Fuente recomendada: ${pw.rec} W o más`}</small>
+      </div>
       <div class="b-total">
-        <div class="row"><span>Total</span><strong>${TW.money(total)}</strong></div>
+        <div class="row"><span>Total <small>${lines.length} ${lines.length === 1 ? "componente" : "componentes"}</small></span><strong>${TW.money(total)}</strong></div>
+        <p class="fine">${U.wrench} Te la entregamos armada y probada</p>
         <button class="btn block" type="button" data-addbuild${okAll ? "" : " disabled"}>${U.cart} Agregar al carrito</button>
         <button class="btn wa block" type="button" data-wabuild${lines.length ? "" : " disabled"}>${U.wa} Consultar esta PC</button>
       </div>`;
@@ -411,13 +478,17 @@
   function summaryView() {
     const lines = TW.buildLines(B.sel, data.byId), total = TW.linesTotal(lines);
     const faltan = TW.checkBuild(B.sel, data.byId).filter((x) => x.level === "falta");
+    const checks = compatChecks();
     return `
-      <div class="b-head"><div><h2><small>Último paso</small>${faltan.length ? "Casi lista" : "¡Tu PC está lista!"}</h2>
-        <p>${faltan.length ? `Te falta elegir: ${faltan.map((x) => esc(TW.stepOf(x.key).label.toLowerCase())).join(", ")}.` : "Revisá los componentes, agregala al carrito y mandanos el pedido por WhatsApp. Incluye armado y prueba."}</p></div></div>
-      ${lines.length ? `<ul class="comp-list">${lines.map((l) => `
-        <li><span class="mini">${TW.thumb(l.p)}</span><span><small>${esc(l.step.label)}</small>${l.qty > 1 ? `${l.qty}x ` : ""}${esc(l.p.titulo)}</span><span class="p">${l.p.precio ? TW.money(l.p.precio * l.qty) : "Consultar"}</span></li>`).join("")}
-      </ul>` : `<div class="b-empty">Todavía no elegiste componentes.</div>`}
-      <div class="modal-price" style="margin-top:1rem"><span style="color:var(--muted)">Total</span><span class="price" style="font-size:1.5rem">${TW.money(total)}</span></div>
+      <div class="b-head"><div class="b-title"><span class="b-ico">${U.cart}</span><div><h2><small>Último paso</small>${faltan.length ? "Casi lista" : "¡Tu PC está lista!"}</h2>
+        <p>${faltan.length ? `Te falta elegir: ${faltan.map((x) => esc(TW.stepOf(x.key).label.toLowerCase())).join(", ")}.` : "Revisá los componentes, agregala al carrito y mandanos el pedido por WhatsApp. Incluye armado y prueba."}</p></div></div></div>
+      <div class="sum-grid">
+        ${lines.length ? `<ul class="comp-list">${lines.map((l) => `
+          <li><span class="mini">${TW.thumb(l.p)}</span><span><small>${esc(l.step.label)}</small>${l.qty > 1 ? `${l.qty}x ` : ""}${esc(l.p.titulo)}</span><span class="p">${l.p.precio ? TW.money(l.p.precio * l.qty) : "Consultar"}</span></li>`).join("")}
+        </ul>` : `<div class="b-empty">Todavía no elegiste componentes.</div>`}
+        <ul class="check-grid">${checks.map((x) => `<li class="${x.state}"><span class="dot">${x.state === "ok" ? U.check : x.state === "bad" ? U.close : ""}</span><span><strong>${esc(x.label)}</strong>${esc(x.txt)}</span></li>`).join("")}</ul>
+      </div>
+      <div class="modal-price" style="margin-top:1.25rem"><span style="color:var(--muted)">Total</span><span class="price" style="font-size:1.6rem">${TW.money(total)}</span></div>
       <div class="b-nav">
         <button class="btn ghost" type="button" data-goto="${STEPS.length - 1}">${U.back} Volver</button>
         <button class="btn" type="button" data-addbuild${faltan.length ? " disabled" : ""}>${U.cart} Agregar al carrito</button>

@@ -307,6 +307,14 @@
                 </div>
               </div>
             </div>
+            <div class="fld full">Foto de la caja (opcional: se muestra al lado del producto)
+              <div class="img-box"><span class="mini" id="cajaPrev"></span>
+                <div style="flex:1;display:grid;gap:.4rem">
+                  <input class="inp" name="caja" value="${esc(d.caja || "")}" placeholder="Link de la imagen o subí una foto">
+                  <div class="row-actions" style="margin:0"><label class="btn sm ghost" style="cursor:pointer">Subir foto de la caja<input type="file" accept="image/*" id="cajaFile" hidden></label><span class="hint" id="cajaStatus"></span></div>
+                </div>
+              </div>
+            </div>
             <label class="fld">Marca <span class="hint" style="display:inline">(vacío = automática)</span><input name="marca" value="${esc(d.marca || "")}" placeholder="Automática"></label>
             <label class="fld">Características <span class="hint" style="display:inline">(una por línea · vacío = automáticas)</span><textarea name="specs" placeholder="Automáticas">${esc((d.specs || []).join("\n"))}</textarea></label>
           </div>
@@ -326,6 +334,7 @@
       nombre: String(fd.get("nombre") || "").trim(), categoria: fd.get("categoria"), sub: String(fd.get("sub") || "").trim(),
       precio: fd.get("precio") === "" ? null : Number(fd.get("precio")), stock: fd.get("stock"), destacado: !!fd.get("destacado"),
       imagen: String(fd.get("imagen") || "").trim(),
+      caja: String(fd.get("caja") || "").trim(),
     };
     const marca = String(fd.get("marca") || "").trim(); if (marca) d.marca = marca;
     const specs = String(fd.get("specs") || "").split("\n").map((s) => s.trim()).filter(Boolean); if (specs.length) d.specs = specs;
@@ -347,6 +356,7 @@
     const auto = TW.buildProduct({ ...d, attrs: undefined });
     const p = TW.buildProduct(d);
     $("#imgPrev").innerHTML = TW.thumb(p);
+    $("#cajaPrev").innerHTML = p.caja ? `<img src="${esc(p.caja)}" alt="">` : "";
     const fields = ATTR_FIELDS[d.categoria] || [];
     box.innerHTML = `
       <div><strong style="color:var(--text)">Así se ve en la tienda:</strong> ${esc(p.titulo || "—")} · <span class="tag">${esc(p.marca)}</span></div>
@@ -695,16 +705,17 @@
       if (key === "cpu") { const p = built().byId[t.value]; pcSel.plataforma = p ? p.attrs.plataforma : ""; }
       renderSlots(); return;
     }
-    if (t.id === "imgFile" || t.id === "pcImgFile") {
+    if (t.id === "imgFile" || t.id === "pcImgFile" || t.id === "cajaFile") {
       const file = t.files[0]; if (!file) return;
       const form = t.closest("form");
-      const status = $("#imgStatus");
+      const caja = t.id === "cajaFile";
+      const status = $(caja ? "#cajaStatus" : "#imgStatus");
       try {
         if (status) status.textContent = "Subiendo…";
-        const path = await uploadImage(file, form.querySelector("[name=nombre]").value || "foto");
-        form.querySelector("[name=imagen]").value = path;
+        const path = await uploadImage(file, (form.querySelector("[name=nombre]").value || "foto") + (caja ? " caja" : ""));
+        form.querySelector(caja ? "[name=caja]" : "[name=imagen]").value = path;
         if (status) status.textContent = "Foto subida ✓";
-        if (t.id === "imgFile") refreshDetect();
+        if (t.id !== "pcImgFile") refreshDetect();
         toast("Foto subida");
       } catch (err) { if (status) status.textContent = err.message; toast(err.message, false); }
       return;
