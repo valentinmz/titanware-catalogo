@@ -16,8 +16,9 @@
   /* ---------- Textos y links fijos ---------- */
   function setupStatic() {
     const general = TW.waLink(`Hola ${NEG.nombre}! Quería hacer una consulta.`);
-    ["#topWa", "#floatWa", "#footWa", "#topPhone"].forEach((s) => ($(s).href = general));
-    $("#topPhone").textContent = NEG.whatsappVisible;
+    ["#topWa", "#floatWa", "#footWa"].forEach((s) => ($(s).href = general));
+    $$(".top-phone").forEach((a) => { a.href = general; a.textContent = NEG.whatsappVisible; });
+    setupTicker();
     $("#footPlace").textContent = NEG.ubicacion;
     $("#bandWa").href = TW.waLink(`Hola ${NEG.nombre}! Quería asesoramiento para elegir mi PC.`);
     $("#footIg").href = `https://instagram.com/${NEG.instagram}`;
@@ -28,6 +29,26 @@
     $("#tileIcoBuild").innerHTML = TW.ICONS.Procesadores;
     $("#tileIcoPcs").innerHTML = TW.ICONS.Gabinetes;
     $("#tileIcoCat").innerHTML = TW.ICONS["Placas de video"];
+  }
+
+  /* ---------- Cinta de la barra superior ---------- */
+  // Repite la lista las veces necesarias para que la cinta pase sin cortes en cualquier ancho de pantalla
+  function setupTicker() {
+    const track = $(".ticker-track"), list = track && $(".ticker-list", track);
+    if (!list) return;
+    const fill = () => {
+      $$(".ticker-list[aria-hidden]", track).forEach((l) => l.remove());
+      const need = Math.ceil(innerWidth / Math.max(1, list.offsetWidth)) + 1;
+      for (let i = 0; i < need; i++) {
+        const c = list.cloneNode(true);
+        c.setAttribute("aria-hidden", "true");
+        $$("a", c).forEach((a) => (a.tabIndex = -1));
+        track.appendChild(c);
+      }
+      track.style.setProperty("--ticker-time", `${Math.round(list.offsetWidth / 45)}s`);
+    };
+    fill();
+    let t; addEventListener("resize", () => { clearTimeout(t); t = setTimeout(fill, 200); });
   }
 
   /* ---------- Aviso flotante ---------- */

@@ -45,13 +45,23 @@ svg { flex: none; }
 
 /* Header */
 .topbar { background: var(--bg-2); border-bottom: 1px solid var(--line); font-size: .78rem; color: var(--muted); }
-.topbar .wrap { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: .3rem 1.5rem; padding-block: .4rem; }
-.topbar .wrap > span:first-child { grid-column: 2; }
-.topbar .wrap > span:last-child { grid-column: 3; justify-self: end; display: block; min-width: 0; max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-@media (max-width: 900px) { .topbar .wrap > span:last-child { display: none; } }
-.topbar span { display: inline-flex; align-items: center; gap: .4rem; }
+/* Cinta que va pasando: cada copia de la lista se corre su propio ancho y vuelve a empezar */
+.ticker { overflow: hidden; -webkit-mask: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); mask: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
+.ticker-track { display: flex; width: max-content; }
+.ticker-list { display: flex; flex: none; margin: 0; padding: 0; list-style: none; animation: ticker var(--ticker-time, 30s) linear infinite; }
+.ticker-list li { display: inline-flex; align-items: center; gap: .4rem; padding: .45rem 0; white-space: nowrap; }
+.ticker-list li::after { content: ""; width: 4px; height: 4px; border-radius: 50%; background: var(--violet); margin: 0 2.25rem; opacity: .8; }
+.ticker:hover .ticker-list { animation-play-state: paused; }
+@keyframes ticker { to { transform: translateX(-100%); } }
+@media (prefers-reduced-motion: reduce) {
+  .ticker { -webkit-mask: none; mask: none; }
+  .ticker-track { width: auto; justify-content: center; }
+  .ticker-list { animation: none; flex-wrap: wrap; justify-content: center; }
+  .ticker-list[aria-hidden] { display: none; }
+}
 .topbar svg { width: 14px; height: 14px; color: var(--violet-soft); }
 .topbar a { color: var(--text-2); text-decoration: none; }
+.topbar a:hover { color: var(--text); }
 .site-head {
   position: sticky; top: 0; z-index: 20;
   background: rgba(5, 5, 9, .9);
@@ -579,7 +589,6 @@ main { min-height: 60vh; }
   .tile { min-height: 150px; }
 }
 @media (max-width: 640px) {
-  .topbar .wrap span:not(:first-child) { display: none; }
   .top { height: auto; }
   .top .wrap { flex-wrap: wrap; gap: .6rem .8rem; padding-block: .6rem; }
   .hsearch { order: 3; flex-basis: 100%; max-width: none; }
