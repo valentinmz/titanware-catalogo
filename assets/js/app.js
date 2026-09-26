@@ -291,70 +291,50 @@
     return "Opcional";
   }
 
+  // Armador estilo "paso a paso": panel con los componentes a la izquierda y las opciones a la derecha
   function renderBuilder() {
     const root = $("#builder");
-    if (!B.sel.plataforma) {
-      root.innerHTML = `
-        <div class="platforms">
-          <button class="plat" type="button" data-plat="AMD">${TW.logoHtml("AMD", TW.LOGOS.AMD)}<span>Ryzen y Athlon · Sockets AM4 y AM5</span></button>
-          <button class="plat" type="button" data-plat="Intel">${TW.logoHtml("Intel", TW.LOGOS.Intel)}<span>Core, Pentium y Celeron · LGA 1200 y 1700</span></button>
-        </div>`;
-      $("#bIntro").hidden = false;
-      return;
-    }
-    $("#bIntro").hidden = true;
     const n = STEPS.length;
     B.step = Math.max(0, Math.min(n, B.step));
     root.innerHTML = `
-      <div class="b-layout">
-        <nav class="b-rail" id="bRail" aria-label="Pasos del armador">${railHtml()}</nav>
-        <div class="b-main" id="bMain">${B.step < n ? stepView(STEPS[B.step]) : summaryView()}</div>
-        <aside class="b-side" id="bSide" aria-label="Resumen de tu PC">${sideHtml()}</aside>
+      <div class="bz">
+        <aside class="bz-side" id="bSide">${panelHtml()}</aside>
+        <div class="bz-main" id="bMain">${B.step < n ? stepView(STEPS[B.step]) : summaryView()}</div>
       </div>`;
-    const cur = $(".b-step[aria-current]", root);
-    if (cur && matchMedia("(max-width: 1250px)").matches) cur.scrollIntoView({ block: "nearest", inline: "center" });
     if (B.step < n) renderOptions();
   }
 
-  // Pasos en cuadrícula al costado (en el celular pasan a una fila deslizable)
-  function railHtml() {
-    const n = STEPS.length, pr = progress();
-    const btns = STEPS.map((s, i) => {
-      const items = chosen(s.key), req = TW.isRequired(s.key, B.sel, data.byId);
+  // Panel izquierdo: grilla de componentes + consumo, total y botones
+  function panelHtml() {
+    const n = STEPS.length, lines = TW.buildLines(B.sel, data.byId), total = TW.linesTotal(lines);
+    const pw = TW.power(B.sel, data.byId), step = STEPS[B.step];
+    const canSkip = step && !TW.isRequired(step.key, B.sel, data.byId);
+    const tiles = STEPS.map((s, i) => {
+      const items = chosen(s.key), p = items[0] && data.byId[items[0].id];
       const qty = items.reduce((t, c) => t + c.qty, 0);
-      const sub = items.length ? (qty > 1 ? `${qty} elegidos` : "Elegido") : req ? "Pendiente" : "Opcional";
-      return `<button class="b-step${items.length ? " done" : ""}${!items.length && !req ? " opt" : ""}" type="button" data-goto="${i}"${B.step === i ? ' aria-current="step"' : ""}>
-        <span class="n">${TW.ICONS[s.cat]}${items.length ? `<i>${U.check}</i>` : ""}</span><span class="t"><b>${i + 1}. ${esc(s.label)}</b><em>${esc(sub)}</em></span></button>`;
-    }).join("") + `<button class="b-step sum" type="button" data-goto="${n}"${B.step === n ? ' aria-current="step"' : ""}><span class="n">${U.cart}</span><span class="t"><b>Resumen</b><em>Revisá y consultá</em></span></button>`;
+      return `<button class="bz-tile${p ? " done" : ""}" type="button" data-goto="${i}"${B.step === i ? ' aria-current="step"' : ""} title="${esc(p ? p.titulo : s.label)}">
+        <span class="ico">${p && (p.imagen || p.caja) ? TW.thumb(p) : TW.ICONS[s.cat]}</span>
+        <span class="lbl">${esc(s.label)}</span>
+        ${p ? `<i class="ok">${U.check}</i>` : ""}${qty > 1 ? `<i class="n">x${qty}</i>` : ""}
+      </button>`;
+    }).join("");
     return `
-      <div class="b-rail-head"><span>Componentes</span><strong>${pr.done} de ${pr.total}</strong></div>
-      <div class="b-steps">${btns}</div>
-      <button class="b-redo" type="button" data-reset>${U.redo} Rehacer armado</button>`;
+      <div class="bz-card">
+        <div class="bz-tiles">${tiles}</div>
+        <button class="bz-sum${B.step === n ? " cur" : ""}" type="button" data-goto="${n}">${U.cart} Ver resumen</button>
+        <button class="linkish redo" type="button" data-reset>${U.redo} Rehacer armado</button>
+      </div>
+      <div class="bz-card bz-tot">
+        <div class="row"><span>${U.bolt} ~${lines.length ? pw.est : 0} W</span><span>Total: <strong>${TW.money(total)}</strong></span></div>
+        <div class="btns">
+          <button class="btn sm ghost" type="button" data-goto="${Math.max(0, B.step - 1)}"${B.step === 0 ? " disabled" : ""}>${U.back} Volver atrás</button>
+          ${B.step < n ? `<button class="btn sm ghost" type="button" data-skip="${step.key}"${canSkip ? "" : ' disabled title="Este componente es necesario"'}>Saltear paso ${U.arrow}</button>` : ""}
+        </div>
+      </div>`;
   }
-  function refreshRail() { const r = $("#bRail"); if (r) r.innerHTML = railHtml(); }
+  function refreshPanel() { const s = $("#bSide"); if (s) s.innerHTML = panelHtml(); }
 
-  const shortName = (p) => p.titulo.length > 34 ? p.titulo.slice(0, 32) + "…" : p.titulo;
   const firstOf = (key) => chosen(key)[0] && data.byId[chosen(key)[0].id];
-
-  // Progreso: pasos obligatorios completos
-  function progress() {
-    const req = STEPS.filter((s) => TW.isRequired(s.key, B.sel, data.byId) || chosen(s.key).length);
-    const done = req.filter((s) => chosen(s.key).length).length;
-    return { done, total: req.length, pct: req.length ? Math.round((done / req.length) * 100) : 0 };
-  }
-
-  // Filtros de compatibilidad que se están aplicando en cada paso
-  function stepFilters(key) {
-    const cpu = firstOf("cpu"), mobo = firstOf("mobo"), pw = TW.power(B.sel, data.byId), f = [];
-    if (key === "cpu") f.push(`Plataforma ${B.sel.plataforma}`);
-    if (key === "mobo" && cpu && cpu.attrs.socket) f.push(`Socket ${cpu.attrs.socket}`);
-    if (key === "ram") { if (mobo && mobo.attrs.ddr) f.push(mobo.attrs.ddr); f.push("Solo de escritorio"); }
-    if (key === "storage") f.push("Discos internos");
-    if (key === "case" && mobo && mobo.attrs.formato) f.push(`Para mother ${mobo.attrs.formato}`);
-    if (key === "psu") f.push(`${pw.min} W o más`);
-    if (key === "cooler" && cpu) { if (cpu.attrs.socket) f.push(`Socket ${cpu.attrs.socket}`); if (cpu.attrs.tdp) f.push(`${cpu.attrs.tdp} W o más`); }
-    return f;
-  }
 
   // Chequeos de compatibilidad, uno por uno: ok · wait (falta elegir) · bad
   function compatChecks() {
@@ -378,61 +358,63 @@
     const i = STEPS.indexOf(step), req = TW.isRequired(step.key, B.sel, data.byId);
     const pw = TW.power(B.sel, data.byId);
     let note = "";
-    if (!req && step.key === "gpu") note = "Tu procesador tiene video integrado: podés seguir sin placa de video y agregarla más adelante.";
-    if (!req && step.key === "cooler") note = "Tu procesador ya trae cooler: este paso es opcional.";
-    if (!req && step.key === "psu") note = `${optionalReason("psu")}: alcanza para tu configuración, este paso es opcional.`;
-    if (req && step.key === "psu") note = `Consumo estimado de tu PC: ~${pw.est} W. Te mostramos fuentes de ${pw.min} W o más (recomendado: ${pw.rec} W o más).`;
-    if (step.key === "ram" && firstOf("mobo")) note = `Tu mother usa memorias ${firstOf("mobo").attrs.ddr}. Te mostramos solo esas.`;
-    const filters = stepFilters(step.key);
+    if (!req && step.key === "gpu") note = "Tu procesador tiene video integrado: podés saltear este paso.";
+    if (!req && step.key === "cooler") note = "Tu procesador ya trae cooler: podés saltear este paso.";
+    if (!req && step.key === "psu") note = `${optionalReason("psu")}: podés saltear este paso.`;
+    if (req && step.key === "psu") note = `Tu PC consume ~${pw.est} W. Te recomendamos una fuente de ${pw.rec} W o más.`;
+    const mobo = firstOf("mobo");
+    if (step.key === "ram" && mobo) note = `Tu mother usa memorias ${mobo.attrs.ddr}: te mostramos solo esas.`;
+    const plat = B.brand || "";
     return `
-      <div class="b-head">
-        <div class="b-title"><span class="b-ico">${TW.ICONS[step.cat]}</span>
-          <div><h2><small>Paso ${i + 1} de ${STEPS.length}${req ? "" : " · Opcional"}</small>${esc(step.label)}</h2><p>${esc(step.tip)}</p></div></div>
-        <div class="b-tools">
-          <label class="hsearch" style="border-radius:var(--radius-sm)">${U.search}<input id="bq" type="search" placeholder="Buscar ${esc(step.label.toLowerCase())}…" value="${esc(B.q)}" autocomplete="off"></label>
-          <div class="select"><select id="bsort" aria-label="Ordenar">
-            <option value="precio-asc"${B.sort === "precio-asc" ? " selected" : ""}>Menor precio</option>
-            <option value="precio-desc"${B.sort === "precio-desc" ? " selected" : ""}>Mayor precio</option>
-            <option value="az"${B.sort === "az" ? " selected" : ""}>Nombre</option>
-          </select></div>
-        </div>
+      <div class="bz-head">
+        <h2>${i > 0 ? `<button class="bz-back" type="button" data-goto="${i - 1}" aria-label="Paso anterior">${U.back}</button>` : ""}Elegí tu ${esc(step.label.charAt(0).toLowerCase() + step.label.slice(1))}${req ? "" : " <small>(opcional)</small>"}</h2>
+        <p>${esc(step.tip)}</p>
       </div>
-      <div class="b-filters">${U.shield}<span>Mostrando solo lo compatible</span>${filters.map((f) => `<b>${esc(f)}</b>`).join("")}<em id="optCount"></em></div>
+      <div class="bz-tools">
+        ${step.key === "cpu" ? `<div class="bz-brands" role="group" aria-label="Marca">
+          ${["AMD", "Intel"].map((b) => `<button type="button" data-brand="${b}" aria-pressed="${plat === b}">${TW.logoHtml(b, TW.LOGOS[b])}</button>`).join("")}
+        </div>` : ""}
+        <label class="hsearch">${U.search}<input id="bq" type="search" placeholder="Buscar…" value="${esc(B.q)}" autocomplete="off"></label>
+        <div class="select"><select id="bsort" aria-label="Ordenar">
+          <option value="precio-asc"${B.sort === "precio-asc" ? " selected" : ""}>Menor precio</option>
+          <option value="precio-desc"${B.sort === "precio-desc" ? " selected" : ""}>Mayor precio</option>
+          <option value="az"${B.sort === "az" ? " selected" : ""}>Nombre</option>
+        </select></div>
+        <span class="bz-count" id="optCount"></span>
+      </div>
       ${note ? `<div class="b-note">${U.bolt}<span>${esc(note)}</span></div>` : ""}
       ${step.maxQty ? `<div id="qtyBar"></div>` : ""}
-      <div class="opt-grid" id="optGrid"></div>
-      <div class="b-nav">
-        <button class="btn ghost" type="button" data-goto="${i - 1}"${i === 0 ? " hidden" : ""}>${U.back} Anterior</button>
-        <button class="btn" type="button" data-goto="${i + 1}">${i + 1 === STEPS.length ? "Ver resumen" : "Próximo paso"} ${U.arrow}</button>
-      </div>`;
+      <div class="bz-grid" id="optGrid"></div>`;
   }
 
   function renderOptions() {
     const step = STEPS[B.step], grid = $("#optGrid");
     if (!grid) return;
-    const req = TW.isRequired(step.key, B.sel, data.byId);
     const words = norm(B.q).split(/\s+/).filter(Boolean);
-    let opts = TW.options(step.key, B.sel, data).filter((p) => words.every((w) => norm(p.titulo + " " + p.marca + " " + p.specs.join(" ")).includes(w)));
+    let opts = TW.options(step.key, B.sel, data)
+      .filter((p) => step.key !== "cpu" || !B.brand || p.attrs.plataforma === B.brand)
+      .filter((p) => words.every((w) => norm(p.titulo + " " + p.marca + " " + p.specs.join(" ")).includes(w)));
     const sorters = { "precio-asc": (a, b) => (a.precio || 1e12) - (b.precio || 1e12), "precio-desc": (a, b) => (b.precio || 0) - (a.precio || 0), az: (a, b) => a.titulo.localeCompare(b.titulo) };
     opts.sort(sorters[B.sort] || sorters["precio-asc"]);
     const count = $("#optCount");
-    if (count) count.textContent = `${opts.length} ${opts.length === 1 ? "opción" : "opciones"}`;
+    if (count) count.textContent = `${opts.length} ${opts.length === 1 ? "opción compatible" : "opciones compatibles"}`;
     const picked = new Set(chosen(step.key).map((c) => c.id));
     const rec = TW.power(B.sel, data.byId).rec;
     const isRec = (p) => step.key === "psu" && p.attrs.watts >= rec && /80 PLUS/i.test(p.nombre);
-    const skip = !req ? `<button class="skip-card${picked.size ? "" : " sel"}" type="button" data-skip="${step.key}"><strong>Seguir sin ${esc(step.label.toLowerCase())}</strong>${esc(optionalReason(step.key))}</button>` : "";
-    grid.innerHTML = skip + (opts.length ? opts.map((p) => `
-      <button class="opt${picked.has(p.id) ? " sel" : ""}" type="button" data-pick="${esc(p.id)}">
-        ${isRec(p) ? `<span class="badge">${U.bolt} Recomendada</span>` : ""}
-        <div class="thumb">${TW.thumb(p, true)}${TW.offerTag(p)}</div>
-        <div class="opt-body">
-          <span class="opt-brand">${esc(p.marca)}</span>
-          <h4>${esc(p.titulo)}</h4>
-          ${p.specs.length ? `<div class="opt-chips">${p.specs.slice(0, 3).map((s) => `<span>${esc(s)}</span>`).join("")}</div>` : ""}
-          <div class="opt-foot">${TW.productPrice(p)}<span class="pick">${picked.has(p.id) ? `${U.check} Elegido` : step.multi ? `${U.plus} Sumar` : "Elegir"}</span></div>
-        </div>
+    grid.innerHTML = opts.length ? opts.map((p) => `
+      <button class="bz-opt${picked.has(p.id) ? " sel" : ""}" type="button" data-pick="${esc(p.id)}">
+        ${p.oferta ? `<span class="bz-off">Oferta${p.descuento ? ` -${p.descuento}%` : ""}</span>` : isRec(p) ? `<span class="bz-rec">${U.bolt} Recomendada</span>` : ""}
+        <span class="bz-img">${TW.thumb(p)}</span>
+        <span class="bz-info">
+          <span class="bz-name">${esc(p.titulo)}</span>
+          <span class="bz-spec">${esc(p.specs.slice(0, 2).join(" · "))}</span>
+          <span class="bz-foot">
+            <span class="bz-price">${p.oferta && p.precioLista ? `<s>${TW.money(p.precioLista)}</s>` : ""}${p.precio ? TW.money(p.precio) : "Consultar"}</span>
+            <span class="bz-ok">${picked.has(p.id) ? `${U.check} Elegido` : `${U.check} Compatible`}</span>
+          </span>
+        </span>
       </button>`).join("")
-      : `<div class="b-empty">${B.q ? "No hay resultados para tu búsqueda." : "No hay opciones compatibles con lo que elegiste en los pasos anteriores."} <br>Consultanos por WhatsApp y te ayudamos.</div>`);
+      : `<div class="b-empty">${B.q ? "No hay resultados para tu búsqueda." : "No hay opciones compatibles con lo que elegiste antes."} <br>Consultanos por WhatsApp y te ayudamos.</div>`;
     renderQtyBar();
   }
 
@@ -455,84 +437,32 @@
       </div>`;
   }
 
-  function sideHtml() {
-    const lines = TW.buildLines(B.sel, data.byId), total = TW.linesTotal(lines);
-    const issues = TW.checkBuild(B.sel, data.byId);
-    const faltan = issues.filter((x) => x.level === "falta");
-    const avisos = issues.filter((x) => x.level === "aviso");
-    const hasErr = issues.some((x) => x.level === "error");
-    const pw = TW.power(B.sel, data.byId), pr = progress(), checks = compatChecks();
-    const okAll = !faltan.length && !hasErr;
-    const status = hasErr ? ["bad", "Revisá la compatibilidad"] : okAll ? ["ok", "Todo compatible"] : ["wait", `Faltan ${faltan.length} ${faltan.length === 1 ? "componente" : "componentes"}`];
-
-    const rows = STEPS.map((s, i) => {
-      const items = chosen(s.key), req = TW.isRequired(s.key, B.sel, data.byId);
-      const first = items[0] && data.byId[items[0].id];
-      const state = items.length ? "done" : req ? "need" : "opt";
-      const body = items.length ? items.map((c) => {
-        const p = data.byId[c.id];
-        const ctl = s.maxQty ? `<span class="qty"><button type="button" data-q="${s.key}|${esc(c.id)}|-1" aria-label="Menos"${c.qty <= 1 ? " disabled" : ""}>${U.minus}</button><span>${c.qty}</span><button type="button" data-q="${s.key}|${esc(c.id)}|1" aria-label="Más"${c.qty >= s.maxQty ? " disabled" : ""}>${U.plus}</button></span>` : "";
-        return `<div class="s-item"><span class="it">${c.qty > 1 ? `${c.qty}x ` : ""}${esc(p.titulo)}</span><span class="pr">${p.precio ? TW.money(p.precio * c.qty) : "Consultar"}</span>
-          <button class="icon-btn" type="button" data-rm="${s.key}|${esc(c.id)}" aria-label="Quitar ${esc(p.titulo)}">${U.trash}</button>${ctl ? `<span class="ctl">${ctl}</span>` : ""}</div>`;
-      }).join("") : `<div class="s-item"><span class="it none">${req ? "Sin elegir" : esc(optionalReason(s.key))}</span></div>`;
-      return `<li class="sum-row ${state}${B.step === i ? " cur" : ""}">
-        <button class="s-ico${first && (first.imagen || first.caja) ? " ph" : ""}" type="button" data-goto="${i}" aria-label="${esc(s.label)}">${first ? TW.thumb(first) : TW.ICONS[s.cat]}${items.length ? `<i>${U.check}</i>` : ""}</button>
-        <div class="s-body"><span class="lbl">${esc(s.label)}${req || items.length ? "" : "<small>Opcional</small>"}<button type="button" data-goto="${i}">${items.length ? "Cambiar" : "Elegir"}</button></span>${body}</div></li>`;
-    }).join("");
-
-    const psu = firstOf("psu"), gab = firstOf("case");
-    const cap = psu ? psu.attrs.watts : !TW.isRequired("psu", B.sel, data.byId) && gab ? gab.attrs.fuente : 0;
-    const scale = cap || pw.rec, use = Math.min(100, Math.round((pw.est / scale) * 100));
-    const logo = TW.LOGOS[B.sel.plataforma];
-
-    return `
-      <div class="b-mobile-bar" data-toggle-side><div><span>Total de tu PC</span><strong>${TW.money(total)}</strong></div><span>${pr.done}/${pr.total} listos · Ver resumen ▴</span></div>
-      <div class="b-side-head">
-        <div class="t"><span class="plat-logo">${logo ? TW.logoHtml(B.sel.plataforma, logo) : ""}</span><div><h3>Tu PC</h3><span class="st ${status[0]}">${status[0] === "ok" ? U.check : U.warn}${esc(status[1])}</span></div></div>
-        <button class="b-redo sm" type="button" data-reset>${U.redo} Rehacer</button>
-      </div>
-      <div class="b-prog"><div><span>Progreso</span><strong>${pr.done} de ${pr.total} listos</strong></div><i><b style="width:${pr.pct}%"></b></i></div>
-      <ul class="sum-list">${rows}</ul>
-      <details class="b-compat" open>
-        <summary><span>${U.shield} Compatibilidad</span><em>${checks.filter((x) => x.state === "ok").length}/${checks.length}</em></summary>
-        <ul>${checks.map((x) => `<li class="${x.state}"><span class="dot">${x.state === "ok" ? U.check : x.state === "bad" ? U.close : ""}</span><span><strong>${esc(x.label)}</strong>${esc(x.txt)}</span></li>`).join("")}</ul>
-        ${avisos.map((x) => `<p class="aviso">${U.warn}${esc(x.msg)}</p>`).join("")}
-      </details>
-      <div class="b-power">
-        <div class="row"><span>${U.bolt} Consumo estimado</span><strong>~${pw.est} W</strong></div>
-        <i class="${use > 85 ? "hot" : ""}"><b style="width:${use}%"></b></i>
-        <small>${cap ? `Tu fuente: ${cap} W · uso ${use}%` : `Fuente recomendada: ${pw.rec} W o más`}</small>
-      </div>
-      <div class="b-total">
-        <div class="row"><span>Total <small>${lines.length} ${lines.length === 1 ? "componente" : "componentes"}</small></span><strong>${TW.money(total)}</strong></div>
-        <p class="fine">${U.wrench} Te la entregamos armada y probada</p>
-        <button class="btn block" type="button" data-addbuild${okAll ? "" : " disabled"}>${U.cart} Agregar al carrito</button>
-        <button class="btn wa block" type="button" data-wabuild${okAll ? "" : " disabled"}>${U.wa} Consultar esta PC</button>
-        ${okAll ? "" : `<p class="fine lock">Completá todos los componentes para consultar esta PC.</p>`}
-      </div>`;
-  }
-
+  // Último paso: resumen, compatibilidad y acciones
   function summaryView() {
     const lines = TW.buildLines(B.sel, data.byId), total = TW.linesTotal(lines);
-    const faltan = TW.checkBuild(B.sel, data.byId).filter((x) => x.level === "falta");
-    const checks = compatChecks();
+    const issues = TW.checkBuild(B.sel, data.byId), faltan = issues.filter((x) => x.level === "falta");
+    const okAll = !faltan.length && !issues.some((x) => x.level === "error");
+    const checks = compatChecks(), pw = TW.power(B.sel, data.byId);
     return `
-      <div class="b-head"><div class="b-title"><span class="b-ico">${U.cart}</span><div><h2><small>Último paso</small>${faltan.length ? "Casi lista" : "¡Tu PC está lista!"}</h2>
-        <p>${faltan.length ? `Te falta elegir: ${faltan.map((x) => esc(TW.stepOf(x.key).label.toLowerCase())).join(", ")}.` : "Revisá los componentes, agregala al carrito y mandanos el pedido por WhatsApp. Incluye armado y prueba."}</p></div></div></div>
-      <div class="sum-grid">
-        ${lines.length ? `<ul class="comp-list">${lines.map((l) => `
-          <li><span class="mini">${TW.thumb(l.p)}</span><span><small>${esc(l.step.label)}</small>${l.qty > 1 ? `${l.qty}x ` : ""}${esc(l.p.titulo)}</span><span class="p">${l.p.precio ? TW.money(l.p.precio * l.qty) : "Consultar"}</span></li>`).join("")}
-        </ul>` : `<div class="b-empty">Todavía no elegiste componentes.</div>`}
-        <ul class="check-grid">${checks.map((x) => `<li class="${x.state}"><span class="dot">${x.state === "ok" ? U.check : x.state === "bad" ? U.close : ""}</span><span><strong>${esc(x.label)}</strong>${esc(x.txt)}</span></li>`).join("")}</ul>
+      <div class="bz-head">
+        <h2><button class="bz-back" type="button" data-goto="${STEPS.length - 1}" aria-label="Paso anterior">${U.back}</button>${okAll ? "¡Tu PC está lista!" : "Resumen de tu PC"}</h2>
+        <p>${okAll ? "Todos los componentes son compatibles. Agregala al carrito o consultanos por WhatsApp." : `Te falta elegir: ${faltan.map((x) => `<button class="linkish" type="button" data-goto="${STEPS.findIndex((s) => s.key === x.key)}">${esc(TW.stepOf(x.key).label.toLowerCase())}</button>`).join(", ")}.`}</p>
       </div>
-      <div class="modal-price" style="margin-top:1.25rem"><span style="color:var(--muted)">Total</span><span class="price" style="font-size:1.6rem">${TW.money(total)}</span></div>
-      <div class="b-nav">
-        <button class="btn ghost" type="button" data-goto="${STEPS.length - 1}">${U.back} Volver</button>
-        <button class="btn" type="button" data-addbuild${faltan.length ? " disabled" : ""}>${U.cart} Agregar al carrito</button>
+      <div class="sum-grid">
+        <div>
+          ${lines.length ? `<ul class="comp-list">${lines.map((l) => `
+            <li><span class="mini">${TW.thumb(l.p)}</span><span><small>${esc(l.step.label)}</small>${l.qty > 1 ? `${l.qty}x ` : ""}${esc(l.p.titulo)}</span><span class="p">${l.p.precio ? TW.money(l.p.precio * l.qty) : "Consultar"}</span></li>`).join("")}
+          </ul>` : `<div class="b-empty">Todavía no elegiste componentes.</div>`}
+          <div class="modal-price" style="margin-top:1.25rem"><span style="color:var(--muted)">Total · ~${pw.est} W</span><span class="price" style="font-size:1.6rem">${TW.money(total)}</span></div>
+          <div class="bz-actions">
+            <button class="btn" type="button" data-addbuild${okAll ? "" : " disabled"}>${U.cart} Agregar al carrito</button>
+            <button class="btn wa" type="button" data-wabuild${okAll ? "" : " disabled"}>${U.wa} Consultar esta PC</button>
+          </div>
+          ${okAll ? "" : `<p class="fine lock">Completá todos los componentes para agregarla al carrito o consultarla.</p>`}
+        </div>
+        <ul class="check-grid">${checks.map((x) => `<li class="${x.state}"><span class="dot">${x.state === "ok" ? U.check : x.state === "bad" ? U.close : ""}</span><span><strong>${esc(x.label)}</strong>${esc(x.txt)}</span></li>`).join("")}</ul>
       </div>`;
   }
-
-  function refreshSide() { const s = $("#bSide"); if (s) { const open = s.classList.contains("open"); s.innerHTML = sideHtml(); s.classList.toggle("open", open); } }
 
   function pick(id) {
     const step = STEPS[B.step], p = data.byId[id];
@@ -547,6 +477,7 @@
       const prevQty = list[0] && list[0].id === id ? list[0].qty : 1;
       B.sel[step.key] = [{ id, qty: prevQty }];
     }
+    if (step.key === "cpu") B.sel.plataforma = p.attrs.plataforma || "";
     const removed = TW.pruneBuild(B.sel, data.byId);
     if (removed.length) toast(`Quitamos ${removed.join(", ")} porque ya no era compatible.`);
     // Avanza solo en pasos de una única elección; en memorias primero se elige la cantidad
@@ -668,32 +599,20 @@
       if ((x = el("#reset"))) { Object.assign(cat, { q: "", sub: "", brand: "" }); $("#q").value = ""; location.hash = "#/catalogo"; renderCatalog(); return; }
 
       // Armador
-      if ((x = el("[data-plat]"))) { B.sel = TW.emptyBuild(); B.sel.plataforma = x.dataset.plat; B.step = 0; saveBuild(); renderBuilder(); return; }
-      if ((x = el("[data-goto]"))) { B.step = Number(x.dataset.goto); B.q = ""; saveBuild(); renderBuilder(); $("#bSide")?.classList.remove("open"); return; }
+      if ((x = el("[data-brand]"))) { B.brand = B.brand === x.dataset.brand ? "" : x.dataset.brand; $$("[data-brand]").forEach((b) => b.setAttribute("aria-pressed", b.dataset.brand === B.brand)); renderOptions(); return; }
+      if ((x = el("[data-goto]"))) { B.step = Number(x.dataset.goto); B.q = ""; saveBuild(); renderBuilder(); scrollTo({ top: $("#builder").offsetTop - 130, behavior: "smooth" }); return; }
       if ((x = el("[data-pick]"))) { pick(x.dataset.pick); return; }
       if ((x = el("[data-skip]"))) { B.sel[x.dataset.skip] = []; B.step++; B.q = ""; saveBuild(); renderBuilder(); return; }
-      if ((x = el("[data-rm]"))) {
-        const [key, id] = x.dataset.rm.split("|");
-        B.sel[key] = B.sel[key].filter((c) => c.id !== id);
-        TW.pruneBuild(B.sel, data.byId); saveBuild(); renderBuilder(); return;
-      }
-      if ((x = el("[data-q]"))) {
-        const [key, id, d] = x.dataset.q.split("|");
-        const c = B.sel[key].find((c) => c.id === id), max = TW.stepOf(key).maxQty || 1;
-        if (c) c.qty = Math.max(1, Math.min(max, c.qty + Number(d)));
-        saveBuild(); refreshSide(); renderQtyBar(); refreshRail(); return;
-      }
       if ((x = el("[data-qset]"))) {
         const [key, id, n] = x.dataset.qset.split("|");
         const c = B.sel[key].find((c) => c.id === id);
         if (c) c.qty = Number(n);
-        saveBuild(); renderQtyBar(); refreshSide(); refreshRail(); return;
+        saveBuild(); renderQtyBar(); refreshPanel(); return;
       }
       if ((x = el("[data-reset]"))) {
-        if (confirm("¿Rehacer el armado? Se borran todos los componentes elegidos.")) { B.sel = TW.emptyBuild(); B.step = 0; saveBuild(); renderBuilder(); }
+        if (confirm("¿Rehacer el armado? Se borran todos los componentes elegidos.")) { B.sel = TW.emptyBuild(); B.step = 0; B.brand = ""; saveBuild(); renderBuilder(); }
         return;
       }
-      if ((x = el("[data-toggle-side]"))) { $("#bSide").classList.toggle("open"); return; }
       if ((x = el("[data-addbuild]"))) {
         const lines = TW.buildLines(B.sel, data.byId);
         TW.cart.add({ type: "armado", nombre: `PC armada a medida (${B.sel.plataforma})`, comps: lines.map((l) => ({ id: l.p.id, qty: l.qty })) });

@@ -396,8 +396,7 @@
     const socketPlat = (s) => (/^LGA/.test(s) ? "Intel" : "AMD");
     switch (key) {
       case "cpu":
-        if (sel.plataforma && p.attrs.plataforma !== sel.plataforma) return `No es ${sel.plataforma}`;
-        return null;
+        return null; // el procesador define la plataforma: se puede cambiar de AMD a Intel en cualquier momento
       case "mobo":
         if (!p.attrs.socket) return null;
         if (cpu && cpu.attrs.socket && p.attrs.socket !== cpu.attrs.socket) return `Socket ${p.attrs.socket} (tu procesador es ${cpu.attrs.socket})`;
