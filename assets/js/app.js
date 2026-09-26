@@ -1,6 +1,6 @@
 /* =========================================================
    Titanware · tienda
-   Vistas: #/ (inicio) · #/armar · #/pcs · #/catalogo/<categoría>
+   Vistas: #/ (inicio) · #/armar · #/pcs · #/catalogo/<categoría> · #/pedido
    ========================================================= */
 (function () {
   const CFG = window.TW_CONFIG, U = TW.UI, esc = TW.esc, norm = TW.norm;
@@ -18,9 +18,6 @@
     const general = TW.waLink(`Hola ${NEG.nombre}! Quería hacer una consulta.`);
     ["#topWa", "#floatWa", "#footWa", "#topPhone"].forEach((s) => ($(s).href = general));
     $("#topPhone").textContent = NEG.whatsappVisible;
-    const city = NEG.ubicacion.split(",")[0];
-    $("#topPlace").textContent = city;
-    $$(".place").forEach((e) => (e.textContent = city));
     $("#footPlace").textContent = NEG.ubicacion;
     $("#bandWa").href = TW.waLink(`Hola ${NEG.nombre}! Quería asesoramiento para elegir mi PC.`);
     $("#footIg").href = `https://instagram.com/${NEG.instagram}`;
@@ -47,7 +44,7 @@
   function parseHash() {
     const h = decodeURIComponent(location.hash.replace(/^#\/?/, ""));
     const [view = "", ...rest] = h.split("/");
-    return { view: ["armar", "pcs", "catalogo"].includes(view) ? view : "home", arg: rest.join("/") };
+    return { view: ["armar", "pcs", "catalogo", "pedido"].includes(view) ? view : "home", arg: rest.join("/") };
   }
   function route() {
     const { view, arg } = parseHash();
@@ -59,7 +56,7 @@
       if (on) a.setAttribute("aria-current", "page");
     });
     if (view === "catalogo") {
-      const next = CFG.categorias.includes(arg) ? arg : "Todos";
+      const next = CFG.categorias.includes(arg) || (arg === "Ofertas" && data.products.some((p) => p.oferta)) ? arg : "Todos";
       if (next !== cat.cat) {
         cat.cat = next; cat.sub = "";
         if (next !== "Todos") { cat.q = ""; $("#q").value = ""; }
@@ -69,7 +66,8 @@
     if (view === "pcs") { pcFilter = arg || "Todas"; renderPCs(); }
     if (view === "armar") renderBuilder();
     if (view === "home") renderHome();
-    const titles = { home: "Componentes y PCs armadas", armar: "Armá tu PC", pcs: "PC Armadas", catalogo: cat.cat === "Todos" ? "Catálogo" : cat.cat };
+    if (view === "pedido") { O.step = 0; renderOrder(); }
+    const titles = { home: "Componentes y PCs armadas", armar: "Armá tu PC", pcs: "PC Armadas", pedido: "Tu pedido", catalogo: cat.cat === "Todos" ? "Catálogo" : cat.cat };
     document.title = `Titanware · ${titles[view]}`;
     if (currentView !== view || view === "catalogo" || view === "pcs") scrollTo({ top: 0 });
     currentView = view;
@@ -82,12 +80,12 @@
     return `
     <button class="card${p.stock === "sin stock" ? " is-off" : ""}" type="button" data-product="${esc(p.id)}" aria-label="${esc(p.titulo)}, ver detalle">
       ${p.destacado ? `<span class="badge">${U.star} Destacado</span>` : ""}
-      <div class="thumb">${TW.thumb(p, true)}</div>
+      <div class="thumb">${TW.thumb(p, true)}${TW.offerTag(p)}</div>
       <div class="card-body">
         <div class="meta"><span>${esc(p.marca)}</span><span>${esc(p.sub || p.categoria)}</span></div>
         <h3>${esc(p.titulo)}</h3>
         <p class="specs-short">${esc(p.specs.slice(0, 2).join(", "))}</p>
-        <div class="card-foot">${TW.priceHtml(p.precio)}<span class="stock ${p.stock.replace(" ", "-")}">${TW.STOCK[p.stock]}</span></div>
+        <div class="card-foot">${TW.productPrice(p)}<span class="stock ${p.stock.replace(" ", "-")}">${TW.STOCK[p.stock]}</span></div>
         <div class="card-cta">Ver detalle ${U.arrow}</div>
       </div>
     </button>`;
@@ -102,11 +100,11 @@
     m.innerHTML = `
       <button class="close" type="button" aria-label="Cerrar" data-close>${U.close}</button>
       <div class="modal">
-        <div class="thumb">${TW.thumb(p, true)}</div>
+        <div class="thumb">${TW.thumb(p, true)}${TW.offerTag(p)}</div>
         <div class="modal-body">
           <div class="meta"><span>${esc(p.marca)} · ${esc(p.categoria)}${p.sub ? ` · ${esc(p.sub)}` : ""}</span></div>
           <h2 id="mTitle">${esc(p.titulo)}</h2>
-          <div class="modal-price">${TW.priceHtml(p.precio)}<span class="stock ${p.stock.replace(" ", "-")}">${TW.STOCK[p.stock]}</span></div>
+          <div class="modal-price">${TW.productPrice(p)}<span class="stock ${p.stock.replace(" ", "-")}">${TW.STOCK[p.stock]}</span></div>
           ${p.specs.length ? `<p class="spec-title">Características</p><ul class="spec-list">${p.specs.map((s) => `<li>${U.check}<span>${esc(s)}</span></li>`).join("")}</ul>` : ""}
           <div class="modal-actions">
             <button class="btn" type="button" data-add="${esc(p.id)}"${p.stock === "sin stock" ? " disabled" : ""}>${U.cart} Agregar al carrito</button>
@@ -126,15 +124,17 @@
   function renderCats() {
     const counts = data.products.reduce((a, p) => ((a[p.categoria] = (a[p.categoria] || 0) + 1), a), {});
     const extra = Object.keys(counts).filter((c) => !CFG.categorias.includes(c));
-    const cats = ["Todos", ...CFG.categorias, ...extra];
+    const nOff = data.products.filter((p) => p.oferta).length;
+    const cats = ["Todos", ...(nOff ? ["Ofertas"] : []), ...CFG.categorias, ...extra];
+    counts.Ofertas = nOff;
     $("#cats").innerHTML = cats.map((c) =>
-      `<a class="cat" href="#/catalogo/${c === "Todos" ? "" : encodeURIComponent(c)}" aria-pressed="${c === cat.cat}">${esc(c)} <small>${c === "Todos" ? data.products.length : counts[c] || 0}</small></a>`).join("");
+      `<a class="cat${c === "Ofertas" ? " is-offer" : ""}" href="#/catalogo/${c === "Todos" ? "" : encodeURIComponent(c)}" aria-pressed="${c === cat.cat}">${esc(c)} <small>${c === "Todos" ? data.products.length : counts[c] || 0}</small></a>`).join("");
 
     updateCatsFade();
     renderSubs();
   }
   function renderSubs() {
-    const subs = cat.cat === "Todos" ? [] : [...new Set(data.products.filter((p) => p.categoria === cat.cat && p.sub).map((p) => p.sub))];
+    const subs = cat.cat === "Todos" || cat.cat === "Ofertas" ? [] : [...new Set(data.products.filter((p) => p.categoria === cat.cat && p.sub).map((p) => p.sub))];
     $("#subcats").hidden = subs.length < 2;
     $("#subcats").innerHTML = ["", ...subs].map((s) =>
       `<button class="sub" type="button" data-sub="${esc(s)}" aria-pressed="${s === cat.sub}">${s ? esc(s) : "Todas"}</button>`).join("");
@@ -143,10 +143,11 @@
     const el = $("#cats");
     el.parentElement.classList.toggle("overflow", el.scrollLeft + el.clientWidth < el.scrollWidth - 2);
   }
+  const inCat = (p) => cat.cat === "Todos" || (cat.cat === "Ofertas" ? p.oferta : p.categoria === cat.cat);
   function renderBrands() {
     const counts = {};
     for (const p of data.products) {
-      if (cat.cat !== "Todos" && p.categoria !== cat.cat) continue;
+      if (!inCat(p)) continue;
       if (cat.sub && p.sub !== cat.sub) continue;
       if (p.marca && p.marca !== "Genérico") counts[p.marca] = (counts[p.marca] || 0) + 1;
     }
@@ -158,7 +159,7 @@
   function filteredProducts() {
     const words = norm(cat.q).split(/\s+/).filter(Boolean);
     const list = data.products.filter((p) => {
-      if (cat.cat !== "Todos" && p.categoria !== cat.cat) return false;
+      if (!inCat(p)) return false;
       if (cat.sub && p.sub !== cat.sub) return false;
       if (cat.brand && p.marca !== cat.brand) return false;
       const hay = norm([p.titulo, p.nombre, p.marca, p.categoria, p.sub, ...p.specs].join(" "));
@@ -166,7 +167,7 @@
     });
     const byPrice = (dir) => (a, b) => (a.precio == null) - (b.precio == null) || dir * ((a.precio || 0) - (b.precio || 0));
     const sorters = {
-      destacados: (a, b) => b.destacado - a.destacado || (a.stock === "sin stock") - (b.stock === "sin stock"),
+      destacados: (a, b) => b.oferta - a.oferta || b.destacado - a.destacado || (a.stock === "sin stock") - (b.stock === "sin stock"),
       az: (a, b) => a.titulo.localeCompare(b.titulo),
       "precio-asc": byPrice(1),
       "precio-desc": byPrice(-1),
@@ -264,6 +265,9 @@
     const show = (pcs.length ? pcs : data.pcs).slice(0, 4);
     $("#homePcsSec").hidden = !show.length;
     $("#homePcs").innerHTML = show.map(pcCard).join("");
+    const offers = data.products.filter((p) => p.oferta);
+    $("#homeOffersSec").hidden = !offers.length;
+    $("#homeOffers").innerHTML = offers.slice(0, 8).map(productCard).join("");
     const dest = data.products.filter((p) => p.destacado);
     $("#homeProducts").innerHTML = (dest.length ? dest : data.products).slice(0, 12).map(productCard).join("");
   }
@@ -301,22 +305,33 @@
     $("#bIntro").hidden = true;
     const n = STEPS.length;
     B.step = Math.max(0, Math.min(n, B.step));
-    const stepBtns = STEPS.map((s, i) => {
-      const items = chosen(s.key), req = TW.isRequired(s.key, B.sel, data.byId);
-      const sub = items.length ? (items.length > 1 ? `${items.length} elegidos` : shortName(data.byId[items[0].id])) : req ? "Pendiente" : optionalReason(s.key);
-      return `<button class="b-step${items.length ? " done" : ""}" type="button" data-goto="${i}"${B.step === i ? ' aria-current="step"' : ""}>
-        <span class="n">${items.length ? U.check : TW.ICONS[s.cat]}</span><span>${esc(s.label)}<em>${esc(sub)}</em></span></button>`;
-    }).join("") + `<button class="b-step${B.step === n ? "" : ""}" type="button" data-goto="${n}"${B.step === n ? ' aria-current="step"' : ""}><span class="n">${U.cart}</span><span>Resumen<em>Revisá y pedí</em></span></button>`;
     root.innerHTML = `
-      <div class="b-steps" role="tablist" aria-label="Pasos del armador">${stepBtns}</div>
       <div class="b-layout">
+        <nav class="b-rail" id="bRail" aria-label="Pasos del armador">${railHtml()}</nav>
         <div class="b-main" id="bMain">${B.step < n ? stepView(STEPS[B.step]) : summaryView()}</div>
         <aside class="b-side" id="bSide" aria-label="Resumen de tu PC">${sideHtml()}</aside>
       </div>`;
     const cur = $(".b-step[aria-current]", root);
-    if (cur) cur.scrollIntoView({ block: "nearest", inline: "center" });
+    if (cur && matchMedia("(max-width: 1250px)").matches) cur.scrollIntoView({ block: "nearest", inline: "center" });
     if (B.step < n) renderOptions();
   }
+
+  // Pasos en cuadrícula al costado (en el celular pasan a una fila deslizable)
+  function railHtml() {
+    const n = STEPS.length, pr = progress();
+    const btns = STEPS.map((s, i) => {
+      const items = chosen(s.key), req = TW.isRequired(s.key, B.sel, data.byId);
+      const qty = items.reduce((t, c) => t + c.qty, 0);
+      const sub = items.length ? (qty > 1 ? `${qty} elegidos` : "Elegido") : req ? "Pendiente" : "Opcional";
+      return `<button class="b-step${items.length ? " done" : ""}${!items.length && !req ? " opt" : ""}" type="button" data-goto="${i}"${B.step === i ? ' aria-current="step"' : ""}>
+        <span class="n">${TW.ICONS[s.cat]}${items.length ? `<i>${U.check}</i>` : ""}</span><span class="t"><b>${i + 1}. ${esc(s.label)}</b><em>${esc(sub)}</em></span></button>`;
+    }).join("") + `<button class="b-step sum" type="button" data-goto="${n}"${B.step === n ? ' aria-current="step"' : ""}><span class="n">${U.cart}</span><span class="t"><b>Resumen</b><em>Revisá y consultá</em></span></button>`;
+    return `
+      <div class="b-rail-head"><span>Componentes</span><strong>${pr.done} de ${pr.total}</strong></div>
+      <div class="b-steps">${btns}</div>
+      <button class="b-redo" type="button" data-reset>${U.redo} Rehacer armado</button>`;
+  }
+  function refreshRail() { const r = $("#bRail"); if (r) r.innerHTML = railHtml(); }
 
   const shortName = (p) => p.titulo.length > 34 ? p.titulo.slice(0, 32) + "…" : p.titulo;
   const firstOf = (key) => chosen(key)[0] && data.byId[chosen(key)[0].id];
@@ -384,6 +399,7 @@
       </div>
       <div class="b-filters">${U.shield}<span>Mostrando solo lo compatible</span>${filters.map((f) => `<b>${esc(f)}</b>`).join("")}<em id="optCount"></em></div>
       ${note ? `<div class="b-note">${U.bolt}<span>${esc(note)}</span></div>` : ""}
+      ${step.maxQty ? `<div id="qtyBar"></div>` : ""}
       <div class="opt-grid" id="optGrid"></div>
       <div class="b-nav">
         <button class="btn ghost" type="button" data-goto="${i - 1}"${i === 0 ? " hidden" : ""}>${U.back} Anterior</button>
@@ -408,15 +424,35 @@
     grid.innerHTML = skip + (opts.length ? opts.map((p) => `
       <button class="opt${picked.has(p.id) ? " sel" : ""}" type="button" data-pick="${esc(p.id)}">
         ${isRec(p) ? `<span class="badge">${U.bolt} Recomendada</span>` : ""}
-        <div class="thumb">${TW.thumb(p, true)}</div>
+        <div class="thumb">${TW.thumb(p, true)}${TW.offerTag(p)}</div>
         <div class="opt-body">
           <span class="opt-brand">${esc(p.marca)}</span>
           <h4>${esc(p.titulo)}</h4>
           ${p.specs.length ? `<div class="opt-chips">${p.specs.slice(0, 3).map((s) => `<span>${esc(s)}</span>`).join("")}</div>` : ""}
-          <div class="opt-foot">${TW.priceHtml(p.precio)}<span class="pick">${picked.has(p.id) ? `${U.check} Elegido` : step.multi ? `${U.plus} Sumar` : "Elegir"}</span></div>
+          <div class="opt-foot">${TW.productPrice(p)}<span class="pick">${picked.has(p.id) ? `${U.check} Elegido` : step.multi ? `${U.plus} Sumar` : "Elegir"}</span></div>
         </div>
       </button>`).join("")
       : `<div class="b-empty">${B.q ? "No hay resultados para tu búsqueda." : "No hay opciones compatibles con lo que elegiste en los pasos anteriores."} <br>Consultanos por WhatsApp y te ayudamos.</div>`);
+    renderQtyBar();
+  }
+
+  // Pasos con cantidad (memorias): después de elegir, se indica cuántas antes de seguir
+  function renderQtyBar() {
+    const step = STEPS[B.step], bar = $("#qtyBar");
+    if (!bar || !step || !step.maxQty) return;
+    const c = chosen(step.key)[0], p = c && data.byId[c.id];
+    if (!p) { bar.innerHTML = `<div class="qty-bar empty">${U.warn}<span>Elegí una memoria y después indicás cuántas llevás.</span></div>`; return; }
+    const i = STEPS.indexOf(step);
+    bar.innerHTML = `
+      <div class="qty-bar">
+        <span class="mini">${TW.thumb(p)}</span>
+        <div class="q-txt"><small>Elegiste</small><strong>${esc(p.titulo)}</strong></div>
+        <div class="q-pick" role="group" aria-label="Cantidad">
+          <span>¿Cuántas?</span>
+          ${Array.from({ length: step.maxQty }, (_, k) => k + 1).map((n) => `<button type="button" data-qset="${step.key}|${esc(p.id)}|${n}" aria-pressed="${c.qty === n}">${n}${n === 2 ? "<small>Dual channel</small>" : ""}</button>`).join("")}
+        </div>
+        <button class="btn" type="button" data-goto="${i + 1}">Siguiente paso ${U.arrow}</button>
+      </div>`;
   }
 
   function sideHtml() {
@@ -453,7 +489,7 @@
       <div class="b-mobile-bar" data-toggle-side><div><span>Total de tu PC</span><strong>${TW.money(total)}</strong></div><span>${pr.done}/${pr.total} listos · Ver resumen ▴</span></div>
       <div class="b-side-head">
         <div class="t"><span class="plat-logo">${logo ? TW.logoHtml(B.sel.plataforma, logo) : ""}</span><div><h3>Tu PC</h3><span class="st ${status[0]}">${status[0] === "ok" ? U.check : U.warn}${esc(status[1])}</span></div></div>
-        <button type="button" data-reset>Empezar de cero</button>
+        <button class="b-redo sm" type="button" data-reset>${U.redo} Rehacer</button>
       </div>
       <div class="b-prog"><div><span>Progreso</span><strong>${pr.done} de ${pr.total} listos</strong></div><i><b style="width:${pr.pct}%"></b></i></div>
       <ul class="sum-list">${rows}</ul>
@@ -471,7 +507,8 @@
         <div class="row"><span>Total <small>${lines.length} ${lines.length === 1 ? "componente" : "componentes"}</small></span><strong>${TW.money(total)}</strong></div>
         <p class="fine">${U.wrench} Te la entregamos armada y probada</p>
         <button class="btn block" type="button" data-addbuild${okAll ? "" : " disabled"}>${U.cart} Agregar al carrito</button>
-        <button class="btn wa block" type="button" data-wabuild${lines.length ? "" : " disabled"}>${U.wa} Consultar esta PC</button>
+        <button class="btn wa block" type="button" data-wabuild${okAll ? "" : " disabled"}>${U.wa} Consultar esta PC</button>
+        ${okAll ? "" : `<p class="fine lock">Completá todos los componentes para consultar esta PC.</p>`}
       </div>`;
   }
 
@@ -512,9 +549,12 @@
     }
     const removed = TW.pruneBuild(B.sel, data.byId);
     if (removed.length) toast(`Quitamos ${removed.join(", ")} porque ya no era compatible.`);
-    if (!step.multi) { B.step++; B.q = ""; }
+    // Avanza solo en pasos de una única elección; en memorias primero se elige la cantidad
+    const advance = !step.multi && !step.maxQty;
+    if (advance) { B.step++; B.q = ""; }
     saveBuild(); renderBuilder();
-    if (!step.multi) scrollTo({ top: $("#builder").offsetTop - 130, behavior: "smooth" });
+    if (advance) scrollTo({ top: $("#builder").offsetTop - 130, behavior: "smooth" });
+    else if (step.maxQty) $("#qtyBar")?.scrollIntoView({ block: "nearest", behavior: "smooth" });
   }
 
   function buildMessage() {
@@ -525,44 +565,123 @@
   }
 
   /* =========================================================
-     CARRITO
+     TU PEDIDO (consulta por WhatsApp, sin pago online)
      ========================================================= */
+  const OKEY = "tw_pedido_v1";
+  const ENVIOS = [
+    { id: "andreani-dom", emp: "Andreani", tipo: "A domicilio" },
+    { id: "andreani-suc", emp: "Andreani", tipo: "A sucursal de Andreani" },
+    { id: "correo-dom", emp: "Correo Argentino", tipo: "A domicilio" },
+    { id: "correo-suc", emp: "Correo Argentino", tipo: "A sucursal del correo" },
+  ];
+  const ORDER_STEPS = ["Carrito", "Tus datos", "Envío", "Confirmar"];
+  let O = { step: 0, nombre: "", tel: "", localidad: "", cp: "", envio: "", nota: "" };
+  try { O = { ...O, ...JSON.parse(localStorage.getItem(OKEY)), step: 0 }; } catch {}
+  const saveOrder = () => { try { const { step, ...rest } = O; localStorage.setItem(OKEY, JSON.stringify(rest)); } catch {} };
+  const envioOf = (id) => ENVIOS.find((e) => e.id === id);
+
   function renderCartCount() {
     const n = TW.cart.count(), el = $("#cartCount");
     el.textContent = n; el.hidden = !n;
   }
-  function renderCart() {
-    const d = $("#cart");
-    const lines = TW.cart.items.map((i) => TW.cartLine(i, data)).filter(Boolean);
+  function orderLines() { return TW.cart.items.map((i) => TW.cartLine(i, data)).filter(Boolean); }
+
+  function renderOrder() {
+    const root = $("#order"); if (!root) return;
+    const lines = orderLines();
+    if (!lines.length) O.step = 0;
     const total = lines.reduce((t, l) => t + l.unit * l.item.qty, 0);
-    const note = $("#cartNote") ? $("#cartNote").value : "";
-    d.innerHTML = `
-      <div class="drawer-head"><h2 id="cartTitle">Tu carrito</h2><button class="close" type="button" aria-label="Cerrar" data-close>${U.close}</button></div>
-      <div class="drawer-body">${lines.length ? lines.map((l) => `
-        <div class="cart-item">
-          <span class="mini">${l.thumb || `<span class="t-bg" style="opacity:.9">${TW.ICONS.Gabinetes}</span>`}</span>
-          <div>
-            <h4>${esc(l.titulo)}</h4>
-            ${l.detalle.length ? `<details><summary>${l.detalle.length} componentes</summary><ul>${l.detalle.map((x) => `<li>${esc(x)}</li>`).join("")}</ul></details>` : ""}
-            <div class="row">
+    const ahorro = lines.reduce((t, l) => t + (l.lista ? (l.lista - l.unit) * l.item.qty : 0), 0);
+    const count = lines.reduce((t, l) => t + l.item.qty, 0);
+    const stepper = `<ol class="o-steps">${ORDER_STEPS.map((s, i) => `<li class="${i < O.step ? "done" : i === O.step ? "cur" : ""}"><span>${i < O.step ? U.check : i + 1}</span>${esc(s)}</li>`).join("")}</ol>`;
+    const thumbOf = (l) => l.thumb || `<span class="t-bg" style="opacity:.9">${TW.ICONS.Gabinetes}</span>`;
+
+    let main = "";
+    if (O.step === 0) {
+      main = `
+        <div class="o-card">
+          <div class="o-head"><div><h2>Tu carrito</h2><p>Estos son los productos que elegiste.</p></div>${lines.length ? `<button class="linkish" type="button" data-clear>Vaciar carrito</button>` : ""}</div>
+          ${lines.length ? `<ul class="o-items">${lines.map((l) => `
+            <li>
+              <span class="mini">${thumbOf(l)}</span>
+              <div class="o-it">
+                <strong>${esc(l.titulo)}</strong>
+                ${l.lista ? `<span class="o-off">Oferta · antes ${TW.money(l.lista)}</span>` : l.unit ? `<small>${TW.money(l.unit)} c/u</small>` : ""}
+                ${l.detalle.length ? `<details><summary>${l.detalle.length} componentes</summary><ul>${l.detalle.map((x) => `<li>${esc(x)}</li>`).join("")}</ul></details>` : ""}
+              </div>
               <span class="qty"><button type="button" data-cq="${l.item.key}|-1" aria-label="Menos"${l.item.qty <= 1 ? " disabled" : ""}>${U.minus}</button><span>${l.item.qty}</span><button type="button" data-cq="${l.item.key}|1" aria-label="Más">${U.plus}</button></span>
-              ${TW.priceHtml(l.unit * l.item.qty)}
-              <button class="icon-btn" type="button" data-crm="${l.item.key}" aria-label="Quitar">${U.trash}</button>
-            </div>
+              <span class="o-pr">${l.unit ? TW.money(l.unit * l.item.qty) : "Consultar"}</span>
+              <button class="icon-btn" type="button" data-crm="${l.item.key}" aria-label="Quitar ${esc(l.titulo)}">${U.trash}</button>
+            </li>`).join("")}</ul>`
+          : `<div class="cart-empty">${U.cart}<strong>Tu carrito está vacío</strong>Sumá productos del catálogo, una PC armada o la PC que armes a tu medida.<br><a class="btn" href="#/armar">Armá tu PC</a></div>`}
+          <a class="btn ghost" href="#/catalogo">${U.back} Seguir comprando</a>
+        </div>`;
+    } else if (O.step === 1) {
+      main = `
+        <form class="o-card" id="oForm" data-ostep="1">
+          <div class="o-head"><div><h2>Tus datos</h2><p>Para saber a quién responderle. Quedan guardados solo en este navegador.</p></div></div>
+          <div class="o-grid">
+            <label class="o-fld full">Nombre y apellido<input name="nombre" required autocomplete="name" value="${esc(O.nombre)}"></label>
+            <label class="o-fld">Teléfono <small>(opcional)</small><input name="tel" type="tel" autocomplete="tel" value="${esc(O.tel)}"></label>
+            <label class="o-fld">Localidad<input name="localidad" required autocomplete="address-level2" value="${esc(O.localidad)}"></label>
+            <label class="o-fld">Código postal<input name="cp" required inputmode="numeric" autocomplete="postal-code" value="${esc(O.cp)}"></label>
           </div>
-        </div>`).join("") : `
-        <div class="cart-empty">${U.cart}<strong>Tu carrito está vacío</strong>Sumá productos del catálogo, una PC armada o la PC que armes a tu medida.<br><a class="btn" href="#/armar" data-close>Armá tu PC</a></div>`}
-      </div>
-      ${lines.length ? `
-      <div class="drawer-foot">
-        <div class="row"><span>Total estimado</span><strong>${TW.money(total)}</strong></div>
-        <textarea id="cartNote" placeholder="Nota opcional: tu nombre, localidad para el envío, forma de pago…">${esc(note)}</textarea>
-        <button class="btn wa block" type="button" data-send>${U.wa} Enviar pedido por WhatsApp</button>
-        <p class="fine">Te respondemos para confirmar stock, envío y forma de pago.</p>
-        <button class="linkish" type="button" data-clear>Vaciar carrito</button>
-      </div>` : ""}`;
+          <div class="o-nav"><button class="btn ghost" type="button" data-ogo="0">${U.back} Volver</button><button class="btn" type="submit">Continuar ${U.arrow}</button></div>
+        </form>`;
+    } else if (O.step === 2) {
+      main = `
+        <form class="o-card" id="oForm" data-ostep="2">
+          <div class="o-head"><div><h2>Envío</h2><p>Enviamos a todo el país. El costo del envío te lo confirmamos por WhatsApp según tu código postal${O.cp ? ` (${esc(O.cp)})` : ""}.</p></div></div>
+          <div class="o-ship">${ENVIOS.map((e) => `
+            <label class="ship${O.envio === e.id ? " sel" : ""}"><input type="radio" name="envio" value="${e.id}" required${O.envio === e.id ? " checked" : ""}>
+              <span class="ship-logo ${e.id.split("-")[0]}">${e.emp === "Andreani" ? "Andreani" : "Correo<br>Argentino"}</span>
+              <span><strong>${esc(e.emp)}</strong>${esc(e.tipo)}</span></label>`).join("")}
+          </div>
+          <div class="o-nav"><button class="btn ghost" type="button" data-ogo="1">${U.back} Volver</button><button class="btn" type="submit">Continuar ${U.arrow}</button></div>
+        </form>`;
+    } else {
+      const e = envioOf(O.envio);
+      main = `
+        <div class="o-card">
+          <div class="o-head"><div><h2>Confirmá tu consulta</h2><p>Revisá los datos. Al enviar se abre WhatsApp con todo el pedido y te respondemos con stock, costo de envío y formas de pago.</p></div></div>
+          <div class="o-review">
+            <div><small>Datos</small><strong>${esc(O.nombre)}</strong><span>${esc(O.localidad)} · CP ${esc(O.cp)}${O.tel ? ` · ${esc(O.tel)}` : ""}</span><button class="linkish" type="button" data-ogo="1">Cambiar</button></div>
+            <div><small>Envío</small><strong>${e ? esc(e.emp) : "—"}</strong><span>${e ? esc(e.tipo) : ""}</span><button class="linkish" type="button" data-ogo="2">Cambiar</button></div>
+          </div>
+          <label class="o-fld full">Nota <small>(opcional)</small><textarea id="oNota" placeholder="Algo que quieras aclarar: horarios, dirección, dudas…">${esc(O.nota)}</textarea></label>
+          <div class="o-nav"><button class="btn ghost" type="button" data-ogo="2">${U.back} Volver</button><button class="btn wa" type="button" data-send>${U.wa} Enviar consulta por WhatsApp</button></div>
+        </div>`;
+    }
+
+    root.innerHTML = `
+      ${stepper}
+      <div class="o-layout">
+        <div class="o-main">${main}</div>
+        <aside class="o-card o-sum">
+          <h3>Detalle de tu pedido</h3>
+          <span class="o-count">Productos (${count})</span>
+          <ul class="o-mini">${lines.map((l) => `<li><span class="mini">${thumbOf(l)}</span><span>${esc(l.titulo)}<small>x${l.item.qty}</small></span><b>${l.unit ? TW.money(l.unit * l.item.qty) : "Consultar"}</b></li>`).join("") || `<li class="none">Sin productos</li>`}</ul>
+          ${ahorro ? `<div class="o-row"><span>Precio de lista</span><span>${TW.money(total + ahorro)}</span></div><div class="o-row save"><span>Ahorro en ofertas</span><span>-${TW.money(ahorro)}</span></div>` : ""}
+          <div class="o-row"><span>Envío</span><span>${envioOf(O.envio) ? `${esc(envioOf(O.envio).emp)} · a confirmar` : "A confirmar"}</span></div>
+          <div class="o-total"><span>Total estimado</span><strong>${TW.money(total)}</strong></div>
+          ${O.step === 0 ? `<button class="btn block" type="button" data-ogo="1"${lines.length ? "" : " disabled"}>Continuar ${U.arrow}</button>` : ""}
+          <p class="fine">${U.shield} Es una consulta: no se cobra nada online. Te confirmamos stock y precio por WhatsApp.</p>
+        </aside>
+      </div>`;
   }
-  function openCart() { renderCart(); const d = $("#cart"); if (!d.open) d.showModal(); }
+
+  function orderMessage() {
+    const e = envioOf(O.envio);
+    const extra = [
+      `Nombre: ${O.nombre}`,
+      `Localidad: ${O.localidad} (CP ${O.cp})`,
+      O.tel ? `Teléfono: ${O.tel}` : "",
+      e ? `Envío: ${e.emp}, ${e.tipo.toLowerCase()}` : "",
+      O.nota.trim() ? `Nota: ${O.nota.trim()}` : "",
+    ].filter(Boolean).join("\n");
+    return TW.cartMessage(data, extra);
+  }
+  function goOrder(step) { O.step = step; renderOrder(); scrollTo({ top: 0, behavior: "smooth" }); }
 
   /* =========================================================
      EVENTOS
@@ -572,9 +691,9 @@
     document.addEventListener("tw:cart", () => {
       renderCartCount();
       const b = $("#cartBtn"); b.classList.remove("bump"); void b.offsetWidth; b.classList.add("bump");
-      if ($("#cart").open) renderCart();
+      if (parseHash().view === "pedido") renderOrder();
     });
-    $("#cartBtn").addEventListener("click", openCart);
+    $("#cartBtn").addEventListener("click", () => { location.hash = "#/pedido"; });
 
     // Buscador del header → catálogo
     const q = $("#q");
@@ -599,7 +718,7 @@
       const t = e.target;
       const el = (sel) => t.closest(sel);
       let x;
-      if ((x = el("[data-opencart]"))) { openCart(); $("#toast").classList.remove("show"); return; }
+      if ((x = el("[data-opencart]"))) { location.hash = "#/pedido"; $("#toast").classList.remove("show"); if ($("#modal").open) $("#modal").close(); return; }
       if ((x = el("[data-product]"))) { openProduct(x.dataset.product); return; }
       if ((x = el("[data-add]"))) { TW.cart.add({ type: "producto", id: x.dataset.add }); toast("Producto agregado al carrito", true); $("#modal").close(); return; }
       if ((x = el("[data-addpc]"))) { TW.cart.add({ type: "pc", id: x.dataset.addpc }); toast("PC agregada al carrito", true); if ($("#modal").open) $("#modal").close(); return; }
@@ -626,10 +745,16 @@
         const [key, id, d] = x.dataset.q.split("|");
         const c = B.sel[key].find((c) => c.id === id), max = TW.stepOf(key).maxQty || 1;
         if (c) c.qty = Math.max(1, Math.min(max, c.qty + Number(d)));
-        saveBuild(); refreshSide(); return;
+        saveBuild(); refreshSide(); renderQtyBar(); refreshRail(); return;
+      }
+      if ((x = el("[data-qset]"))) {
+        const [key, id, n] = x.dataset.qset.split("|");
+        const c = B.sel[key].find((c) => c.id === id);
+        if (c) c.qty = Number(n);
+        saveBuild(); renderQtyBar(); refreshSide(); refreshRail(); return;
       }
       if ((x = el("[data-reset]"))) {
-        if (confirm("¿Empezar de cero? Se borran los componentes elegidos.")) { B.sel = TW.emptyBuild(); B.step = 0; saveBuild(); renderBuilder(); }
+        if (confirm("¿Rehacer el armado? Se borran todos los componentes elegidos.")) { B.sel = TW.emptyBuild(); B.step = 0; saveBuild(); renderBuilder(); }
         return;
       }
       if ((x = el("[data-toggle-side]"))) { $("#bSide").classList.toggle("open"); return; }
@@ -644,11 +769,26 @@
       if ((x = el("[data-cq]"))) { const [k, d] = x.dataset.cq.split("|"); const it = TW.cart.items.find((i) => i.key === k); if (it) TW.cart.setQty(k, it.qty + Number(d)); return; }
       if ((x = el("[data-crm]"))) { TW.cart.remove(x.dataset.crm); return; }
       if ((x = el("[data-clear]"))) { if (confirm("¿Vaciar el carrito?")) TW.cart.clear(); return; }
-      if ((x = el("[data-send]"))) { window.open(TW.waLink(TW.cartMessage(data, $("#cartNote")?.value)), "_blank", "noopener"); return; }
+      if ((x = el("[data-send]"))) { O.nota = $("#oNota")?.value || ""; saveOrder(); window.open(TW.waLink(orderMessage()), "_blank", "noopener"); return; }
+      if ((x = el("[data-ogo]"))) { if ($("#oNota")) O.nota = $("#oNota").value; goOrder(Number(x.dataset.ogo)); return; }
 
       // Cerrar diálogos
       if ((x = el("[data-close]"))) { x.closest("dialog")?.close(); return; }
       if (t.tagName === "DIALOG") t.close(); // click en el fondo
+    });
+
+    // Pasos del pedido: datos y envío
+    document.addEventListener("submit", (e) => {
+      const f = e.target;
+      if (f.id !== "oForm") return;
+      e.preventDefault();
+      const fd = new FormData(f);
+      if (f.dataset.ostep === "1") ["nombre", "tel", "localidad", "cp"].forEach((k) => (O[k] = String(fd.get(k) || "").trim()));
+      if (f.dataset.ostep === "2") O.envio = String(fd.get("envio") || "");
+      saveOrder(); goOrder(Number(f.dataset.ostep) + 1);
+    });
+    document.addEventListener("change", (e) => {
+      if (e.target.name === "envio") $$(".ship").forEach((l) => l.classList.toggle("sel", l.contains(e.target)));
     });
 
     // Buscador y orden del armador (sin redibujar todo)
@@ -668,6 +808,8 @@
       $("main").insertAdjacentHTML("afterbegin", `<div class="wrap"><div class="empty" style="margin:2rem 0"><strong>No pudimos cargar los productos</strong>Probá recargar la página o escribinos por WhatsApp.</div></div>`);
     }
     TW.pruneBuild(B.sel, data.byId);
+    if (data.products.some((p) => p.oferta))
+      $('#mainnav a[href="#/catalogo"]').insertAdjacentHTML("afterend", `<a class="offer-link" href="#/catalogo/Ofertas" data-route="catalogo" data-cat="Ofertas">Ofertas</a>`);
     route();
   }
   init();

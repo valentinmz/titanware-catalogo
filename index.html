@@ -22,7 +22,7 @@
   <div class="topbar">
     <div class="wrap">
       <span><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-wa"/></svg> Atención por WhatsApp: <a id="topPhone" href="#" target="_blank" rel="noopener"></a></span>
-      <span>Envíos a todo el país · Retiro en <span id="topPlace"></span></span>
+      <span>Envíos a todo el país por Andreani y Correo Argentino</span>
     </div>
   </div>
   <header class="top">
@@ -135,6 +135,14 @@
         <div class="pc-grid" id="homePcs"></div>
       </div>
 
+      <div class="sec" id="homeOffersSec" hidden>
+        <div class="sec-head">
+          <div><h2>Ofertas</h2><p>Precios especiales por tiempo limitado.</p></div>
+          <a class="link-more" href="#/catalogo/Ofertas">Ver todas <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </div>
+        <div class="grid" id="homeOffers" style="padding-top:0"></div>
+      </div>
+
       <div class="sec">
         <div class="sec-head">
           <div><h2>Productos destacados</h2><p>Lo más elegido por nuestros clientes.</p></div>
@@ -202,6 +210,17 @@
     </div>
   </section>
 
+  <!-- ================= TU PEDIDO (consulta) ================= -->
+  <section id="v-pedido" data-view="pedido" hidden>
+    <div class="wrap">
+      <div class="page-head">
+        <div class="crumbs"><a href="#/">Inicio</a> / Tu pedido</div>
+        <h1>Tu pedido</h1>
+      </div>
+      <div id="order"></div>
+    </div>
+  </section>
+
   <!-- ================= INFO (todas las páginas) ================= -->
   <section class="info" id="servicios">
     <div class="wrap">
@@ -212,15 +231,15 @@
       <div class="info-grid">
         <div class="feature">
           <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 3h15v13H1zM16 8h4l3 3v5h-7"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
-          <h3>Envíos a todo el país</h3><p>Despachamos por correo o transporte. Consultanos el costo a tu localidad.</p>
+          <h3>Envíos a todo el país</h3><p>Despachamos por Andreani o Correo Argentino, a domicilio o a sucursal. Consultanos el costo a tu localidad.</p>
         </div>
         <div class="feature">
           <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0 5 5L22 14l-8 8-2.3-2.3a4 4 0 0 0-5-5L2 10l8-8z"/></svg></div>
           <h3>Armado y servicio técnico</h3><p>Armamos tu PC, y hacemos mantenimiento, limpieza y diagnóstico de equipos.</p>
         </div>
         <div class="feature">
-          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s7-6.1 7-12a7 7 0 1 0-14 0c0 5.9 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg></div>
-          <h3>Retiro en <span class="place"></span></h3><p>Coordiná por WhatsApp y retirá en el local.</p>
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+          <h3>Asesoramiento por WhatsApp</h3><p>Te ayudamos a elegir y te confirmamos stock y precio antes de tu compra.</p>
         </div>
       </div>
       <div class="cta-band">
@@ -257,7 +276,6 @@
 </svg>
 
 <dialog id="modal" aria-labelledby="mTitle"></dialog>
-<dialog id="cart" class="drawer" aria-labelledby="cartTitle"></dialog>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script src="assets/js/config.js"></script>

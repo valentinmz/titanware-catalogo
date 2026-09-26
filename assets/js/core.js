@@ -46,6 +46,7 @@
     warn: ui('<path d="M12 3 2 21h20L12 3zM12 10v5M12 18h.01"/>'),
     bolt: ui('<path d="M13 2 4 14h7l-1 8 9-12h-7z"/>'),
     edit: ui('<path d="M4 20h4L19 9l-4-4L4 16v4zM14 6l4 4"/>'),
+    redo: ui('<path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/>'),
     wrench: ui('<path d="M14.7 6.3a4 4 0 0 0 5 5L22 14l-8 8-2.3-2.3a4 4 0 0 0-5-5L2 10l8-8z"/>'),
     truck: ui('<path d="M1 3h15v13H1zM16 8h4l3 3v5h-7"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>'),
     chat: ui('<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>'),
@@ -73,6 +74,10 @@
     return bg + TW.logoHtml(p.marca, TW.logoFor(p));
   };
   TW.priceHtml = (precio) => precio ? `<span class="price">${TW.money(precio)}</span>` : `<span class="price ask">Consultar precio</span>`;
+  // Precio de un producto: si está en oferta muestra también el precio anterior tachado
+  TW.productPrice = (p) => p.oferta && p.precioLista
+    ? `<span class="price-off"><s>${TW.money(p.precioLista)}</s>${TW.priceHtml(p.precio)}</span>` : TW.priceHtml(p.precio);
+  TW.offerTag = (p) => (p.oferta ? `<span class="offer-tag">${p.descuento ? `-${p.descuento}%` : "Oferta"}<small>OFERTA</small></span>` : "");
   TW.STOCK = { disponible: "Disponible", consultar: "Consultar", "sin stock": "Sin stock" };
 
   /* ---------- Lectura de nombres ---------- */
@@ -276,7 +281,11 @@
       marca = b ? BRAND_NAME[b] || niceToken(b) : /GEFORCE/.test(N) ? "NVIDIA" : /RADEON/.test(N) ? "AMD" : "Genérico";
     }
     const given = (Array.isArray(d.specs) ? d.specs : String(d.specs || "").split("|")).map((s) => s.trim()).filter(Boolean);
-    const precio = Number(String(d.precio ?? "").replace(/[^\d]/g, "")) || null;
+    const lista = Number(String(d.precio ?? "").replace(/[^\d]/g, "")) || null;
+    // Oferta: un precioOferta menor al de lista pasa a ser el precio, y se guarda el anterior
+    const off = Number(String(d.precioOferta ?? "").replace(/[^\d]/g, "")) || null;
+    const oferta = !!(off && (!lista || off < lista));
+    const precio = oferta ? off : lista;
     const stock = /^sin/i.test(d.stock || "") ? "sin stock" : /^disp/i.test(d.stock || "") ? "disponible" : "consultar";
     return {
       id: d.id || TW.slug(raw),
@@ -287,7 +296,8 @@
       sub: String(d.sub || "").trim(),
       specs: (given.length ? given : autoSpecs(N, d.categoria)).concat(notes),
       attrs: Object.assign(computeAttrs(N, d.categoria), d.attrs || {}),
-      precio, stock,
+      precio, stock, oferta, precioLista: oferta ? lista : null,
+      descuento: oferta && lista ? Math.round((1 - off / lista) * 100) : 0,
       destacado: d.destacado === true || /^(si|sí|true|1|x)$/i.test(String(d.destacado || "")),
       imagen: String(d.imagen || "").trim(),
       caja: String(d.caja || "").trim(),
@@ -349,12 +359,12 @@
   TW.STEPS = [
     { key: "cpu", cat: "Procesadores", label: "Procesador", tip: "Elegí tu procesador: define la potencia de tu PC." },
     { key: "mobo", cat: "Motherboards", label: "Motherboard", tip: "Solo te mostramos las mothers con el mismo socket que tu procesador." },
-    { key: "ram", cat: "Memorias RAM", label: "Memoria RAM", tip: "Mostramos las memorias del tipo que soporta tu mother (DDR4 o DDR5). Podés llevar 2 para usar dual channel.", maxQty: 2 },
+    { key: "cooler", cat: "Coolers", label: "Cooler", tip: "Te mostramos los coolers compatibles con tu procesador. Si ya trae uno, este paso es opcional." },
+    { key: "ram", cat: "Memorias RAM", label: "Memoria RAM", tip: "Mostramos las memorias del tipo que soporta tu mother (DDR4 o DDR5). Elegí cuántas llevás: con 2 usás dual channel.", maxQty: 2 },
     { key: "storage", cat: "Almacenamientos", label: "Almacenamiento", tip: "Elegí hasta 2 discos. Un SSD hace que todo arranque mucho más rápido.", multi: 2 },
     { key: "gpu", cat: "Placas de video", label: "Placa de video", tip: "Necesaria para jugar. Si tu procesador tiene video integrado, es opcional." },
-    { key: "case", cat: "Gabinetes", label: "Gabinete", tip: "Algunos gabinetes ya incluyen fuente, teclado o mouse." },
     { key: "psu", cat: "Fuentes de poder", label: "Fuente", tip: "Te mostramos las fuentes con potencia suficiente para tu configuración." },
-    { key: "cooler", cat: "Coolers", label: "Cooler", tip: "Si tu procesador trae cooler, este paso es opcional." },
+    { key: "case", cat: "Gabinetes", label: "Gabinete", tip: "El último paso: elegí dónde va todo. Algunos gabinetes ya incluyen fuente, teclado o mouse." },
   ];
   TW.stepOf = (key) => TW.STEPS.find((s) => s.key === key);
   TW.stepForCategory = (cat) => TW.STEPS.find((s) => s.cat === cat);
@@ -515,17 +525,20 @@
   TW.cartLine = function (item, data) {
     if (item.type === "producto") {
       const p = data.byId[item.id];
-      return p ? { item, titulo: p.titulo, unit: p.precio || 0, detalle: [], thumb: TW.thumb(p) } : null;
+      return p ? { item, titulo: p.titulo, unit: p.precio || 0, lista: p.oferta ? p.precioLista : 0, detalle: [], thumb: TW.thumb(p) } : null;
     }
     if (item.type === "pc") {
       const pc = data.pcs.find((x) => x.id === item.id);
       if (!pc) return null;
-      return { item, titulo: pc.nombre, unit: TW.pcPrice(pc, data.byId), detalle: TW.pcLines(pc, data.byId).map((l) => `${l.qty > 1 ? l.qty + "x " : ""}${l.p.titulo}`), thumb: null };
+      const gab = TW.pcLines(pc, data.byId).find((l) => l.p.categoria === "Gabinetes" && l.p.imagen);
+      const img = pc.imagen || (gab && gab.p.imagen);
+      return { item, titulo: pc.nombre, unit: TW.pcPrice(pc, data.byId), detalle: TW.pcLines(pc, data.byId).map((l) => `${l.qty > 1 ? l.qty + "x " : ""}${l.p.titulo}`), thumb: img ? `<img src="${esc(img)}" alt="">` : null };
     }
     if (item.type === "armado") {
       const lines = (item.comps || []).filter((c) => data.byId[c.id]).map((c) => ({ p: data.byId[c.id], qty: c.qty || 1 }));
       if (!lines.length) return null;
-      return { item, titulo: item.nombre || "PC armada a medida", unit: TW.linesTotal(lines), detalle: lines.map((l) => `${l.qty > 1 ? l.qty + "x " : ""}${l.p.titulo}`), thumb: null };
+      const gab = lines.find((l) => l.p.categoria === "Gabinetes" && l.p.imagen);
+      return { item, titulo: item.nombre || "PC armada a medida", unit: TW.linesTotal(lines), detalle: lines.map((l) => `${l.qty > 1 ? l.qty + "x " : ""}${l.p.titulo}`), thumb: gab ? `<img src="${esc(gab.p.imagen)}" alt="">` : null };
     }
     return null;
   };
@@ -533,13 +546,13 @@
   TW.cartMessage = function (data, nota) {
     const lines = TW.cart.items.map((i) => TW.cartLine(i, data)).filter(Boolean);
     const total = lines.reduce((t, l) => t + l.unit * l.item.qty, 0);
-    let msg = `Hola ${CFG.negocio.nombre}! Quiero hacer este pedido:\n\n`;
+    let msg = `Hola ${CFG.negocio.nombre}! Quiero consultar por este pedido:\n\n`;
     for (const l of lines) {
       msg += `• ${l.item.qty}x ${l.titulo} — ${l.unit ? TW.money(l.unit * l.item.qty) : "consultar precio"}\n`;
       for (const d of l.detalle) msg += `   - ${d}\n`;
     }
     msg += `\nTotal estimado: ${TW.money(total)}\n`;
-    if (nota && nota.trim()) msg += `\nNota: ${nota.trim()}\n`;
+    if (nota && nota.trim()) msg += `\n${nota.trim()}\n`;
     msg += `\n¿Me confirman stock y forma de pago/envío? Gracias!`;
     return msg;
   };

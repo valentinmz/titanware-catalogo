@@ -229,13 +229,13 @@
     return `
       <div class="bar">
         <label class="hsearch">${U.search}<input id="fq" type="search" placeholder="Buscar producto…" value="${esc(S.f.q)}" autocomplete="off"></label>
-        <div class="select"><select id="fcat"><option value="">Todas las categorías</option>${cats.map((c) => `<option${c === S.f.cat ? " selected" : ""}>${esc(c)}</option>`).join("")}</select></div>
+        <div class="select"><select id="fcat"><option value="">Todas las categorías</option><option value="__oferta"${S.f.cat === "__oferta" ? " selected" : ""}>★ En oferta</option>${cats.map((c) => `<option${c === S.f.cat ? " selected" : ""}>${esc(c)}</option>`).join("")}</select></div>
         <span class="count" id="fcount"></span>
         <span class="grow"></span>
         <button class="btn" type="button" data-newprod>${U.plus} Agregar producto</button>
       </div>
       <div class="tbl-wrap"><table class="tbl">
-        <thead><tr><th></th><th>Producto</th><th>Categoría</th><th>Precio</th><th>Destacado</th><th>Stock</th><th></th></tr></thead>
+        <thead><tr><th></th><th>Producto</th><th>Categoría</th><th>Precio</th><th>Oferta</th><th>Destacado</th><th>Stock</th><th></th></tr></thead>
         <tbody id="prodRows"></tbody>
       </table></div>
       <p class="hint" style="margin-top:.75rem">Los cambios de precio, destacado y stock se guardan al instante en el panel. Acordate de tocar <strong>Publicar cambios</strong> para que se vean en la tienda.</p>`;
@@ -244,7 +244,7 @@
   function renderProductRows() {
     const rows = $("#prodRows"); if (!rows) return;
     const words = norm(S.f.q).split(/\s+/).filter(Boolean);
-    const list = S.cat.filter((d) => (!S.f.cat || d.categoria === S.f.cat) && words.every((w) => norm(`${d.nombre} ${d.sub}`).includes(w)));
+    const list = S.cat.filter((d) => (!S.f.cat || (S.f.cat === "__oferta" ? d.precioOferta : d.categoria === S.f.cat)) && words.every((w) => norm(`${d.nombre} ${d.sub}`).includes(w)));
     $("#fcount").textContent = `${list.length} de ${S.cat.length}`;
     rows.innerHTML = list.map((d) => {
       const p = TW.buildProduct(d);
@@ -253,13 +253,14 @@
         <td class="name"><strong>${esc(p.titulo)}</strong><small>${esc(d.nombre)}</small></td>
         <td><span style="white-space:nowrap">${esc(d.categoria)}</span><br><small style="color:var(--muted)">${esc(d.sub || "")}</small></td>
         <td><input class="inp price-in" type="number" min="0" step="1" value="${d.precio ?? ""}" data-f="precio" placeholder="Consultar" aria-label="Precio"></td>
+        <td><input class="inp price-in offer-in${p.oferta ? " on" : ""}" type="number" min="0" step="1" value="${d.precioOferta ?? ""}" data-f="precioOferta" placeholder="—" aria-label="Precio de oferta" title="Precio de oferta: dejalo vacío si no está en oferta"></td>
         <td style="text-align:center"><input type="checkbox" data-f="destacado"${d.destacado ? " checked" : ""} aria-label="Destacado" style="accent-color:var(--violet);width:17px;height:17px"></td>
         <td><select class="inp stock-in" data-f="stock" aria-label="Stock">
           ${["consultar", "disponible", "sin stock"].map((s) => `<option value="${s}"${(d.stock || "consultar") === s ? " selected" : ""}>${TW.STOCK[s]}</option>`).join("")}
         </select></td>
         <td><div class="acts"><button class="ibtn" type="button" data-editprod="${esc(d.id)}" aria-label="Editar">${U.edit}</button><button class="ibtn danger" type="button" data-delprod="${esc(d.id)}" aria-label="Eliminar">${U.trash}</button></div></td>
       </tr>`;
-    }).join("") || `<tr><td colspan="7"><div class="empty-mini">No hay productos con ese filtro.</div></td></tr>`;
+    }).join("") || `<tr><td colspan="8"><div class="empty-mini">No hay productos con ese filtro.</div></td></tr>`;
   }
 
   // Formulario de producto (nuevo o edición)
@@ -297,6 +298,7 @@
               <datalist id="subList">${subs.map((s) => `<option value="${esc(s)}">`).join("")}</datalist>
             </label>
             <label class="fld">Precio (vacío = “Consultar precio”)<input name="precio" type="number" min="0" step="1" value="${d.precio ?? ""}"></label>
+            <label class="fld">Precio de oferta <span class="hint" style="display:inline">(opcional: menor al precio, muestra el cartel de oferta)</span><input name="precioOferta" type="number" min="0" step="1" value="${d.precioOferta ?? ""}" placeholder="Sin oferta"></label>
             <label class="fld">Stock<select name="stock">${["consultar", "disponible", "sin stock"].map((s) => `<option value="${s}"${(d.stock || "consultar") === s ? " selected" : ""}>${TW.STOCK[s]}</option>`).join("")}</select></label>
             <label class="check full"><input type="checkbox" name="destacado"${d.destacado ? " checked" : ""}> Mostrar como destacado (aparece primero y en el inicio)</label>
             <div class="fld full">Foto (opcional: si no hay, se muestra el logo de la marca)
@@ -333,6 +335,7 @@
     const d = {
       nombre: String(fd.get("nombre") || "").trim(), categoria: fd.get("categoria"), sub: String(fd.get("sub") || "").trim(),
       precio: fd.get("precio") === "" ? null : Number(fd.get("precio")), stock: fd.get("stock"), destacado: !!fd.get("destacado"),
+      ...(fd.get("precioOferta") ? { precioOferta: Number(fd.get("precioOferta")) } : {}),
       imagen: String(fd.get("imagen") || "").trim(),
       caja: String(fd.get("caja") || "").trim(),
     };
@@ -430,28 +433,39 @@
       }).join("") || '<div class="empty-mini">Todavía no hay PCs armadas. Creá la primera con “Nueva PC”.</div>'}</div>`;
   }
 
-  let pcSel = null; // configuración que se está editando
+  let pcSel = null;   // configuración que se está editando
+  let pcPick = null;  // componente que se está eligiendo: { key, idx, q, all }
   function pcForm(pc) {
     const isNew = !pc;
-    pc = pc || { nombre: "", categoria: CFG.categoriasPC[0], descripcion: "", destacado: false, precio: null, imagen: "", componentes: [] };
+    pc = pc || { nombre: "", categoria: "", descripcion: "", destacado: false, precio: null, imagen: "", componentes: [] };
     const data = built();
     pcSel = TW.buildFromComponents(pc.componentes, data.byId);
+    pcPick = null;
     const dlg = $("#dlg");
     dlg.innerHTML = `
       <form id="pcForm">
         <div class="dlg-head"><h2>${isNew ? "Nueva PC armada" : "Editar PC armada"}</h2><button class="close" type="button" data-close aria-label="Cerrar">${U.close}</button></div>
         <div class="dlg-body">
-          <div class="form-grid">
-            <label class="fld full">Nombre<input name="nombre" value="${esc(pc.nombre)}" required placeholder="PC Gamer Ryzen 5 5600 + RTX 3050"></label>
-            <label class="fld">Categoría<select name="categoria">${CFG.categoriasPC.map((c) => `<option${c === pc.categoria ? " selected" : ""}>${esc(c)}</option>`).join("")}</select></label>
-            <label class="fld">Precio final <span class="hint" style="display:inline">(vacío = suma de componentes)</span><input name="precio" type="number" min="0" step="1" value="${pc.precio ?? ""}" id="pcPrecio"></label>
-            <label class="fld full">Descripción corta<textarea name="descripcion" style="min-height:60px" placeholder="Para qué sirve esta PC">${esc(pc.descripcion || "")}</textarea></label>
-            <label class="fld full">Foto (opcional)<div class="row-actions" style="margin:0"><input class="inp" name="imagen" value="${esc(pc.imagen || "")}" placeholder="Link de la imagen" style="flex:1"><label class="btn sm ghost" style="cursor:pointer">Subir foto<input type="file" accept="image/*" id="pcImgFile" hidden></label></div></label>
-            <label class="check full"><input type="checkbox" name="destacado"${pc.destacado ? " checked" : ""}> Destacada (aparece en el inicio)</label>
+          <div class="pc-quick">
+            <div><strong>¿La armaste en la tienda?</strong><span class="hint">Armala en “Armá tu PC” desde este navegador y traela acá con un clic.</span></div>
+            <button class="btn sm ghost" type="button" data-frombuild>${U.plus} Traer del armador</button>
           </div>
-          <div><strong>Componentes</strong> <span class="hint">En cada lista aparecen primero los compatibles con lo ya elegido.</span></div>
-          <div class="slots" id="slots"></div>
+          <div><strong>Componentes</strong> <span class="hint">Tocá cada uno para elegirlo. Solo se muestran los compatibles.</span></div>
+          <div class="slots2" id="slots"></div>
           <div class="detect"><div class="issues" id="pcIssues"></div><div id="pcSum" style="font-weight:600"></div></div>
+          <div class="form-grid">
+            <label class="fld full">Nombre <span class="hint" style="display:inline">(vacío = se arma solo con el procesador y la placa de video)</span><input name="nombre" value="${esc(pc.nombre)}" id="pcNombre" placeholder=""></label>
+            <label class="fld">Categoría<select name="categoria" id="pcCat"><option value="">Automática</option>${CFG.categoriasPC.map((c) => `<option${c === pc.categoria ? " selected" : ""}>${esc(c)}</option>`).join("")}</select></label>
+            <label class="check" style="align-self:end;padding-bottom:.5rem"><input type="checkbox" name="destacado"${pc.destacado ? " checked" : ""}> Destacada (aparece en el inicio)</label>
+          </div>
+          <details class="more"${pc.descripcion || pc.imagen || pc.precio ? " open" : ""}>
+            <summary>Más opciones (precio final, descripción, foto)</summary>
+            <div class="form-grid" style="margin-top:.8rem">
+              <label class="fld">Precio final <span class="hint" style="display:inline">(vacío = suma de componentes)</span><input name="precio" type="number" min="0" step="1" value="${pc.precio ?? ""}" id="pcPrecio"></label>
+              <label class="fld">Foto <span class="hint" style="display:inline">(vacío = la del gabinete)</span><div class="row-actions" style="margin:0"><input class="inp" name="imagen" value="${esc(pc.imagen || "")}" placeholder="Link de la imagen" style="flex:1"><label class="btn sm ghost" style="cursor:pointer">Subir<input type="file" accept="image/*" id="pcImgFile" hidden></label></div></label>
+              <label class="fld full">Descripción corta<textarea name="descripcion" style="min-height:60px" placeholder="Para qué sirve esta PC">${esc(pc.descripcion || "")}</textarea></label>
+            </div>
+          </details>
         </div>
         <div class="dlg-foot"><button class="btn ghost" type="button" data-close>Cancelar</button><button class="btn" type="submit">${isNew ? "Crear PC" : "Guardar"}</button></div>
       </form>`;
@@ -460,41 +474,91 @@
     renderSlots();
   }
 
+  // Nombre y categoría automáticos a partir de los componentes
+  function pcAutoName() {
+    const byId = built().byId, cpu = pcSel.cpu[0] && byId[pcSel.cpu[0].id], gpu = pcSel.gpu[0] && byId[pcSel.gpu[0].id];
+    if (!cpu) return "";
+    const short = (p) => p.titulo.replace(/\s+(s|c)\/.*$/i, "").replace(/^(AMD|Intel)\s+/i, "").replace(/\s+(Box|Tray)\b.*$/i, "");
+    const g = gpu ? gpu.titulo.match(/(RTX|GTX|GT|RX)\s*\d{3,4}\s*(Ti|XT|Super)?/i) : null;
+    return gpu ? `PC Gamer ${short(cpu)}${g ? " + " + g[0].replace(/\s+/g, " ") : ""}` : `PC ${cpu.attrs.video ? "Hogar" : "Oficina"} ${short(cpu)}`;
+  }
+  const pcAutoCat = () => (pcSel.gpu.length ? "Gamer" : CFG.categoriasPC.find((c) => /hogar|oficina/i.test(c)) || CFG.categoriasPC[0]);
+
   function renderSlots() {
     const data = built(), box = $("#slots"); if (!box) return;
     const slotHtml = (step, idx) => {
-      const cur = (pcSel[step.key] || [])[idx];
-      const all = data.products.filter((p) => p.categoria === step.cat);
-      const ok = all.filter((p) => !TW.incompatibility(step.key, p, pcSel, data.byId));
-      const bad = all.filter((p) => TW.incompatibility(step.key, p, pcSel, data.byId));
-      const opt = (p, warn) => `<option value="${esc(p.id)}"${cur && cur.id === p.id ? " selected" : ""}>${warn ? "⚠ " : ""}${esc(p.titulo)}${p.precio ? " — " + TW.money(p.precio) : ""}</option>`;
+      const cur = (pcSel[step.key] || [])[idx], p = cur && data.byId[cur.id];
       const label = step.multi ? `${step.label} ${idx + 1}` : step.label;
-      return `<div class="slot"><label for="slot-${step.key}-${idx}">${esc(label)}</label>
-        <select class="inp" id="slot-${step.key}-${idx}" data-slot="${step.key}|${idx}">
-          <option value="">— Sin ${esc(step.label.toLowerCase())} —</option>
-          <optgroup label="Compatibles">${ok.map((p) => opt(p, false)).join("")}</optgroup>
-          ${bad.length ? `<optgroup label="No compatibles con lo elegido">${bad.map((p) => opt(p, true)).join("")}</optgroup>` : ""}
-        </select>
-        ${step.maxQty ? `<input class="inp" type="number" min="1" max="${step.maxQty}" value="${cur ? cur.qty : 1}" data-slotqty="${step.key}|${idx}" aria-label="Cantidad" title="Cantidad">` : "<span></span>"}
+      const open = pcPick && pcPick.key === step.key && pcPick.idx === idx;
+      let picker = "";
+      if (open) {
+        const words = norm(pcPick.q).split(/\s+/).filter(Boolean);
+        const list = data.products.filter((x) => x.categoria === step.cat && (pcPick.all || !TW.incompatibility(step.key, x, pcSel, data.byId))
+          && words.every((w) => norm(`${x.titulo} ${x.marca}`).includes(w))).sort((a, b) => (a.precio || 1e12) - (b.precio || 1e12));
+        picker = `<div class="picker">
+          <div class="picker-bar"><input class="inp" id="slotQ" placeholder="Buscar ${esc(step.label.toLowerCase())}…" value="${esc(pcPick.q)}" autocomplete="off">
+            <label class="check"><input type="checkbox" id="slotAll"${pcPick.all ? " checked" : ""}> Ver también no compatibles</label></div>
+          <div class="picker-list">${list.map((x) => {
+            const why = TW.incompatibility(step.key, x, pcSel, data.byId);
+            return `<button type="button" class="pick-it${cur && cur.id === x.id ? " sel" : ""}" data-slotset="${step.key}|${idx}|${esc(x.id)}"><span class="mini">${TW.thumb(x)}</span><span>${esc(x.titulo)}${why ? `<small class="warn">⚠ ${esc(why)}</small>` : ""}</span><b>${x.precio ? TW.money(x.precio) : "Consultar"}</b></button>`;
+          }).join("") || `<div class="empty-mini">No hay opciones${pcPick.q ? " con esa búsqueda" : " compatibles"}.</div>`}</div>
+        </div>`;
+      }
+      return `<div class="slot2${p ? " done" : ""}${open ? " open" : ""}">
+        <button type="button" class="slot-row" data-slotpick="${step.key}|${idx}">
+          <span class="mini">${p ? TW.thumb(p) : TW.ICONS[step.cat]}</span>
+          <span class="slot-txt"><small>${esc(label)}</small>${p ? esc(p.titulo) : `<em>Elegir ${esc(step.label.toLowerCase())}…</em>`}</span>
+          <b>${p ? (p.precio ? TW.money(p.precio * (cur.qty || 1)) : "Consultar") : ""}</b>
+        </button>
+        ${p && step.maxQty ? `<label class="slot-qty">Cant.<input class="inp" type="number" min="1" max="${step.maxQty}" value="${cur.qty}" data-slotqty="${step.key}|${idx}"></label>` : ""}
+        ${p ? `<button type="button" class="ibtn danger" data-slotclear="${step.key}|${idx}" aria-label="Quitar">${U.trash}</button>` : ""}
+        ${picker}
       </div>`;
     };
-    box.innerHTML = TW.STEPS.map((s) => (s.multi ? Array.from({ length: s.multi }, (_, i) => slotHtml(s, i)).join("") : slotHtml(s, 0))).join("");
+    box.innerHTML = TW.STEPS.map((s) => {
+      const n = s.multi ? Math.min(s.multi, (pcSel[s.key] || []).length + 1) : 1;
+      return Array.from({ length: n }, (_, i) => slotHtml(s, i)).join("");
+    }).join("");
     const issues = TW.checkBuild(pcSel, data.byId);
     $("#pcIssues").innerHTML = issues.map((x) => `<div class="${x.level}">${x.level === "falta" ? "○" : "⚠"} ${esc(x.msg)}</div>`).join("") || `<div class="ok">✓ Todos los componentes son compatibles</div>`;
     const sum = TW.linesTotal(TW.buildLines(pcSel, data.byId));
     const fixed = Number($("#pcPrecio")?.value) || 0;
     $("#pcSum").innerHTML = `Suma de componentes: ${TW.money(sum)}${fixed ? ` · Precio final: ${TW.money(fixed)} <span class="tag ${fixed < sum ? "warn" : "ok"}">${fixed < sum ? "menor" : "+" + Math.round(((fixed - sum) / (sum || 1)) * 100) + "%"}</span>` : ""}`;
+    const nm = $("#pcNombre"); if (nm) nm.placeholder = pcAutoName() || "PC Gamer Ryzen 5 5600 + RTX 3050";
+    const q = $("#slotQ"); if (q) { q.focus(); q.setSelectionRange(q.value.length, q.value.length); }
+  }
+
+  function setSlot(key, idx, id) {
+    const arr = pcSel[key] || (pcSel[key] = []);
+    const prevQty = arr[idx] ? arr[idx].qty : 1;
+    if (id) arr[idx] = { id, qty: prevQty }; else arr.splice(idx, 1);
+    pcSel[key] = arr.filter(Boolean);
+    if (key === "cpu") { const p = built().byId[id]; pcSel.plataforma = p ? p.attrs.plataforma : ""; }
+    // Pasa solo al siguiente componente vacío
+    const next = TW.STEPS.find((s) => !(pcSel[s.key] || []).length);
+    pcPick = id && next ? { key: next.key, idx: 0, q: "", all: false } : null;
+    renderSlots();
+  }
+
+  function pcFromBuilder() {
+    let saved = null;
+    try { saved = JSON.parse(localStorage.getItem("tw_build_v1")); } catch {}
+    const byId = built().byId;
+    const comps = saved && saved.sel ? TW.STEPS.flatMap((s) => (saved.sel[s.key] || []).filter((c) => byId[c.id])) : [];
+    if (!comps.length) { toast("No hay ninguna PC en el armador de este navegador. Armala en la tienda (Armá tu PC) y volvé a tocar el botón.", false); return; }
+    pcSel = TW.buildFromComponents(comps, byId); pcPick = null;
+    renderSlots(); toast(`Traje ${comps.length} componentes del armador`);
   }
 
   function savePc() {
     const f = $("#pcForm"), fd = new FormData(f);
-    const nombre = String(fd.get("nombre") || "").trim();
-    if (!nombre) { toast("Poné un nombre a la PC.", false); return; }
+    const nombre = String(fd.get("nombre") || "").trim() || pcAutoName();
+    if (!nombre) { toast("Elegí al menos el procesador o poné un nombre.", false); return; }
     const componentes = TW.STEPS.flatMap((s) => (pcSel[s.key] || []).filter((c) => c && c.id).map((c) => ({ id: c.id, qty: c.qty || 1 })));
     if (!componentes.length) { toast("Elegí al menos un componente.", false); return; }
     const pc = {
-      nombre, categoria: fd.get("categoria"), descripcion: String(fd.get("descripcion") || "").trim(),
-      destacado: !!fd.get("destacado"), precio: fd.get("precio") === "" ? null : Number(fd.get("precio")),
+      nombre, categoria: fd.get("categoria") || pcAutoCat(), descripcion: String(fd.get("descripcion") || "").trim(),
+      destacado: !!fd.get("destacado"), precio: fd.get("precio") ? Number(fd.get("precio")) : null,
       imagen: String(fd.get("imagen") || "").trim(), componentes,
     };
     const editing = $("#dlg").dataset.editing;
@@ -622,6 +686,15 @@
     if ((x = el("[data-newprod]"))) { productForm(null); return; }
     if ((x = el("[data-editprod]"))) { productForm(S.cat.find((d) => d.id === x.dataset.editprod)); return; }
     if ((x = el("[data-delprod]"))) { deleteProduct(x.dataset.delprod); return; }
+    if ((x = el("[data-slotpick]"))) {
+      const [key, idx] = x.dataset.slotpick.split("|");
+      const same = pcPick && pcPick.key === key && pcPick.idx === Number(idx);
+      pcPick = same ? null : { key, idx: Number(idx), q: "", all: false };
+      renderSlots(); return;
+    }
+    if ((x = el("[data-slotset]"))) { const [key, idx, id] = x.dataset.slotset.split("|"); setSlot(key, Number(idx), id); return; }
+    if ((x = el("[data-slotclear]"))) { const [key, idx] = x.dataset.slotclear.split("|"); pcPick = null; setSlot(key, Number(idx), ""); return; }
+    if ((x = el("[data-frombuild]"))) { pcFromBuilder(); return; }
     if ((x = el("[data-newpc]"))) { pcForm(null); return; }
     if ((x = el("[data-editpc]"))) { pcForm(S.pcs.find((p) => p.id === x.dataset.editpc)); return; }
     if ((x = el("[data-duppc]"))) {
@@ -654,6 +727,13 @@
     if ((x = el("[data-goconnect]"))) { S.loaded = false; render(); return; }
   });
 
+  // Enter en el buscador de componentes elige el primero en vez de guardar la PC
+  document.addEventListener("keydown", (e) => {
+    if (e.target.id !== "slotQ" || e.key !== "Enter") return;
+    e.preventDefault();
+    $(".picker-list .pick-it")?.click();
+  });
+
   document.addEventListener("input", (e) => {
     const t = e.target;
     if (t.id === "fq") { S.f.q = t.value; renderProductRows(); return; }
@@ -669,6 +749,7 @@
       return;
     }
     if (t.id === "pcPrecio") { renderSlots(); return; }
+    if (t.id === "slotQ" && pcPick) { pcPick.q = t.value; renderSlots(); return; }
     if (t.dataset.slotqty) {
       const [key, idx] = t.dataset.slotqty.split("|"); const c = pcSel[key][Number(idx)];
       if (c) c.qty = Math.max(1, Math.min(TW.stepOf(key).maxQty || 1, Number(t.value) || 1));
@@ -684,6 +765,7 @@
     if (row && t.dataset.f) {
       const d = S.cat.find((x) => x.id === row.dataset.id);
       if (t.dataset.f === "precio") d.precio = t.value === "" ? null : Number(t.value);
+      if (t.dataset.f === "precioOferta") { if (t.value === "") delete d.precioOferta; else d.precioOferta = Number(t.value); }
       if (t.dataset.f === "destacado") d.destacado = t.checked;
       if (t.dataset.f === "stock") d.stock = t.value;
       S.changedIds.add(d.id); row.classList.add("changed");
@@ -695,16 +777,7 @@
       refreshDetect(); return;
     }
     if (t.dataset.slotqty) { renderSlots(); return; }
-    if (t.dataset.slot) {
-      const [key, idx] = t.dataset.slot.split("|");
-      const arr = pcSel[key] || (pcSel[key] = []);
-      const prevQty = arr[Number(idx)] ? arr[Number(idx)].qty : 1;
-      if (t.value) arr[Number(idx)] = { id: t.value, qty: prevQty };
-      else arr.splice(Number(idx), 1);
-      pcSel[key] = arr.filter(Boolean);
-      if (key === "cpu") { const p = built().byId[t.value]; pcSel.plataforma = p ? p.attrs.plataforma : ""; }
-      renderSlots(); return;
-    }
+    if (t.id === "slotAll" && pcPick) { pcPick.all = t.checked; renderSlots(); return; }
     if (t.id === "imgFile" || t.id === "pcImgFile" || t.id === "cajaFile") {
       const file = t.files[0]; if (!file) return;
       const form = t.closest("form");
